@@ -60,14 +60,15 @@ def newer(path1, path2):
 
 
 def load_config(path):
+    base = Path(__file__).resolve().parent
     with open(path) as f:
         raw = yaml.safe_load(f)
-    return dict(
+    return dict(sorted(
             (
-                Path(wc_path), 
+                base / wc_path,
                 Path(os.path.expanduser(home_path))
                 )
-            for wc_path, home_path in raw.items())
+            for wc_path, home_path in raw.items()))
 
 
 config = load_config('install.config')
