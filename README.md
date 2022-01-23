@@ -1,3 +1,3 @@
 # microdot
 
-Unopinionated and small (µ) dotfiles.
+Small dotfiles with minimal opinions, used universally.
