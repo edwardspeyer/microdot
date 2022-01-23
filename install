@@ -55,7 +55,7 @@ def same_content(*paths):
 def newer(path1, path2):
     if not os.path.exists(path2):
         return True
-    t1, t2 = (os.path.stat(p).st_mtime for p in (path1, path2))
+    t1, t2 = (os.stat(p).st_mtime for p in (path1, path2))
     return t1 >= t2
 
 
