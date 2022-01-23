@@ -1,2 +1,3 @@
 # microdot
-Unopinionated and small (µ) dotfiles
+
+Unopinionated and small (µ) dotfiles.
