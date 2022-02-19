@@ -12,3 +12,4 @@ cp tmux.conf ~/.tmux.conf
 cp vimrc ~/.vimrc
 mkdir -p ~/.vim/autoload/
 cp vim/autoload/* ~/.vim/autoload
+tar -C ~/.vim/ -xf vim/plugged.tar.xz
