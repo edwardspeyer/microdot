@@ -63,7 +63,7 @@ set expandtab
 :autocmd Filetype make set noexpandtab
 
 " Per-filetype settings
-:autocmd Filetype markdown      set tabstop=4 shiftwidth=4 formatoptions=rtq autoindent comments='f:* '
+:autocmd Filetype markdown      set tabstop=4 shiftwidth=4 formatoptions=rtq autoindent comments=f:*\ 
 :autocmd Filetype css           set tabstop=2 shiftwidth=2
 :autocmd Filetype html,xml      set tabstop=2 shiftwidth=2
 :autocmd Filetype yaml          set tabstop=2 shiftwidth=2
