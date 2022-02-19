@@ -1,101 +1,14 @@
-#!/usr/bin/env python3
+#!/bin/bash
 
-'''
-Places where config exists:
-
-    * $HOME: my home directory
-    * VCS: version control
-    * WC: the current working copy with changes
+cd "$(dirname "$0")"
+set -ex
 
 
-How data moves between the three:
-
-    $HOME <-> WC <-> VCS
-
-
-Order in which differences should be resolved:
-
-    Anything newer (and different) in $HOME needs to be moved into the working
-    copy.  These are local edits that we will lose if we install new config.
-    This can only happen if the working-copy is clean first, so we don't lose
-    any local changes that haven't been committed.
-
-    If the local edits can be discarded, or if all of the working copy changes
-    are newer than what's in $HOME, we can show a diff and offer to push new
-    changes.  If we want to discard any local edits in $HOME we force a push.
-'''
+# tmux
+cp tmux.conf ~/.tmux.conf
 
 
-from pathlib import Path
-from shutil import copyfile
-import hashlib
-import os
-import subprocess
-import yaml
-
-
-def hash(path):
-    m = hashlib.sha256()
-    if not os.path.exists(path):
-        return '\0'
-    with open(path, 'rb') as f:
-        m.update(f.read())
-    return m.digest()
-
-
-def working_copy_clean():
-    p = subprocess.run('git status -s', shell=True, capture_output=True)
-    return p.stdout == ''
-
-
-def same_content(*paths):
-    return len(set(map(hash, paths))) == 1
-
-
-def newer(path1, path2):
-    if not os.path.exists(path2):
-        return True
-    t1, t2 = (os.stat(p).st_mtime for p in (path1, path2))
-    return t1 >= t2
-
-
-def load_config(path):
-    base = Path(__file__).resolve().parent
-    with open(path) as f:
-        raw = yaml.safe_load(f)
-    return dict(sorted(
-            (
-                base / wc_path,
-                Path(os.path.expanduser(home_path))
-                )
-            for wc_path, home_path in raw.items()))
-
-
-config = load_config('install.config')
-
-to_install = []
-to_resolve = []
-for pair in config.items():
-    wc_path, home_path = pair
-    if same_content(wc_path, home_path):
-        continue
-
-    if newer(wc_path, home_path):
-        print(f'  INSTALL  {wc_path} -> {home_path}')
-        to_install.append(pair)
-    else:
-        print(f'  RESOLVE  {home_path} -> {wc_path}')
-        to_resolve.append(pair)
-
-
-if to_resolve:
-    print('need to resolve local edits first')
-    if not working_copy_clean():
-        print('need to commit local changes first')
-    else:
-        pass
-elif to_install:
-    print('will install new config files')
-    for a, b in to_install:
-        a.parent.mkdir(parents=True, exist_ok=True)
-        copyfile(a, b)
+# vim
+cp vimrc ~/.vimrc
+mkdir -p ~/.vim/autoload/
+cp vim/autoload/* ~/.vim/autoload
