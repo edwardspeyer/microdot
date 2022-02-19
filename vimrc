@@ -115,6 +115,7 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'preservim/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
+Plug 'jamessan/vim-gnupg'
 call plug#end()
 
 
