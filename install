@@ -22,3 +22,8 @@ then
   mv ~/.bashrc ~/.config/bash/original.sh
 fi
 cp bashrc ~/.bashrc
+
+
+# git
+cp git/config ~/.gitconfig
+cp git/ignore ~/.gitignore

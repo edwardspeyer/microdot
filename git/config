@@ -1,0 +1,6 @@
+[user]
+name = EGS
+email = unknown@unknown.example.com
+
+[core]
+excludesfile = ~/.gitignore
