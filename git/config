@@ -1,6 +1,17 @@
-[user]
-name = EGS
-email = unknown@unknown.example.com
+# vim: ft=dosini
+
+[include]
+path = ~/.config/git/config.local
 
 [core]
-excludesfile = ~/.gitignore
+excludesfile = ~/.config/git/ignore
+excludesfile = ~/.config/git/ignore.local
+
+[pull]
+rebase = true
+
+[rebase]
+autosquash = true
+
+[init]
+defaultBranch = main

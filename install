@@ -25,5 +25,16 @@ cp bashrc ~/.bashrc
 
 
 # git
-cp git/config ~/.gitconfig
-cp git/ignore ~/.gitignore
+mkdir -p ~/.config/git
+cp git/config ~/.config/git/config
+cp git/ignore ~/.config/git/ignore
+
+if [ -f ~/.gitconfig ]
+then
+  mv ~/.gitconfig ~/.config/git/config.local
+fi
+
+if [ -f ~/.gitignore ]
+then
+  mv ~/.gitignore ~/.config/git/ignore.local
+fi
