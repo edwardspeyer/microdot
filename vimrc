@@ -116,6 +116,7 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'preservim/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'jamessan/vim-gnupg'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 call plug#end()
 
