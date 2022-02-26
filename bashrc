@@ -12,7 +12,9 @@ fi
 
 # Bash behavior
 HISTCONTROL=ignoreboth  # Ignore duplicates, and lines prefixed with space
-HISTSIZE=1000000        # Number of commands to keep, same as HISTFILESIZE
+HISTSIZE=-1             # Infinite timestamped history
+HISTFILESIZE=-1                         # "" #
+HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S%z '   # "" #
 shopt -s histappend     # Append to the history file, don't overwrite it
 shopt -s checkwinsize   # Check window size after each command
 
