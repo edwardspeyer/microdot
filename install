@@ -16,11 +16,15 @@ tar -C ~/.vim/ -xf vim/plugged.tar.xz
 
 
 # bash
-if [ -f ~/.bashrc ] && [ ! -f ~/.config/bash/original.sh ]
+if \
+  [ ! -f ~/.config/bash/microdot.🏳️ ] &&
+  [ -f ~/.bashrc ] &&
+  [ ! -f ~/.config/bash/original.sh ]
 then
   mkdir -p ~/.config/bash/
   mv ~/.bashrc ~/.config/bash/original.sh
 fi
+touch ~/.config/bash/microdot.🏳️
 cp bashrc ~/.bashrc
 
 
