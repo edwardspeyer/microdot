@@ -15,7 +15,7 @@ echo VIM
 cp vimrc ~/.vimrc
 mkdir -p ~/.vim/autoload/
 cp vim/autoload/* ~/.vim/autoload
-tar -C ~/.vim/ -xf vim/plugged.tar.xz
+tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 
 # bash
