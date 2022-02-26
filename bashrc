@@ -104,5 +104,7 @@ then
   if tmux ls -F '#{session_attached}' | grep -q 0
   then
     tmux attach -d
+  else
+    tmux list-sessions
   fi
 fi
