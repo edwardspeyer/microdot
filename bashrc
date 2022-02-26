@@ -101,6 +101,5 @@ fi
 #
 if [ -z "$TMUX" ]
 then
-  tmux list-sessions
-  tmux attach -d || tmux
+  tmux attach -d || true
 fi
