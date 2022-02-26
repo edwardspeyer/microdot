@@ -88,3 +88,13 @@ if [ -f ~/.config/bash/local.sh ]
 then
   source ~/.config/bash/local.sh
 fi
+
+
+#
+# Tmux: auto re-attach to existing session
+#
+if [ -z "$TMUX" ]
+then
+  tmux list-sessions
+  tmux attach -d || tmux
+fi
