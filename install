@@ -20,12 +20,12 @@ tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 # bash
 echo BASH
+mkdir -p ~/.config/bash/
 if \
   [ ! -f ~/.config/bash/microdot.🏳️ ] &&
   [ -f ~/.bashrc ] &&
   [ ! -f ~/.config/bash/original.sh ]
 then
-  mkdir -p ~/.config/bash/
   mv ~/.bashrc ~/.config/bash/original.sh
 fi
 touch ~/.config/bash/microdot.🏳️
