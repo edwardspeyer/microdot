@@ -41,6 +41,9 @@ $HOME/bin:$HOME/.local/bin:\
 
 export EDITOR=vim
 export LESS='--RAW-CONTROL-CHARS --chop-long-lines'
+export LANG='en_US.UTF-8'
+export LC_TIME='en_GB.UTF-8'
+export TZ='Europe/London'
 
 
 if [ "$TMUX" ]
