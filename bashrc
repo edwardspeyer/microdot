@@ -64,6 +64,8 @@ fi
 # Aliases
 #
 alias sudo='sudo -E'
+alias ncdu='ncdu -x'
+alias tmux='tmux -2'
 
 # What actually needs this?
 alias python=python3
