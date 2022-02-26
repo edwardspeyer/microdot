@@ -82,3 +82,9 @@ case `uname` in
     alias ls='ls --color=auto'
     ;;
 esac
+
+
+if [ -f ~/.config/bash/local.sh ]
+then
+  source ~/.config/bash/local.sh
+fi
