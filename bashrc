@@ -97,9 +97,12 @@ fi
 
 
 #
-# Tmux: auto re-attach to existing session
+# Tmux: auto re-attach to any unattached session
 #
 if [ -z "$TMUX" ]
 then
-  tmux attach -d || true
+  if tmux ls -F '#{session_attached}' | grep -q 0
+  then
+    tmux attach -d
+  fi
 fi
