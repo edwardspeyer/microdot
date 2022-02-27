@@ -106,5 +106,5 @@ then
     tmux attach -d
   else
     tmux list-sessions
-  fi
+  fi 2>/dev/null
 fi
