@@ -35,8 +35,41 @@ do
 done
 
 
-# Prompt
-export PS1='\[\033[033m\]$ \[\033[0m\]'
+# Random color prompt
+color_rgb() {
+  local r=$1 g=$2 b=$3
+  echo -e "\033[38;2;${r};${g};${b}m"
+}
+
+color_hsv() {
+  # Integer version adapted from
+  # https://stackoverflow.com/questions/24852345
+  local h=$1 s=$2 v=$3
+
+  local f=$(( ($h % 60 * 100) / 60 ))
+  local p=$(( ($v * 255 * (10000 - $s * (100 -  0))) / 1000000 ))
+  local q=$(( ($v * 255 * (10000 - $s * ( $f -  0))) / 1000000 ))
+  local t=$(( ($v * 255 * (10000 - $s * (100 - $f))) / 1000000 ))
+  local v=$(( ($v * 255) / 100 ))
+
+  case $(( ($h / 60) % 6 )) in
+    0) color_rgb $v $t $p;;
+    1) color_rgb $q $v $p;;
+    2) color_rgb $p $v $t;;
+    3) color_rgb $p $q $v;;
+    4) color_rgb $t $p $v;;
+    5) color_rgb $v $p $q;;
+  esac
+}
+
+color_hash() {
+  local v=$(shasum <<<"$*")
+  local t=${v:0:8}
+  local h=$(( 0x$t % 360 ))
+  color_hsv $h 100 100
+}
+
+export PS1="\[$(color_hash _seed_125 $HOSTNAME)\]$ \[\033[0m\]"
 
 
 # PATH
