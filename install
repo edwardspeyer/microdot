@@ -1,49 +1,80 @@
 #!/bin/bash
 
+block_in_file() {
+  local path="$1"
+  local time=$(date +%s)
+  local old_path="$path.old.$time"
+  local new_path="$path.new.$time"
+  add_block "$@" >$new_path
+  if [ -e "$path" ]
+  then
+    mv $path $old_path
+  fi
+  mv $new_path $path
+}
+
+add_block() {
+  local path="$1"
+  local comment_character="$2"
+  local begin_marker="$comment_character -----BEGIN MICRODOT-----"
+  local end_marker="$comment_character -----END MICRODOT-----"
+
+  if [ -e "$path" ]
+  then
+    local before="$(grep -B999 "^$begin_marker" $path)"
+    local after="$(grep -A999 "^$end_marker" $path)"
+    if [ "$before" ] && [ "$after" ]
+    then
+      echo "$before"
+      cat
+      echo "$after"
+    else
+      echo "$begin_marker"
+      cat
+      echo "$end_marker"
+      echo
+      cat "$path"
+    fi
+  else
+    echo "$begin_marker"
+    cat
+    echo "$end_marker"
+  fi
+}
+
 cd "$(dirname "$0")"
 export PS4='    '
-set -ex
+set -e
 
 
 # tmux
-echo TMUX
-cp tmux.conf ~/.tmux.conf
+echo '* tmux'
+block_in_file ~/.tmux.conf \# <<...
+source ~/.config/microdot/tmux.conf
+...
 
 
 # vim
-echo VIM
-cp vimrc ~/.vimrc
+echo '* vim'
+block_in_file ~/.vimrc \" <<...
+source ~/.config/microdot/vimrc
+...
 mkdir -p ~/.vim/autoload/
 cp vim/autoload/* ~/.vim/autoload
 tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 
 # bash
-echo BASH
-mkdir -p ~/.config/bash/
-if \
-  [ ! -f ~/.config/bash/microdot.🏳️ ] &&
-  [ -f ~/.bashrc ] &&
-  [ ! -f ~/.config/bash/original.sh ]
-then
-  mv ~/.bashrc ~/.config/bash/original.sh
-fi
-touch ~/.config/bash/microdot.🏳️
-cp bashrc ~/.bashrc
+echo '* bash'
+block_in_file ~/.bashrc \# <<...
+source ~/.config/microdot/bashrc
+...
 
 
 # git
-echo GIT
+echo '* git'
 mkdir -p ~/.config/git
-cp git/config ~/.config/git/config
-cp git/ignore ~/.config/git/ignore
-
-if [ -f ~/.gitconfig ]
-then
-  mv ~/.gitconfig ~/.config/git/config.local
-fi
-
-if [ -f ~/.gitignore ]
-then
-  mv ~/.gitignore ~/.config/git/ignore.local
-fi
+block_in_file ~/.gitconfig \# <<...
+[include]
+path = ~/.config/microdot/git/config
+...
