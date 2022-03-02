@@ -2,56 +2,59 @@
 
 block_in_file() {
   local path="$1"
+  local comment_character="$2"
+  local position="$3"
+
+  local begin_marker="$comment_character -----BEGIN MICRODOT-----"
+  local end_marker="$comment_character -----END MICRODOT-----"
+
   local time=$(date +%s)
   local old_path="$path.old.$time"
   local new_path="$path.new.$time"
+
   echo "  + $path"
-  add_block "$@" >$new_path
+
+  {
+    if [ -e "$path" ]
+    then
+      local before="$(grep -B999 "^$begin_marker" $path)"
+      local after="$(grep -A999 "^$end_marker" $path)"
+      if [ "$before" ] && [ "$after" ]
+      then
+        echo "$before"
+        cat
+        echo "$after"
+      else
+        if [ $position = 'beginning' ]
+        then
+          echo "$begin_marker"
+          cat
+          echo "$end_marker"
+          echo
+          cat "$path"
+        else
+          cat "$path"
+          echo
+          echo "$begin_marker"
+          cat
+          echo "$end_marker"
+        fi
+      fi
+    else
+      echo "$begin_marker"
+      cat
+      echo "$end_marker"
+    fi
+  } > $new_path
+
   if [ -e "$path" ]
   then
     mv $path $old_path
   fi
+
   mv $new_path $path
 }
 
-add_block() {
-  local path="$1"
-  local comment_character="$2"
-  local position="$3"
-  local begin_marker="$comment_character -----BEGIN MICRODOT-----"
-  local end_marker="$comment_character -----END MICRODOT-----"
-
-  if [ -e "$path" ]
-  then
-    local before="$(grep -B999 "^$begin_marker" $path)"
-    local after="$(grep -A999 "^$end_marker" $path)"
-    if [ "$before" ] && [ "$after" ]
-    then
-      echo "$before"
-      cat
-      echo "$after"
-    else
-      if [ $position = 'beginning' ]
-      then
-        echo "$begin_marker"
-        cat
-        echo "$end_marker"
-        echo
-        cat "$path"
-      else
-        cat "$path"
-        echo
-        echo "$begin_marker"
-        cat
-        echo "$end_marker"
-      fi
-    fi
-  else
-    echo "$begin_marker"
-    cat
-    echo "$end_marker"
-  fi
-}
 
 SRC="$(realpath $(dirname "$0"))"
 cd "$SRC"
@@ -88,6 +91,7 @@ path = $SRC/git/config
 [core]
 excludesfile = $SRC/git/ignore
 ...
+
 
 # ssh
 mkdir -p -m 0700 ~/.ssh/
