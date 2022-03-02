@@ -1,0 +1,9 @@
+# vim: ft=sshconfig
+
+Host *
+  ForwardAgent no
+  HashKnownHosts no
+  PreferredAuthentications publickey
+  ControlMaster auto
+  ControlPath ~/.ssh/ssh.%C
+  ControlPersist 300

@@ -88,3 +88,10 @@ path = $SRC/git/config
 [core]
 excludesfile = $SRC/git/ignore
 ...
+
+# ssh
+mkdir -p -m 0700 ~/.ssh/
+block_in_file ~/.ssh/config \# end <<...
+Host *
+Include $SRC/ssh/config
+...
