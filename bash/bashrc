@@ -115,12 +115,6 @@ case `uname` in
 esac
 
 
-if [ -f ~/.config/bash/local.sh ]
-then
-  source ~/.config/bash/local.sh
-fi
-
-
 #
 # Tmux: auto re-attach to any unattached session
 #
