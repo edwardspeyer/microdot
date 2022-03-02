@@ -5,6 +5,7 @@ block_in_file() {
   local time=$(date +%s)
   local old_path="$path.old.$time"
   local new_path="$path.new.$time"
+  echo "  + $path"
   add_block "$@" >$new_path
   if [ -e "$path" ]
   then
@@ -44,19 +45,16 @@ add_block() {
 
 SRC="$(realpath $(dirname "$0"))"
 cd "$SRC"
-export PS4='    '
 set -e
 
 
 # tmux
-echo '* tmux'
 block_in_file ~/.tmux.conf \# <<...
 source $SRC/tmux.conf
 ...
 
 
 # vim
-echo '* vim'
 block_in_file ~/.vimrc \" <<...
 source $SRC/vimrc
 ...
@@ -66,14 +64,12 @@ tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 
 # bash
-echo '* bash'
 block_in_file ~/.bashrc \# <<...
 source $SRC/bashrc
 ...
 
 
 # git
-echo '* git'
 mkdir -p ~/.config/git
 block_in_file ~/.gitconfig \# <<...
 [include]
