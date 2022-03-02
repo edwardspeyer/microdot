@@ -17,6 +17,7 @@ block_in_file() {
 add_block() {
   local path="$1"
   local comment_character="$2"
+  local position="$3"
   local begin_marker="$comment_character -----BEGIN MICRODOT-----"
   local end_marker="$comment_character -----END MICRODOT-----"
 
@@ -30,11 +31,20 @@ add_block() {
       cat
       echo "$after"
     else
-      echo "$begin_marker"
-      cat
-      echo "$end_marker"
-      echo
-      cat "$path"
+      if [ $position = 'beginning' ]
+      then
+        echo "$begin_marker"
+        cat
+        echo "$end_marker"
+        echo
+        cat "$path"
+      else
+        cat "$path"
+        echo
+        echo "$begin_marker"
+        cat
+        echo "$end_marker"
+      fi
     fi
   else
     echo "$begin_marker"
@@ -49,13 +59,13 @@ set -e
 
 
 # tmux
-block_in_file ~/.tmux.conf \# <<...
+block_in_file ~/.tmux.conf beginning \# <<...
 source $SRC/tmux.conf
 ...
 
 
 # vim
-block_in_file ~/.vimrc \" <<...
+block_in_file ~/.vimrc \" beginning <<...
 source $SRC/vimrc
 ...
 mkdir -p ~/.vim/autoload/
@@ -64,14 +74,14 @@ tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 
 # bash
-block_in_file ~/.bashrc \# <<...
+block_in_file ~/.bashrc \# beginning <<...
 source $SRC/bashrc
 ...
 
 
 # git
 mkdir -p ~/.config/git
-block_in_file ~/.gitconfig \# <<...
+block_in_file ~/.gitconfig \# beginning <<...
 [include]
 path = $SRC/git/config
 
