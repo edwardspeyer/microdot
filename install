@@ -42,7 +42,8 @@ add_block() {
   fi
 }
 
-cd "$(dirname "$0")"
+SRC="$(realpath $(dirname "$0"))"
+cd "$SRC"
 export PS4='    '
 set -e
 
@@ -50,14 +51,14 @@ set -e
 # tmux
 echo '* tmux'
 block_in_file ~/.tmux.conf \# <<...
-source ~/.config/microdot/tmux.conf
+source $SRC/tmux.conf
 ...
 
 
 # vim
 echo '* vim'
 block_in_file ~/.vimrc \" <<...
-source ~/.config/microdot/vimrc
+source $SRC/vimrc
 ...
 mkdir -p ~/.vim/autoload/
 cp vim/autoload/* ~/.vim/autoload
@@ -67,7 +68,7 @@ tar -C ~/.vim/ -xf vim/plugged.tar.gz
 # bash
 echo '* bash'
 block_in_file ~/.bashrc \# <<...
-source ~/.config/microdot/bashrc
+source $SRC/bashrc
 ...
 
 
@@ -76,5 +77,5 @@ echo '* git'
 mkdir -p ~/.config/git
 block_in_file ~/.gitconfig \# <<...
 [include]
-path = ~/.config/microdot/git/config
+path = $SRC/git/config
 ...
