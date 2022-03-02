@@ -78,4 +78,7 @@ mkdir -p ~/.config/git
 block_in_file ~/.gitconfig \# <<...
 [include]
 path = $SRC/git/config
+
+[core]
+excludesfile = $SRC/git/ignore
 ...

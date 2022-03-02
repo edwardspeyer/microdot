@@ -1,11 +1,7 @@
 # vim: ft=dosini
 
-[include]
-path = ~/.config/git/config.local
-
 [core]
-excludesfile = ~/.config/git/ignore
-excludesfile = ~/.config/git/ignore.local
+excludesfile = ~/.gitignore
 
 [pull]
 rebase = true
