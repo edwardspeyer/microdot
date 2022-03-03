@@ -1,6 +1,6 @@
 # microdot
 
-Small dotfiles with minimal opinions, used universally.
+Large dotfiles with maximal opinions, used only be me.
 
 
 ## Acknowledgements
