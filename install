@@ -56,20 +56,19 @@ block_in_file() {
 }
 
 
-SRC="$(realpath $(dirname "$0"))"
-cd "$SRC"
+cd "$(dirname "$0")"
 set -e
 
 
 # tmux
 block_in_file ~/.tmux.conf \# beginning <<...
-source $SRC/tmux/tmux.conf
+source $PWD/tmux/tmux.conf
 ...
 
 
 # vim
 block_in_file ~/.vimrc \" beginning <<...
-source $SRC/vim/vimrc
+source $PWD/vim/vimrc
 ...
 mkdir -p ~/.vim/autoload/
 cp vim/autoload/* ~/.vim/autoload
@@ -78,7 +77,7 @@ tar -C ~/.vim/ -xf vim/plugged.tar.gz
 
 # bash
 block_in_file ~/.bashrc \# beginning <<...
-source $SRC/bash/bashrc
+source $PWD/bash/bashrc
 ...
 
 
@@ -86,10 +85,10 @@ source $SRC/bash/bashrc
 mkdir -p ~/.config/git
 block_in_file ~/.gitconfig \# beginning <<...
 [include]
-path = $SRC/git/config
+path = $PWD/git/config
 
 [core]
-excludesfile = $SRC/git/ignore
+excludesfile = $PWD/git/ignore
 ...
 
 
@@ -97,5 +96,5 @@ excludesfile = $SRC/git/ignore
 mkdir -p -m 0700 ~/.ssh/
 block_in_file ~/.ssh/config \# end <<...
 Host *
-Include $SRC/ssh/config
+Include $PWD/ssh/config
 ...
