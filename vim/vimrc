@@ -165,3 +165,10 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+"
+" Improve regular grepping if ripgrep is available
+"
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+endif
