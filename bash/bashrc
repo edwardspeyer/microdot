@@ -120,5 +120,10 @@ esac
 #
 if [ -z "$TMUX" ]
 then
-  tmux new-session -A -X -s main
+  if tmux ls -F '#{session_attached}' | grep -q 0
+  then
+    tmux attach -d
+  else
+    tmux list-sessions
+  fi 2>/dev/null
 fi
