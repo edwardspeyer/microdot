@@ -11,3 +11,8 @@ autosquash = true
 
 [init]
 defaultBranch = main
+
+# 2022-03: ...not a bad default to have
+[user]
+name = EGS
+email = edwardspeyer@users.noreply.github.com
