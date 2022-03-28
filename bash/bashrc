@@ -77,12 +77,6 @@ export LC_TIME='en_GB.UTF-8'
 export TZ='Europe/London'
 
 
-if [ "$TMUX" ]
-then
-  export TERM=screen-256color
-fi
-
-
 # Bump start GPG's ssh-agent in macOS
 if [ `uname` = Darwin ] && command -v gpg-connect-agent
 then
@@ -96,7 +90,6 @@ fi
 #
 alias sudo='sudo -E'
 alias ncdu='ncdu -x'
-alias tmux='tmux -2'
 
 # What actually needs this?
 alias python=python3
@@ -116,10 +109,13 @@ esac
 
 
 #
-# Tmux: auto re-attach to any unattached session
+# Tmux
 #
-if [ -z "$TMUX" ]
-then
+alias tmux='tmux -2'  # 256 color mode
+if [ "$TMUX" ]
+then  # Inside a session: force TERM
+  export TERM=screen-256color
+else  # Outside: re-attach to any unattached session
   if tmux ls -F '#{session_attached}' | grep -q 0
   then
     tmux attach -d
