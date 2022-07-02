@@ -6,6 +6,10 @@ TOP = "TOP"
 BOTTOM = "BOTTOM"
 
 
+def log(action, path):
+    print(f"  {action:6s}  {path}", flush=True)
+
+
 def block(path, comment="#", name="", position=TOP):
     path = Path(path).expanduser()
 
@@ -18,15 +22,20 @@ def block(path, comment="#", name="", position=TOP):
         pattern = re.compile(f"{begin}.+?\n{end}", re.DOTALL)
 
         if not path.exists():
+            log("NEW", path)
             path.parent.mkdir(exist_ok=True, parents=True, mode=0o700)
             path.write_text(outer)
             return
 
         old = path.read_text()
-        if re.search(pattern, old):
-            new = re.sub(pattern, outer, old)
+        new = re.sub(pattern, outer, old)
+        if old == new:
+            log("=", path)
+        elif re.search(pattern, old):
+            log("UPDATE", path)
             path.write_text(new)
         else:
+            log("EDIT", path)
             if position == TOP:
                 path.write_text(outer + "\n" + old)
             elif position == BOTTOM:
