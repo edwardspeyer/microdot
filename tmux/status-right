@@ -1,0 +1,16 @@
+#!/bin/bash
+
+pane_current_path="$1"
+
+blue="#[fg=#28a7a7]"
+yellow="#[fg=#a7a728]"
+
+dir="$(basename "$pane_current_path")"
+branch=$(cd "$pane_current_path" && git rev-parse --abbrev-ref HEAD)
+
+if [ "$branch" ]
+then
+  echo "${blue}${dir}:${yellow}${branch}"
+else
+  echo "${blue}${dir}"
+fi
