@@ -47,6 +47,17 @@ block("~/.ssh/config", position=BOTTOM)(
     """
 )
 
+block("~/.bashrc", position=BOTTOM, name="FISH HOOK")(
+    """\
+    if command -v fish >/dev/null && [ -z "$FISH_STARTED" ]
+    then
+      export FISH_STARTED=yes
+      export SHELL=fish
+      exec fish
+    fi
+    """
+)
+
 block("~/.config/fish/conf.d/microdot.fish")(
     """\
     for file in ~/.config/microdot/fish/*.fish
