@@ -1,6 +1,33 @@
-# If not running interactively, don't do anything
+# ╭─────────────────────────────────────╮
+# │ Part Ⅰ – Get out while we still can │
+# ╰─────────────────────────────────────╯
+
+# ↑１ If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# ↑２ Start a nice docker container...
+if [ "$LETS_GET" != CREATIVE ]
+then
+  ~/Projects/lets-get-creative/lets-get-creative && exit
+fi
+
+# ↑３ Switch to an existing tmux session if there is one...
+if [ -z "$TMUX" ] && tmux list-sessions 2>/dev/null
+then
+  tmux attach -d && exit
+fi
+
+# ↑４ Run fish shell if we can...
+if command -v fish >/dev/null
+then
+  export SHELL=fish
+  fish && exit
+fi
+
+
+# ╭───────────────────────────────────────────────╮
+# │ Part Ⅱ – Oh dear we are actually running bash │
+# ╰───────────────────────────────────────────────╯
 
 # Bash behavior
 HISTCONTROL=ignoreboth  # Ignore duplicates, and lines prefixed with space
@@ -123,11 +150,4 @@ alias tmux='tmux -2'  # 256 color mode
 if [ "$TMUX" ]
 then  # Inside a session: force TERM
   export TERM=screen-256color
-else  # Outside: re-attach to any unattached session
-  if tmux ls -F '#{session_attached}' | grep -q 0
-  then
-    tmux attach -d
-  else
-    tmux list-sessions
-  fi 2>/dev/null
 fi
