@@ -6,15 +6,28 @@
 [ -z "$PS1" ] && return
 
 # ↑２ Start a nice docker container...
-if [ "$LETS_GET" != CREATIVE ]
+lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
+if [ "$LETS_GET" != CREATIVE ] && [ -e $lgc ]
 then
-  ~/Projects/lets-get-creative/lets-get-creative && exit
+  $lgc && exit
 fi
 
-# ↑３ For remote sessions, use an existing tmux session if there is one...
-if [ "$SSH_TTY" ] && [ -z "$TMUX" ] && tmux list-sessions 2>/dev/null
+# ↑３ Get inside a tmux session
+if ! command -v tmux >/dev/null
 then
-  tmux attach -d && exit
+  :  # Do nothing if tmux isn't installed.
+elif [ "$TMUX" ]
+then
+  :  # Do nothing if we are already inside tmux.
+elif [ "$SSH_TTY" ] || [ "$LETS_GET" = CREATIVE ]
+then
+  # Otherwise, for remote sessions (ssh or docker)...
+  if tmux list-sessions 2>/dev/null
+  then
+    tmux attach -d && exit  # ...attach
+  else
+    tmux -u -2 && exit  # ...or create
+  fi
 fi
 
 # ↑４ Run fish shell if we can...
