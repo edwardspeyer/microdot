@@ -121,6 +121,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'dag/vim-fish.git'
 call plug#end()
 
 
