@@ -2,15 +2,18 @@
 # │ Part Ⅰ – Get out while we still can │
 # ╰─────────────────────────────────────╯
 
-# ↑１ If not running interactively, don't do anything
+
+# ↑１ If we are not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
-# ↑２ Start a nice docker container...
+
+# ↑２ Try to start a nicer docker container (on non-local machines)...
 lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
-if [ "$LETS_GET" != CREATIVE ] && [ -e $lgc ]
+if [ "$SSH_TTY" ] && [ "$LETS_GET" != CREATIVE ] && [ -e $lgc ]
 then
   $lgc && exit
 fi
+
 
 # ↑３ Get inside a tmux session
 if ! command -v tmux >/dev/null
@@ -30,7 +33,9 @@ then
   fi
 fi
 
-# ↑４ Run fish shell if we can...
+
+# ↑４ Run a fish shell if we can
+export PATH="/opt/homebrew/bin:$PATH"
 if command -v fish >/dev/null
 then
   export SHELL=fish
