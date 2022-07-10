@@ -11,8 +11,8 @@ then
   ~/Projects/lets-get-creative/lets-get-creative && exit
 fi
 
-# ↑３ Switch to an existing tmux session if there is one...
-if [ -z "$TMUX" ] && tmux list-sessions 2>/dev/null
+# ↑３ For remote sessions, use an existing tmux session if there is one...
+if [ "$SSH_TTY" ] && [ -z "$TMUX" ] && tmux list-sessions 2>/dev/null
 then
   tmux attach -d && exit
 fi
