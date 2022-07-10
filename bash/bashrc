@@ -27,7 +27,7 @@ then
   # Otherwise, for remote sessions (ssh or docker)...
   if tmux list-sessions 2>/dev/null
   then
-    tmux attach -d && exit  # ...attach
+    tmux -u -2 attach -d && exit  # ...attach
   else
     tmux -u -2 && exit  # ...or create
   fi
