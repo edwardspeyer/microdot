@@ -46,6 +46,12 @@ fi
 # ╭───────────────────────────────────────────────╮
 # │ Part Ⅱ – Oh dear we are actually running bash │
 # ╰───────────────────────────────────────────────╯
+#
+# By this stage we have failed to escape from bash, so we might as well make it
+# as nice as possible.
+#
+# TODO shun bash 100% and delete all this.
+#
 
 # Bash behavior
 HISTCONTROL=ignoreboth  # Ignore duplicates, and lines prefixed with space
