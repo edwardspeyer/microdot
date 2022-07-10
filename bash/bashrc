@@ -66,8 +66,16 @@ export PS1="\[$(color_hash _seed_125 $HOSTNAME)\]$ \[\033[0m\]"
 
 # PATH
 export PATH="\
-$HOME/bin:$HOME/.local/bin:\
-/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin"
+$HOME/bin:\
+$HOME/.local/bin:\
+/usr/local/sbin:\
+/usr/sbin:\
+/sbin:\
+/usr/local/bin:\
+/usr/bin:\
+/bin:\
+$PATH\
+"
 
 
 export EDITOR=vim
