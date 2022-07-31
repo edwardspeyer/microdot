@@ -29,11 +29,13 @@ def block(path, comment="#", name="", position=TOP):
 
         old = path.read_text()
         new = re.sub(pattern, outer, old)
-        if old == new:
-            log("=", path)
-        elif re.search(pattern, old):
-            log("UPDATE", path)
-            path.write_text(new)
+
+        if re.search(pattern, old):
+            if old == new:
+                log("SAME", path)
+            else:
+                log("UPDATE", path)
+                path.write_text(new)
         else:
             log("EDIT", path)
             if position == TOP:
