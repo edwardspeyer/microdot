@@ -1,23 +1,20 @@
 # If we are not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
-if [ "$SSH_TTY" ]
+lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
+
+# Restart inside a docker container
+if [ "$SSH_TTY" ] && [ "$LETS_GET" != "CREATIVE" ] && [ -x "$lgc" ]
 then
-  lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
+  $lgc && exit
+  return
+fi
 
-  # Restart inside a docker container
-  if [ "$LETS_GET" != "CREATIVE" ] && [ -x "$lgc" ]
-  then
-    $lgc && exit
-    return
-  fi
-
-  # Restart inside tmux
-  if [ -z "$TMUX" ]
-  then
-    tmux -u -2 new-session -A -D -s main && exit
-    return
-  fi
+# Restart inside tmux
+if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
+then
+  tmux -u -2 new-session -A -D -s main && exit
+  return
 fi
 
 # Restart inside fish
