@@ -5,7 +5,7 @@ pane_current_path="$1"
 lo="#[fg=#284747]"
 hi="#[fg=#28a7a7]"
 
-echo -n "${lo}${RUNTIME_HOSTNAME:-HOSTNAME}/"
+echo -n "${lo}${RUNTIME_HOSTNAME:-$HOSTNAME}/"
 
 if [ "$pane_current_path" = "$HOME" ]
 then
