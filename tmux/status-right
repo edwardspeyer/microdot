@@ -2,14 +2,22 @@
 
 pane_current_path="$1"
 
-blue="#[fg=#28a7a7]"
+lo="#[fg=#284747]"
+hi="#[fg=#28a7a7]"
 
-dir="$(basename "$pane_current_path")"
+echo -n "${lo}${RUNTIME_HOSTNAME:-HOSTNAME}/"
+
+if [ "$pane_current_path" = "$HOME" ]
+then
+  dir="~"
+else
+  dir="$(basename "$pane_current_path")"
+fi
+
+echo -n "${hi}$dir"
+
 branch=$(cd "$pane_current_path" && git rev-parse --abbrev-ref HEAD)
-
 if [ "$branch" ]
 then
-  echo "${blue}${dir}  ⎇ ${branch}"
-else
-  echo "${blue}${dir}"
+  echo "  ⎇ ${branch}"
 fi
