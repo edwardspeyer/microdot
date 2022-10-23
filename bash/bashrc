@@ -1,6 +1,9 @@
 # If we are not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
+# A way to disable the startup logic, if something goes horribly wrong.
+[ "$MICRODOT_DISABLED" ] && return
+
 lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
 
 # Restart inside a docker container
