@@ -7,7 +7,7 @@
 # Restart inside tmux
 if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
 then
-  tmux -u -2 new-session -A -D -s main && exit
+  TZ=Europe/London tmux -u -2 new-session -A -D -s main && exit
   return
 fi
 
