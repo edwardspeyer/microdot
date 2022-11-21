@@ -24,6 +24,7 @@ fi
 if [ "$SHELL" != "fish" ]
 then
   [ -d /opt/homebrew/bin ] && PATH="/opt/homebrew/bin:$PATH"
+  [ -d $HOME/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
   env SHELL=fish fish -i && exit
   return
 fi
