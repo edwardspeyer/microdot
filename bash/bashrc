@@ -4,15 +4,6 @@
 # A way to disable the startup logic, if something goes horribly wrong.
 [ "$MICRODOT_DISABLED" ] && return
 
-lgc="$HOME/Projects/lets-get-creative/lets-get-creative"
-
-# Restart inside a docker container
-if [ "$SSH_TTY" ] && [ -z "$TMUX" ] && [ "$LETS_GET" != "CREATIVE" ] && [ -x "$lgc" ]
-then
-  $lgc && exit
-  return
-fi
-
 # Restart inside tmux
 if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
 then
