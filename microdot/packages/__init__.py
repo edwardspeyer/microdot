@@ -3,7 +3,6 @@
 import platform
 from pathlib import Path
 from subprocess import run
-from uuid import uuid4
 
 FISH_VERSION = "3.6.0"
 TMUX_VERSION = "3.3a"
@@ -69,17 +68,15 @@ def install_python_packages():
 
 
 def docker_install(name, version):
-    image_name = f"{name}-{uuid4()}"
+    image_name = f"microdot-{name}"
     base = Path(__file__).parent / name
-    container_name = f"{name}-{uuid4()}"
+    container_name = f"microdot-{name}"
     run(
         f"""
         set -ex
         docker build --tag {image_name} --build-arg VERSION={version} .
         docker run --name {container_name} --rm {image_name} \
             tar -C /out -cf - .  | tar -C ~/.local -xf -
-        docker container rm -f {container_name}
-        docker image rm {image_name}
         """,
         cwd=base,
         shell=True,
