@@ -56,4 +56,4 @@ block("~/.config/fish/conf.d/microdot.fish")(
     """
 )
 
-packages.install()
+packages.docker.install()
