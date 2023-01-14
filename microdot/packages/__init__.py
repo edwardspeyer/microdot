@@ -75,6 +75,14 @@ def install_python_packages():
 
 
 def docker_install(name, version):
+    """Install stuff via a Dockerfile
+
+    For the package named `name` we assume (1) there is a path alongside this
+    module called `<name>/Dockerfile`; which (2) builds everything it needs
+    into /out.
+
+    We build that image then copy everything we find in /out into ~/.local.
+    """
     image_name = f"microdot-{name}"
     base = Path(__file__).parent / name
     container_name = f"microdot-{name}"
