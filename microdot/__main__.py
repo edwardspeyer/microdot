@@ -1,6 +1,7 @@
 from subprocess import run
 
 from .block import BOTTOM, block
+from . import packages
 
 block("~/.tmux.conf")(
     """\
@@ -54,3 +55,5 @@ block("~/.config/fish/conf.d/microdot.fish")(
     end
     """
 )
+
+packages.install()

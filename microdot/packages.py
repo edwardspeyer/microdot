@@ -123,8 +123,12 @@ def docker_install(name, dockerfile):
         )
 
 
-if __name__ == "__main__":
+def install():
     if is_docker_installed():
         install_fish()
         install_tmux()
     install_python_packages()
+
+
+if __name__ == '__main__':
+    install()
