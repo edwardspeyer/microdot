@@ -59,4 +59,11 @@ block("~/.config/fish/conf.d/microdot.fish")(
     """
 )
 
+block("~/.config/apt.conf", comment="//")(
+    f"""\
+    // Requires APT_CONFIG to also be set in the environment
+    #include "{BASE}/apt/apt.conf";
+    """
+)
+
 packages.docker.install()

@@ -8,6 +8,9 @@ export LANG='en_US.UTF-8'
 export LC_TIME='en_GB.UTF-8'
 export TZ='Europe/London'
 
+# apt tweaks
+export APT_CONFIG="$HOME/.config/apt.conf"
+
 # A way to disable the startup logic, if something goes horribly wrong.
 [ "$MICRODOT_DISABLED" ] && return
 
