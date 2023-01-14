@@ -5,8 +5,8 @@ from subprocess import run
 from tempfile import TemporaryDirectory
 from uuid import uuid4
 
-FISH_TAG = "3.6.0"
-TMUX_TAG = "3.3a"
+FISH_VERSION = "3.6.0"
+TMUX_VERSION = "3.3a"
 
 
 def shell(script):
@@ -19,12 +19,12 @@ def shell(script):
     ).stdout.strip()
 
 
-def fish_version():
-    return shell("fish --version")
+def is_docker_installed():
+    return shell("which docker") != ""
 
 
 def install_fish():
-    if FISH_TAG in fish_version():
+    if FISH_VERSION in shell("fish --version"):
         return
     docker_install(
         name="fish",
@@ -36,7 +36,7 @@ def install_fish():
             build-essential ca-certificates cmake git libncurses-dev \
             ninja-build
         WORKDIR /src
-        RUN git clone --depth 1 --branch {FISH_TAG} \
+        RUN git clone --depth 1 --branch {FISH_VERSION} \
             https://github.com/fish-shell/fish-shell.git .
         RUN cmake \
             -DCMAKE_INSTALL_PREFIX=/out \
@@ -48,12 +48,8 @@ def install_fish():
     )
 
 
-def tmux_version():
-    return shell("tmux -V")
-
-
 def install_tmux():
-    if TMUX_TAG in tmux_version():
+    if TMUX_VERSION in shell("tmux -V"):
         return
     docker_install(
         name="tmux",
@@ -65,7 +61,7 @@ def install_tmux():
             autoconf automake bison build-essential ca-certificates git \
             libevent-dev libncurses-dev pkg-config
         WORKDIR /src
-        RUN git clone --depth 1 --branch {TMUX_TAG} \
+        RUN git clone --depth 1 --branch {TMUX_VERSION} \
             https://github.com/tmux/tmux.git .
         RUN sh autogen.sh
         RUN ./configure --enable-static --prefix /out
@@ -99,5 +95,6 @@ def docker_install(name, dockerfile):
 
 
 if __name__ == "__main__":
-    install_fish()
-    install_tmux()
+    if is_docker_installed():
+        install_fish()
+        install_tmux()
