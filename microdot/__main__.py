@@ -1,17 +1,20 @@
+from pathlib import Path
 from subprocess import run
 
 from . import packages
 from .block import BOTTOM, block
 
+BASE = Path(__file__).parent.parent.resolve()
+
 block("~/.tmux.conf")(
-    """\
-    source ~/.config/microdot/tmux/tmux.conf
+    f"""\
+    source {BASE}/tmux/tmux.conf
     """
 )
 
 block("~/.vimrc", comment='"')(
-    """\
-    source ~/.config/microdot/vim/vimrc
+    f"""\
+    source {BASE}/vim/vimrc
     """
 )
 
@@ -26,31 +29,31 @@ run(
 )
 
 block("~/.bashrc")(
-    """\
-    source ~/.config/microdot/bash/bashrc
+    f"""\
+    source {BASE}/bash/bashrc
     """
 )
 
 block("~/.gitconfig")(
-    """\
+    f"""\
     [include]
-    path = ~/.config/microdot/git/config
+    path = {BASE}/git/config
 
     [core]
-    excludesfile = ~/.config/microdot/git/ignore
+    excludesfile = {BASE}/git/ignore
     """
 )
 
 block("~/.ssh/config", position=BOTTOM)(
-    """\
+    f"""\
     Host *
-    Include ~/.config/microdot/ssh/config
+    Include {BASE}/ssh/config
     """
 )
 
 block("~/.config/fish/conf.d/microdot.fish")(
-    """\
-    for file in ~/.config/microdot/fish/*.fish
+    f"""\
+    for file in {BASE}/fish/*.fish
         source $file
     end
     """
