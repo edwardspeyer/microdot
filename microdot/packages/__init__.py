@@ -6,6 +6,7 @@ from subprocess import run
 
 FISH_VERSION = "3.6.0"
 TMUX_VERSION = "3.3a"
+DELTA_VERSION = "0.15.1"
 
 #
 # General purpose dev-environment things.  Anything project specific shouldn't
@@ -40,6 +41,12 @@ def is_linux():
 
 def is_docker_installed():
     return shell("which docker") != ""
+
+
+def install_delta():
+    if DELTA_VERSION in shell("delta --version"):
+        return
+    docker_install("delta", DELTA_VERSION)
 
 
 def install_fish():
@@ -86,6 +93,7 @@ def docker_install(name, version):
 
 def install():
     if is_linux() and is_docker_installed():
+        install_delta()
         install_fish()
         install_tmux()
     install_python_packages()
