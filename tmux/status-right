@@ -15,9 +15,3 @@ else
 fi
 
 echo -n "${hi}$dir"
-
-branch=$(cd "$pane_current_path" && git rev-parse --abbrev-ref HEAD)
-if [ "$branch" ]
-then
-  echo "  ⎇ ${branch}"
-fi
