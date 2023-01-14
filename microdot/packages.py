@@ -8,6 +8,22 @@ from uuid import uuid4
 FISH_VERSION = "3.6.0"
 TMUX_VERSION = "3.3a"
 
+#
+# General purpose dev-environment things.  Anything project specific shouldn't
+# be here as it'll clutter up everything else.
+#
+PYTHON_PACKAGES = {
+    "black",
+    "docker-compose",
+    "isort",
+    "mypy",
+    "pre_commit",
+    "pycodestyle",
+    "pylint",
+    "pytest",
+    "python-lsp-server",  # Newer than python-language-server
+}
+
 
 def shell(script):
     return run(
@@ -70,6 +86,19 @@ def install_tmux():
     )
 
 
+def install_python_packages():
+    run(
+        [
+            "pip3",
+            "install",
+            "--quiet",
+            "--user",
+            *PYTHON_PACKAGES,
+        ],
+        check=True,
+    )
+
+
 def docker_install(name, dockerfile):
     image_name = f"{name}-{uuid4()}"
     container_name = f"{name}-{uuid4()}"
@@ -98,3 +127,4 @@ if __name__ == "__main__":
     if is_docker_installed():
         install_fish()
         install_tmux()
+    install_python_packages()
