@@ -1,7 +1,7 @@
 from subprocess import run
 
-from .block import BOTTOM, block
 from . import packages
+from .block import BOTTOM, block
 
 block("~/.tmux.conf")(
     """\

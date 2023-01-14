@@ -1,5 +1,6 @@
 """Install from source on hosts where all we have for certain is Docker"""
 
+import platform
 from pathlib import Path
 from subprocess import run
 from tempfile import TemporaryDirectory
@@ -33,6 +34,10 @@ def shell(script):
         shell=True,
         text=True,
     ).stdout.strip()
+
+
+def is_linux():
+    return platform.system() == "Linux"
 
 
 def is_docker_installed():
@@ -124,11 +129,11 @@ def docker_install(name, dockerfile):
 
 
 def install():
-    if is_docker_installed():
+    if is_linux() and is_docker_installed():
         install_fish()
         install_tmux()
     install_python_packages()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     install()
