@@ -9,11 +9,7 @@ fish_add_path /usr/local/sbin
 fish_add_path /usr/sbin
 fish_add_path /sbin
 
-set -x EDITOR vim
 set -x LESS '--RAW-CONTROL-CHARS --chop-long-lines'
-set -x LANG 'en_US.UTF-8'
-set -x LC_TIME 'en_GB.UTF-8'
-set -x TZ 'Europe/London'
 
 alias ncdu 'ncdu -x'
 alias sudo 'sudo -E'

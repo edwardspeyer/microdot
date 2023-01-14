@@ -1,6 +1,13 @@
 # If we are not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
+# Some basic environment stuff that we'll need everywhere, in particular tmux,
+# which launches before fish.
+export EDITOR='vim'
+export LANG='en_US.UTF-8'
+export LC_TIME='en_GB.UTF-8'
+export TZ='Europe/London'
+
 # A way to disable the startup logic, if something goes horribly wrong.
 [ "$MICRODOT_DISABLED" ] && return
 
