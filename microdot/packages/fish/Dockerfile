@@ -14,3 +14,6 @@ RUN cmake \
     .
 RUN make -C build/
 RUN make -C build/ install
+RUN rm -f \
+    /out/bin/fish_key_reader \
+    /out/bin/fish_indent
