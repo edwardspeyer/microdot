@@ -11,6 +11,10 @@ export TZ='Europe/London'
 # A way to disable the startup logic, if something goes horribly wrong.
 [ "$MICRODOT_DISABLED" ] && return
 
+# Fish and Tmux might be on a weird path, so we have to set that up now.
+[ -d /opt/homebrew/bin ] && PATH="/opt/homebrew/bin:$PATH"
+[ -d $HOME/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
+
 # Restart inside tmux
 if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
 then
@@ -21,8 +25,6 @@ fi
 # Restart inside fish
 if [ "$SHELL" != "fish" ]
 then
-  [ -d /opt/homebrew/bin ] && PATH="/opt/homebrew/bin:$PATH"
-  [ -d $HOME/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
   env SHELL=fish fish -i && exit
   return
 fi
