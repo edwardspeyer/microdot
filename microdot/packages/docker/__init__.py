@@ -8,22 +8,6 @@ FISH_VERSION = "3.6.0"
 TMUX_VERSION = "3.3a"
 DELTA_VERSION = "0.15.1"
 
-#
-# General purpose dev-environment things.  Anything project specific shouldn't
-# be here as it'll clutter up everything else.
-#
-PYTHON_PACKAGES = {
-    "black",
-    "docker-compose",
-    "isort",
-    "mypy",
-    "pre_commit",
-    "pycodestyle",
-    "pylint",
-    "pytest",
-    "python-lsp-server",  # Newer than python-language-server
-}
-
 
 def shell(script):
     return run(
@@ -61,19 +45,6 @@ def install_tmux():
     docker_install("tmux", TMUX_VERSION)
 
 
-def install_python_packages():
-    run(
-        [
-            "pip3",
-            "install",
-            "--quiet",
-            "--user",
-            *PYTHON_PACKAGES,
-        ],
-        check=True,
-    )
-
-
 def docker_install(name, version):
     """Install stuff via a Dockerfile
 
@@ -104,4 +75,3 @@ def install():
         install_delta()
         install_fish()
         install_tmux()
-    install_python_packages()

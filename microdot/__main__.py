@@ -66,4 +66,5 @@ block("~/.config/apt.conf", comment="//")(
     """
 )
 
+packages.pip.install()
 packages.docker.install()
