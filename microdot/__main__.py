@@ -66,6 +66,12 @@ block("~/.config/apt.conf", comment="//")(
     """
 )
 
+block("~/.config/kitty/kitty.conf")(
+    f"""\
+    include {BASE}/kitty/kitty.conf
+    """
+)
+
 packages.debian.install()
 packages.pip.install()
 packages.docker.install()
