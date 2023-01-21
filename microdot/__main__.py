@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import run
 
-from . import packages
+from . import packages, terminfo
 from .hooks import BOTTOM, TOP, install_hook
 
 BASE = Path(__file__).parent.parent.resolve()
@@ -14,6 +14,8 @@ install_hook(
     source {BASE}/tmux/tmux.conf
     """,
 )
+
+terminfo.install(*BASE.glob("tmux/terminfo/*"))
 
 install_hook(
     path="~/.vimrc",
@@ -95,6 +97,8 @@ install_hook(
     include {BASE}/kitty/kitty.conf
     """,
 )
+
+terminfo.install(BASE / "kitty/terminfo/kitty")
 
 packages.debian.install()
 packages.pip.install()
