@@ -1,4 +1,4 @@
-import platform
+from pathlib import Path
 from subprocess import run
 
 DAILY_DEBIAN_PACKAGES = {
@@ -61,7 +61,7 @@ def apt_install(packages):
 
 
 def is_debian():
-    return run("which apt", capture_output=True, shell=True) != ""
+    return Path("/etc/apt").exists()
 
 
 def install():
