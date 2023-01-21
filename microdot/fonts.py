@@ -19,6 +19,3 @@ def install_macosx():
             continue
         print("  FONT", source.name)
         copy(source, target)
-
-
-install()
