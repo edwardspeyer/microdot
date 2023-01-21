@@ -2,20 +2,26 @@ from pathlib import Path
 from subprocess import run
 
 from . import packages
-from .block import BOTTOM, block
+from .hooks import BOTTOM, TOP, install_hook
 
 BASE = Path(__file__).parent.parent.resolve()
 
-block("~/.tmux.conf")(
-    f"""\
+install_hook(
+    path="~/.tmux.conf",
+    comment="#",
+    position=TOP,
+    text=f"""\
     source {BASE}/tmux/tmux.conf
-    """
+    """,
 )
 
-block("~/.vimrc", comment='"')(
-    f"""\
+install_hook(
+    path="~/.vimrc",
+    comment='"',
+    position=TOP,
+    text=f"""\
     source {BASE}/vim/vimrc
-    """
+    """,
 )
 
 run(
@@ -28,48 +34,66 @@ run(
     check=True,
 )
 
-block("~/.bashrc")(
-    f"""\
+install_hook(
+    path="~/.bashrc",
+    comment="#",
+    position=TOP,
+    text=f"""\
     source {BASE}/bash/bashrc
-    """
+    """,
 )
 
-block("~/.gitconfig")(
-    f"""\
+install_hook(
+    path="~/.gitconfig",
+    comment="#",
+    position=TOP,
+    text=f"""\
     [include]
     path = {BASE}/git/config
 
     [core]
     excludesfile = {BASE}/git/ignore
-    """
+    """,
 )
 
-block("~/.ssh/config", position=BOTTOM)(
-    f"""\
+install_hook(
+    path="~/.ssh/config",
+    comment="#",
+    position=BOTTOM,
+    text=f"""\
     Host *
     Include {BASE}/ssh/config
-    """
+    """,
 )
 
-block("~/.config/fish/conf.d/microdot.fish")(
-    f"""\
+install_hook(
+    path="~/.config/fish/conf.d/microdot.fish",
+    comment="#",
+    position=TOP,
+    text=f"""\
     for file in {BASE}/fish/*.fish
         source $file
     end
-    """
+    """,
 )
 
-block("~/.config/apt.conf", comment="//")(
-    f"""\
+install_hook(
+    path="~/.config/apt.conf",
+    comment="//",
+    position=TOP,
+    text=f"""\
     // Requires APT_CONFIG to also be set in the environment
     #include "{BASE}/apt/apt.conf";
-    """
+    """,
 )
 
-block("~/.config/kitty/kitty.conf")(
-    f"""\
+install_hook(
+    path="~/.config/kitty/kitty.conf",
+    comment="#",
+    position=TOP,
+    text=f"""\
     include {BASE}/kitty/kitty.conf
-    """
+    """,
 )
 
 packages.debian.install()
