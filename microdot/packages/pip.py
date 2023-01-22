@@ -13,7 +13,7 @@ PYTHON_PACKAGES = {
     "pycodestyle",
     "pylint",
     "pytest",
-    "python-lsp-server",  # Newer than python-language-server
+    "python-lsp-server[all]",  # Newer than python-language-server
 }
 
 
