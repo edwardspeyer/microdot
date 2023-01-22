@@ -21,13 +21,14 @@ export APT_CONFIG="$HOME/.config/apt.conf"
 # Restart inside tmux
 if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
 then
-  TZ=Europe/London tmux -u -2 new-session -A -D -s main && exit
-  return
+  # Force 256 colour UTF-8 output
+  # Start (or attach to) a session called `main`
+  exec tmux -2u new-session -A -D -s main
 fi
 
 # Restart inside fish
 if [ "$SHELL" != "fish" ]
 then
-  env SHELL=fish fish -i && exit
-  return
+  export SHELL=fish
+  exec fish -i
 fi
