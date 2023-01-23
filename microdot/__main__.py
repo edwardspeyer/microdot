@@ -98,7 +98,7 @@ install_hook(
     """,
 )
 
-terminfo.install(BASE / "kitty/terminfo/kitty")
+terminfo.install(*BASE.glob("kitty/terminfo/*"))
 
 fonts.install()
 packages.debian.install()
