@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import run
 
-from . import packages, terminfo
+from . import fonts, packages, terminfo
 from .hooks import BOTTOM, TOP, install_hook
 
 BASE = Path(__file__).parent.parent.resolve()
@@ -100,6 +100,7 @@ install_hook(
 
 terminfo.install(BASE / "kitty/terminfo/kitty")
 
+fonts.install()
 packages.debian.install()
 packages.pip.install()
 packages.docker.install()

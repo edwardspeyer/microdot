@@ -11,7 +11,8 @@ def install():
 def install_macosx():
     # 10.15 – Catalina – October 2019
     terminal_app = Path("/System/Applications/Utilities/Terminal.app")
-    paths = terminal_app.glob("**/SFMono*.otf")
+    paths = list(terminal_app.glob("**/SF*Mono*.otf"))
+    assert paths, "fonts not found"
     user_fonts = Path.home() / "Library/Fonts"
     for source in paths:
         target = user_fonts / source.name
