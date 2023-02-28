@@ -5,6 +5,7 @@ DAILY_DEBIAN_PACKAGES = {
     "apt-file",
     "bash-completion",
     "btop",
+    "ccache",
     "ccze",
     "curl",
     "dc",
