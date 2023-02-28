@@ -54,6 +54,7 @@ def apt_install(packages):
             "sudo",
             "apt",
             "install",
+            "--yes",
             "--no-install-recommends",
             *packages,
         ],
