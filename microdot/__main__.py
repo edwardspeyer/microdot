@@ -98,6 +98,15 @@ install_hook(
     """,
 )
 
+install_hook(
+    path="~/.config/i3/config",
+    comment="#",
+    position=TOP,
+    text=f"""\
+    include {BASE}/i3/config
+    """,
+)
+
 terminfo.install(*BASE.glob("kitty/terminfo/*"))
 
 fonts.install()
