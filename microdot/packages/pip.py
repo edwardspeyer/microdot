@@ -23,6 +23,7 @@ def install():
             "pip3",
             "install",
             "--quiet",
+            "--break-system-packages",
             "--user",
             *PYTHON_PACKAGES,
         ],
