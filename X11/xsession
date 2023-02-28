@@ -1,0 +1,23 @@
+#!/bin/sh
+
+export PATH="\
+$HOME/.local/bin:\
+/usr/local/sbin:\
+/usr/sbin:\
+/sbin:\
+/usr/local/bin:\
+/usr/bin:\
+/bin:\
+"
+
+base="`dirname "$0"`"
+
+xsetroot -solid black
+
+xrdb -merge $base/Xresources
+
+gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+
+x-terminal-emulator &
+
+exec $HOME/.local/bin/i3
