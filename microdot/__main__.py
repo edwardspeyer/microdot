@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import run
 
-from . import fonts, packages, terminfo
+from . import fonts, packages, terminfo, x11
 from .hooks import BOTTOM, TOP, install_hook
 
 BASE = Path(__file__).parent.parent.resolve()
@@ -107,9 +107,21 @@ install_hook(
     """,
 )
 
+install_hook(
+    path="~/.xsession",
+    comment="#",
+    mode=0o744,
+    position=BOTTOM,
+    text=f"""\
+    # Hand control to microdot's xsession
+    exec {BASE}/X11/xsession
+    """,
+)
+
 terminfo.install(*BASE.glob("kitty/terminfo/*"))
 
 fonts.install()
 packages.debian.install()
 packages.pip.install()
 packages.source.install()
+x11.install()

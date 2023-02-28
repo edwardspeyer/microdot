@@ -10,7 +10,7 @@ def log(action, path):
     print(f"  {action:6s}  {path}", flush=True)
 
 
-def install_hook(path, comment, position, text):
+def install_hook(path, comment, position, text, mode=0o644):
     path = Path(path).expanduser()
 
     inner = textwrap.dedent(text).rstrip("\n") + "\n"
@@ -22,6 +22,7 @@ def install_hook(path, comment, position, text):
     if not path.exists():
         log("NEW", path)
         path.parent.mkdir(exist_ok=True, parents=True, mode=0o700)
+        path.touch(mode=mode)
         path.write_text(outer)
         return
 
