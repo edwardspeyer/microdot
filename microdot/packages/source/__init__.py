@@ -6,6 +6,7 @@ from subprocess import run
 from tempfile import TemporaryDirectory
 
 FISH_VERSION = "3.6.0"
+I3_VERSION = "4.22"
 TMUX_VERSION = "3.3a"
 DELTA_VERSION = "0.15.1"
 
@@ -15,6 +16,7 @@ def install():
         return
     install_delta()
     install_fish()
+    install_i3()
     install_tmux()
 
 
@@ -28,6 +30,12 @@ def install_fish():
     if FISH_VERSION in shell_output("fish --version"):
         return
     script_install("fish", FISH_VERSION)
+
+
+def install_i3():
+    if I3_VERSION in shell_output("i3 --version"):
+        return
+    script_install("i3", I3_VERSION)
 
 
 def install_tmux():
