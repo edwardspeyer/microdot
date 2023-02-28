@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import run
 
-from . import fonts, packages, terminfo, x11
+from . import fonts, gnupg, packages, terminfo, x11
 from .hooks import BOTTOM, TOP, install_hook
 
 BASE = Path(__file__).parent.parent.resolve()
@@ -121,6 +121,7 @@ install_hook(
 terminfo.install(*BASE.glob("kitty/terminfo/*"))
 
 fonts.install()
+gnupg.install()
 packages.debian.install()
 packages.pip.install()
 packages.source.install()
