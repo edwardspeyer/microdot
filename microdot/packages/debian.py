@@ -27,6 +27,7 @@ DAILY_DEBIAN_PACKAGES = {
     "sudo",
     "tcpdump",
     "tmux",
+    "tree",
     "units",
     "vim-gtk3",  # Terminal vim with lua support"
     "w3m",
