@@ -18,6 +18,11 @@ xrdb -merge $base/Xresources
 
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
+if command -v pulseaudio
+then
+  pulseaudio --start
+fi
+
 x-terminal-emulator &
 
 exec $HOME/.local/bin/i3
