@@ -63,7 +63,7 @@ default_floating_border pixel 0
 
 bar {
   mode hide
-  status_command i3status
+  status_command ~/.config/microdot/i3/status
 }
 
 # Resizing

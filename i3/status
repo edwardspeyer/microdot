@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+import re
+from datetime import datetime
+from pathlib import Path
+from subprocess import check_output
+from time import sleep
+
+
+def get_battery_status():
+    for battery_directory in Path("/sys/class/power_supply/").glob("BAT*"):
+        battery = str(battery_directory.name)
+        capacity = int((battery_directory / "capacity").read_text())
+        status = (battery_directory / "status").read_text().strip()
+        yield battery, capacity, status
+
+
+def get_battery_status_text():
+    buf = []
+    for battery, capacity, status in get_battery_status():
+        line = f"{capacity}% {status}"
+        buf.append(line)
+    return " ".join(buf)
+
+
+def get_clock():
+    return datetime.now().strftime("%m/%d %H:%M")
+
+
+def get_audio_level():
+    script = "pactl get-sink-volume @DEFAULT_SINK@"
+    output = check_output(script, shell=True, text=True)
+    match_data = re.search(r"(\d+%)", output)
+    if not match_data:
+        return "??"
+    level = match_data.groups()[0]
+    return level
+
+
+def get_display_brightness():
+    base = Path("/sys/class/backlight/intel_backlight")
+    actual = int((base / "actual_brightness").read_text())
+    maximum = int((base / "max_brightness").read_text())
+    return f"{int(100 * actual / maximum)}%"
+
+
+while True:
+    words = [
+        "Audio",
+        get_audio_level(),
+        " ",
+        "Display",
+        get_display_brightness(),
+        " ",
+        "Battery",
+        get_battery_status_text(),
+        " ",
+        get_clock(),
+    ]
+    line = " ".join(words)
+    print(line, flush=True)
+    sleep(1)
