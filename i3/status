@@ -3,7 +3,7 @@
 import re
 from datetime import datetime
 from pathlib import Path
-from subprocess import check_output
+from subprocess import STDOUT, CalledProcessError, check_output
 from time import sleep
 
 
@@ -29,12 +29,15 @@ def get_clock():
 
 def get_audio_level():
     script = "pactl get-sink-volume @DEFAULT_SINK@"
-    output = check_output(script, shell=True, text=True)
-    match_data = re.search(r"(\d+%)", output)
-    if not match_data:
-        return "??"
-    level = match_data.groups()[0]
-    return level
+    try:
+        output = check_output(script, shell=True, text=True, stderr=STDOUT)
+        match_data = re.search(r"(\d+%)", output)
+        if not match_data:
+            return "?"
+        level = match_data.groups()[0]
+        return level
+    except CalledProcessError:
+        return "?"
 
 
 def get_display_brightness():
