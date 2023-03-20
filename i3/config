@@ -33,6 +33,7 @@ bindsym $mod+z focus child
 bindsym $mod+h split h
 bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+f fullscreen global
 bindsym $mod+Shift+space floating toggle
 
 # change container layout (stacked, tabbed, toggle split)
