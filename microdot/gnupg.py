@@ -11,7 +11,7 @@ def install():
         rf"""
         set -ex
         gpg --import {base}/stubs/*
-        pgrep gpg-agent && pkill gpg-agent
+        pkill gpg-agent || true
         """,
         check=True,
         shell=True,
