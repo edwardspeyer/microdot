@@ -1,0 +1,75 @@
+# Open HTML emails inline, in mutt.
+auto_view text/html
+
+## Bindings
+# Reload muttrc
+macro index S ":source ~/.mutt/muttrc<enter>"
+macro index E "<save-message>=Archive<enter><sync-mailbox>"
+
+# Mail locations
+#set folder=~/Maildir-location
+set spoolfile='=INBOX'
+set record='=INBOX'
+set postponed='=Drafts'
+
+# Identity
+#set from="me@example.com"
+#set realname="My Name"
+set use_from="yes"
+set envelope_from="yes"
+
+# Other behaviors...
+set arrow_cursor=yes
+set autoedit=yes
+set confirmappend=no  
+set delete=yes
+set edit_headers=yes
+set editor=vim
+set header_cache="$HOME/.mutt/header_cache"
+set help=no
+set include=yes
+set move=no
+set narrow_tree=yes
+set pager_index_lines=0
+set pager_stop=yes
+set resolve=yes
+set status_on_top=yes
+set tilde=yes
+set timeout=1
+
+# Threading
+folder-hook . "exec collapse-all"
+set collapse_unread=no
+set sort_aux=last-date-received
+set sort_browser=alpha
+#set sort=reverse-threads
+set sort=reverse-date-received
+set strict_threads=no
+
+# Look and feel
+set index_format="%5C %{%Y-%m-%d} %-15.15L %s"
+
+set status_format=" %r %f [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?] %> (%P)  "
+
+# Colors
+color index color243 default '.'
+color index color35 default '~F'
+color index color3 default '~N'
+color index color3 default '~O'
+color index default red "~T"
+color index default magenta "~D"
+color indicator color246 color236
+color status default color235
+
+# Headers
+unhdr_order *
+hdr_order From: Date: Delivery-Date: Subject: To: Cc: Reply-To:
+ignore *
+unignore From
+unignore To
+unignore Cc
+unignore Date
+unignore Subject
+unignore Sender
+unignore Reply-To
+unignore Delivery-Date
