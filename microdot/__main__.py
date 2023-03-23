@@ -118,6 +118,15 @@ install_hook(
     """,
 )
 
+install_hook(
+    path="~/.muttrc",
+    comment="#",
+    position=BOTTOM,
+    text=f"""\
+    source {BASE}/mutt/muttrc
+    """,
+)
+
 terminfo.install(*BASE.glob("kitty/terminfo/*"))
 
 fonts.install()
