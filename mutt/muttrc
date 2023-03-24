@@ -3,7 +3,7 @@ auto_view text/html
 
 ## Bindings
 # Reload muttrc
-macro index S ":source ~/.mutt/muttrc<enter>"
+macro index S ":source ~/.muttrc<enter>"
 macro index E "<save-message>=Archive<enter><sync-mailbox>"
 
 # Mail locations
