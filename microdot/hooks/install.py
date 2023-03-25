@@ -118,6 +118,15 @@ def install():
     )
 
     install_hook(
+        path="~/.XCompose",
+        comment="#",
+        position=TOP,
+        text=f"""\
+        include "{BASE}/X11/XCompose"
+        """,
+    )
+
+    install_hook(
         path="~/.muttrc",
         comment="#",
         position=BOTTOM,
