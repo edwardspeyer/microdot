@@ -26,4 +26,7 @@ fi
 
 x-terminal-emulator &
 
+# Required to get firefox to respect ~/.XCompose
+export GTK_IM_MODULE='xim'
+
 exec $HOME/.local/bin/i3
