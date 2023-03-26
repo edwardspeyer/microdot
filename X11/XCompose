@@ -1,5 +1,5 @@
 <Multi_key> <3>         : "£" U00A3 # POUND SIGN
-<Multi_key> <minus>     : "—" U2013 # EN DASH
+<Multi_key> <minus>     : "–" U2013 # EN DASH
 
 ## UTF-8 (Unicode) Compose sequences
 ##
