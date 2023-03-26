@@ -24,7 +24,7 @@ def get_battery_status_text():
 
 
 def get_clock():
-    return datetime.now().strftime("%m/%d %H:%M")
+    return datetime.now().strftime("%m/%d %H:%M:%S")
 
 
 def get_audio_level():
