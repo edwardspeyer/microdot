@@ -18,7 +18,7 @@ def get_battery_status():
 def get_battery_status_text():
     buf = []
     for battery, capacity, status in get_battery_status():
-        line = f"{capacity}% {status}"
+        line = f"{status} {capacity}%"
         buf.append(line)
     return " ".join(buf)
 
