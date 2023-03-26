@@ -1,6 +1,6 @@
 set $mod Mod4
 
-font pango:SF Mono 18
+font pango:SF Mono 14
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
