@@ -47,8 +47,21 @@ def get_display_brightness():
     return f"{int(100 * actual / maximum)}%"
 
 
+def get_wifi_information():
+    script = "nmcli -t -f CHAN,RATE,SIGNAL,IN-USE,SSID dev wifi list"
+    output = check_output(script, text=True, shell=True)
+    for line in output.splitlines():
+        channel, rate, signal, in_use, ssid = line.split(":", maxsplit=4)
+        if not in_use:
+            continue
+        return f"{ssid} ch{channel} {rate} {signal}%"
+
+
 while True:
     words = [
+        "WiFi",
+        get_wifi_information(),
+        " ",
         "Audio",
         get_audio_level(),
         " ",
