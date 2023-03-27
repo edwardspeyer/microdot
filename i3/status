@@ -73,6 +73,6 @@ while True:
         " ",
         get_clock(),
     ]
-    line = " ".join(words)
+    line = " ".join(map(str, words))
     print(line, flush=True)
     sleep(1)
