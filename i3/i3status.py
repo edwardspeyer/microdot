@@ -51,28 +51,30 @@ def get_wifi_information():
     script = "nmcli -t -f CHAN,RATE,SIGNAL,IN-USE,SSID dev wifi list"
     output = check_output(script, text=True, shell=True)
     for line in output.splitlines():
-        channel, rate, signal, in_use, ssid = line.split(":", maxsplit=4)
-        if not in_use:
-            continue
-        return f"{ssid} ch{channel} {rate} {signal}%"
+        fields = line.split(":", maxsplit=4)
+        channel, rate, signal, in_use, ssid = fields
+        if in_use == '*':
+            return f"{ssid} ch{channel} {rate} {signal}%"
+    return "?"
 
 
-while True:
-    words = [
-        "WiFi",
-        get_wifi_information(),
-        " ",
-        "Audio",
-        get_audio_level(),
-        " ",
-        "Display",
-        get_display_brightness(),
-        " ",
-        "Battery",
-        get_battery_status_text(),
-        " ",
-        get_clock(),
-    ]
-    line = " ".join(map(str, words))
-    print(line, flush=True)
-    sleep(1)
+if __name__ == "__main__":
+    while True:
+        words = [
+            "WiFi",
+            get_wifi_information(),
+            " ",
+            "Audio",
+            get_audio_level(),
+            " ",
+            "Display",
+            get_display_brightness(),
+            " ",
+            "Battery",
+            get_battery_status_text(),
+            " ",
+            get_clock(),
+        ]
+        line = " ".join(map(str, words))
+        print(line, flush=True)
+        sleep(1)
