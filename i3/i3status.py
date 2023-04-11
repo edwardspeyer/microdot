@@ -3,8 +3,12 @@
 import re
 from datetime import datetime
 from pathlib import Path
+from queue import Queue
 from subprocess import STDOUT, CalledProcessError, check_output
-from time import sleep
+from threading import Thread
+from time import sleep, time
+
+STALE_DATA_AGE = 60
 
 
 def get_battery_status():
@@ -53,19 +57,47 @@ def get_wifi_information():
     for line in output.splitlines():
         fields = line.split(":", maxsplit=4)
         channel, rate, signal, in_use, ssid = fields
-        if in_use == '*':
+        if in_use == "*":
             return f"{ssid} ch{channel} {rate} {signal}%"
     return "?"
 
 
-if __name__ == "__main__":
+def watch(fn):
+    q = Queue()
+
+    def loop():
+        while True:
+            data = fn()
+            t = time()
+            q.put((t, data))
+            sleep(1)
+
+    def fetch():
+        while q.qsize() > 1:
+            q.get()
+        if q.qsize() >= 1:
+            t, data = q.queue[0]
+            age = time() - t
+            if age <= STALE_DATA_AGE:
+                return data
+
+    t = Thread(target=loop, daemon=True)
+    t.start()
+
+    return fetch
+
+
+def main():
+    latest_wifi_information = watch(get_wifi_information)
+    latest_audio_level = watch(get_audio_level)
+
     while True:
         words = [
             "WiFi",
-            get_wifi_information(),
+            latest_wifi_information(),
             " ",
             "Audio",
-            get_audio_level(),
+            latest_audio_level(),
             " ",
             "Display",
             get_display_brightness(),
@@ -78,3 +110,7 @@ if __name__ == "__main__":
         line = " ".join(map(str, words))
         print(line, flush=True)
         sleep(1)
+
+
+if __name__ == "__main__":
+    main()
