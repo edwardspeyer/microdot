@@ -78,8 +78,8 @@ bar {
   mode hide
   status_command python3 ~/.config/microdot/i3/i3status.py
   colors {
-    background #dead00
-    statusline #000000
+    background #202020
+    statusline #808080
   }
 }
 
