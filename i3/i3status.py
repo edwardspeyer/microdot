@@ -62,7 +62,7 @@ def get_wifi_information():
     return "?"
 
 
-def watch(fn):
+def watch(fn, interval):
     q = Queue()
 
     def loop():
@@ -70,7 +70,7 @@ def watch(fn):
             data = fn()
             t = time()
             q.put((t, data))
-            sleep(1)
+            sleep(interval)
 
     def fetch():
         while q.qsize() > 1:
@@ -88,8 +88,8 @@ def watch(fn):
 
 
 def main():
-    latest_wifi_information = watch(get_wifi_information)
-    latest_audio_level = watch(get_audio_level)
+    latest_wifi_information = watch(get_wifi_information, 5)
+    latest_audio_level = watch(get_audio_level, 0.2)
 
     while True:
         words = [
@@ -109,7 +109,7 @@ def main():
         ]
         line = " ".join(map(str, words))
         print(line, flush=True)
-        sleep(1)
+        sleep(0.1)
 
 
 if __name__ == "__main__":
