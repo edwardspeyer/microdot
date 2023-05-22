@@ -31,3 +31,6 @@ end
 if test $TMUX
         set -x TERM 'screen-256color'
 end
+
+# Don't quote ls(1) output
+set -x QUOTING_STYLE literal
