@@ -22,24 +22,24 @@ def get_battery_status():
 def get_battery_status_text():
     buf = []
     for battery, capacity, status in get_battery_status():
-        line = f"{status} {capacity}%"
+        line = f"{status} {capacity:3d}%"
         buf.append(line)
     return " ".join(buf)
 
 
 def get_clock():
-    return datetime.now().strftime("%m/%d %H:%M:%S")
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def get_audio_level():
     script = "pactl get-sink-volume @DEFAULT_SINK@"
     try:
         output = check_output(script, shell=True, text=True, stderr=STDOUT)
-        match_data = re.search(r"(\d+%)", output)
+        match_data = re.search(r"(\d+)%", output)
         if not match_data:
             return "?"
-        level = match_data.groups()[0]
-        return level
+        level = int(match_data.groups()[0])
+        return f"{level:3d}%"
     except CalledProcessError:
         return "?"
 
@@ -48,7 +48,8 @@ def get_display_brightness():
     base = Path("/sys/class/backlight/intel_backlight")
     actual = int((base / "actual_brightness").read_text())
     maximum = int((base / "max_brightness").read_text())
-    return f"{int(100 * actual / maximum)}%"
+    percentage = int(100 * actual / maximum)
+    return f"{percentage:3d}%"
 
 
 def get_wifi_information():
@@ -58,7 +59,7 @@ def get_wifi_information():
         fields = line.split(":", maxsplit=4)
         channel, rate, signal, in_use, ssid = fields
         if in_use == "*":
-            return f"{ssid} ch{channel} {rate} {signal}%"
+            return f"{ssid} ch{channel} {rate} {int(signal):3d}%"
     return "?"
 
 
@@ -96,14 +97,14 @@ def main():
             "WiFi",
             latest_wifi_information(),
             " ",
+            "Battery",
+            get_battery_status_text(),
+            " ",
             "Audio",
             latest_audio_level(),
             " ",
             "Display",
             get_display_brightness(),
-            " ",
-            "Battery",
-            get_battery_status_text(),
             " ",
             get_clock(),
         ]
