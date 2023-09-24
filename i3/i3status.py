@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from queue import Queue
-from subprocess import STDOUT, CalledProcessError, check_output
+from subprocess import STDOUT, CalledProcessError, check_output, run
 from threading import Thread
 from time import sleep, time
 
@@ -46,6 +46,8 @@ def get_audio_level():
 
 def get_display_brightness():
     base = Path("/sys/class/backlight/intel_backlight")
+    if not base.exists():
+        return ""
     actual = int((base / "actual_brightness").read_text())
     maximum = int((base / "max_brightness").read_text())
     percentage = int(100 * actual / maximum)
@@ -54,8 +56,10 @@ def get_display_brightness():
 
 def get_wifi_information():
     script = "nmcli -t -f CHAN,RATE,SIGNAL,IN-USE,SSID dev wifi list"
-    output = check_output(script, text=True, shell=True)
-    for line in output.splitlines():
+    process = run(script, text=True, shell=True, capture_output=True)
+    if process.returncode > 0:
+        return ""
+    for line in process.stdout.splitlines():
         fields = line.split(":", maxsplit=4)
         channel, rate, signal, in_use, ssid = fields
         if in_use == "*":
