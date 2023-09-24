@@ -19,7 +19,7 @@ export APT_CONFIG="$HOME/.config/apt.conf"
 [ -d $HOME/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
 
 # Restart inside tmux
-if [ "$SSH_TTY" ] || [ "$LETS_GET" = "CREATIVE" ] && [ -z "$TMUX" ]
+if [ "$SSH_TTY" ] && [ -z "$TMUX" ]
 then
   # Force 256 colour UTF-8 output
   # Start (or attach to) a session called `main`
