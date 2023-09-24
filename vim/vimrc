@@ -72,7 +72,7 @@ set expandtab
 :autocmd Filetype yaml          set tabstop=2 shiftwidth=2
 :autocmd Filetype ruby          set tabstop=2 shiftwidth=2
 :autocmd Filetype sh            set tabstop=2 shiftwidth=2
-:autocmd Filetype python        set tabstop=4 shiftwidth=4 makeprg=autopep8\ -i\ %
+:autocmd Filetype python        set tabstop=4 shiftwidth=4
 :autocmd Filetype javascript    set tabstop=2 shiftwidth=2
 
 
