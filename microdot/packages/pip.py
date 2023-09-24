@@ -6,7 +6,6 @@ from subprocess import run
 #
 PYTHON_PACKAGES = {
     "black",
-    "docker-compose",
     "isort",
     "mypy",
     "pre_commit",
