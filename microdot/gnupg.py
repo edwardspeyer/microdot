@@ -6,6 +6,7 @@ from subprocess import run
 def install():
     base = Path(__file__).parent.parent / "gnupg"
     dot_gnupg = Path.home() / ".gnupg"
+    dot_gnupg.mkdir(exist_ok=True)
     copy(base / "gpg-agent.conf", dot_gnupg)
     run(
         rf"""
