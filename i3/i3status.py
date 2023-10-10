@@ -96,23 +96,35 @@ def main():
     latest_wifi_information = watch(get_wifi_information, 5)
     latest_audio_level = watch(get_audio_level, 0.2)
 
-    while True:
-        words = [
+    pairs = [
+        [
             "WiFi",
-            latest_wifi_information(),
-            " ",
+            latest_wifi_information,
+        ],
+        [
             "Battery",
-            get_battery_status_text(),
-            " ",
+            get_battery_status_text,
+        ],
+        [
             "Audio",
-            latest_audio_level(),
-            " ",
+            latest_audio_level,
+        ],
+        [
             "Display",
-            get_display_brightness(),
-            " ",
-            get_clock(),
-        ]
-        line = " ".join(map(str, words))
+            get_display_brightness,
+        ],
+        [
+            "",
+            get_clock,
+        ],
+    ]
+
+    while True:
+        buf = []
+        for tag, fn in pairs:
+            if v := fn():
+                buf += [tag, str(v)]
+        line = " ".join(buf)
         print(line, flush=True)
         sleep(0.1)
 
