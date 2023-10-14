@@ -1,28 +1,30 @@
 # microdot
 
-My preferred defaults.  Not really dotfiles but they end up being the same thing.
+My preferred defaults.  Not really dotfiles but they end up being the same
+thing.
 
-I have accounts on multiple computers and they should be configured to have almost identical
-behaviour with only a few local differences between them.  The _microdot_ repo factors out
-the config which is the same across all machines and places it alongside logic to deploy
-those files to a local system.
+I have accounts on multiple computers and they should be configured to have
+almost identical behaviour with only a few local differences between them.  The
+_microdot_ repo factors out the config which is the same across all machines
+and places it alongside logic to deploy those files to a local system.
 
 Most pieces of software let me configure them in two places:
 * `/etc/foorc` for system defaults
 * `~/.config/foorc` for my personal config
 
-Most pieces of software allow you to source other config files from
-the main config file.  _microdot_ inserts itself into my local
-dotfiles by adding hooks like `source <path>` or `include <path>`, annotated with
-comments so that it can find them again later.
+Most pieces of software allow you to source other config files from the main
+config file.  _microdot_ inserts itself into my local dotfiles by adding hooks
+like `source <path>` or `include <path>`, annotated with comments so that it
+can find them again later.
 
-This gives an extra level of config for each piece of software
-supported by microdot:
+This gives an extra level of config for each piece of software supported by
+microdot:
 * `/etc/foorc` for system defaults
 * `~/.config/microdot/foorc` for my generic, cross-host config
 * `~/.config/foorc` for my config _specific to this machine_
 
-For example, my `~/.bashrc` on a server where I want to use UTC ends up looking like this:
+For example, my `~/.bashrc` on a server where I want to use UTC ends up looking
+like this:
 
 ```sh
 -----BEGIN MICRODOT-----
