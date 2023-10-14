@@ -12,8 +12,8 @@ Most Unix software is configured in two places:
 * `/etc/foorc` for system defaults
 * `~/.config/foorc` for my personal config
 
-Most will also allow you to source other config files from the main config
-file.  _microdot_ inserts itself into my local dotfiles by adding hooks like
+Most will also allow you to source one config file from another.
+_microdot_ uses this feature to insert itself into my local dotfiles by adding hooks like
 `source <path>` or `include <path>`, annotated with comments so that it can
 find them again later.
 
