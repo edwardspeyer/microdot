@@ -8,14 +8,14 @@ almost identical behaviour with only a few local differences between them.  The
 _microdot_ repo factors out the config which is the same across all machines
 and places it alongside logic to deploy those files to a local system.
 
-Most pieces of software let me configure them in two places:
+Most Unix software is configured in two places:
 * `/etc/foorc` for system defaults
 * `~/.config/foorc` for my personal config
 
-Most pieces of software allow you to source other config files from the main
-config file.  _microdot_ inserts itself into my local dotfiles by adding hooks
-like `source <path>` or `include <path>`, annotated with comments so that it
-can find them again later.
+Most will also allow you to source other config files from the main config
+file.  _microdot_ inserts itself into my local dotfiles by adding hooks like
+`source <path>` or `include <path>`, annotated with comments so that it can
+find them again later.
 
 This gives an extra level of config for each piece of software supported by
 microdot:
