@@ -27,9 +27,9 @@ For example, my `~/.bashrc` on a server where I want to use UTC ends up looking
 like this:
 
 ```sh
------BEGIN MICRODOT-----
+# -----BEGIN MICRODOT-----
 source /home/edwardspeyer/.config/microdot/bash/bashrc
------END MICRODOT-----
+# -----END MICRODOT-----
 
 export TZ=UTC
 ```
