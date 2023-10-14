@@ -1,25 +1,27 @@
 from pathlib import Path
 from subprocess import run
 
-from microdot.hooks import BOTTOM, TOP, install_hook
+from microdot.hooks import Position, install_hook
 
 BASE = Path(__file__).parent.parent.parent.resolve()
 
 
 def install():
+    home = Path.home()
+
     install_hook(
-        path="~/.tmux.conf",
+        path=home / ".tmux.conf",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         source {BASE}/tmux/tmux.conf
         """,
     )
 
     install_hook(
-        path="~/.vimrc",
+        path=home / ".vimrc",
         comment='"',
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         source {BASE}/vim/vimrc
         """,
@@ -36,18 +38,18 @@ def install():
     )
 
     install_hook(
-        path="~/.bashrc",
+        path=home / ".bashrc",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         source {BASE}/bash/bashrc
         """,
     )
 
     install_hook(
-        path="~/.gitconfig",
+        path=home / ".gitconfig",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         [include]
         path = {BASE}/git/config
@@ -58,9 +60,9 @@ def install():
     )
 
     install_hook(
-        path="~/.ssh/config",
+        path=home / ".ssh/config",
         comment="#",
-        position=BOTTOM,
+        position=Position.BOTTOM,
         text=f"""\
         Host *
         Include {BASE}/ssh/config
@@ -68,9 +70,9 @@ def install():
     )
 
     install_hook(
-        path="~/.config/fish/conf.d/microdot.fish",
+        path=home / ".config/fish/conf.d/microdot.fish",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         for file in {BASE}/fish/*.fish
             source $file
@@ -79,9 +81,9 @@ def install():
     )
 
     install_hook(
-        path="~/.config/apt.conf",
+        path=home / ".config/apt.conf",
         comment="//",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         // Requires APT_CONFIG to also be set in the environment
         #include "{BASE}/apt/apt.conf";
@@ -89,28 +91,28 @@ def install():
     )
 
     install_hook(
-        path="~/.config/kitty/kitty.conf",
+        path=home / ".config/kitty/kitty.conf",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         include {BASE}/kitty/kitty.conf
         """,
     )
 
     install_hook(
-        path="~/.config/i3/config",
+        path=home / ".config/i3/config",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         include {BASE}/i3/config
         """,
     )
 
     install_hook(
-        path="~/.xsession",
+        path=home / ".xsession",
         comment="#",
         mode=0o744,
-        position=BOTTOM,
+        position=Position.BOTTOM,
         text=f"""\
         # Hand control to microdot's xsession
         exec {BASE}/X11/xsession
@@ -118,18 +120,18 @@ def install():
     )
 
     install_hook(
-        path="~/.XCompose",
+        path=home / ".XCompose",
         comment="#",
-        position=TOP,
+        position=Position.TOP,
         text=f"""\
         include "{BASE}/X11/XCompose"
         """,
     )
 
     install_hook(
-        path="~/.muttrc",
+        path=home / ".muttrc",
         comment="#",
-        position=BOTTOM,
+        position=Position.BOTTOM,
         text=f"""\
         source {BASE}/mutt/muttrc
         """,

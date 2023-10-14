@@ -1,18 +1,25 @@
 import re
 import textwrap
 from pathlib import Path
+from enum import Enum
 
-TOP = "TOP"
-BOTTOM = "BOTTOM"
+
+class Position(Enum):
+    TOP = "TOP"
+    BOTTOM = "BOTTOM"
 
 
 def log(action, path):
     print(f"  {action:6s}  {path}", flush=True)
 
 
-def install_hook(path, comment, position, text, mode=0o644):
-    path = Path(path).expanduser()
-
+def install_hook(
+    path: Path,
+    comment: str,
+    position: Position,
+    text: str,
+    mode: int = 0o644,
+):
     inner = textwrap.dedent(text).rstrip("\n") + "\n"
     begin = f"{comment} -----BEGIN MICRODOT-----\n"
     end = f"{comment} -----END MICRODOT-----\n"
@@ -37,9 +44,7 @@ def install_hook(path, comment, position, text, mode=0o644):
             path.write_text(new)
     else:
         log("EDIT", path)
-        if position == TOP:
+        if position == Position.TOP:
             path.write_text(outer + "\n" + old)
-        elif position == BOTTOM:
+        elif position == Position.BOTTOM:
             path.write_text(old + "\n" + outer)
-        else:
-            raise Exception(f"unknown position: {position}")
