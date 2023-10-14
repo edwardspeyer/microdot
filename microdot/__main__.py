@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import microdot.hooks.install as hooks
-
 from microdot import terminfo
 
 BASE = Path(__file__).parent.parent.resolve()

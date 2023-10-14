@@ -1,7 +1,6 @@
 import platform
 from pathlib import Path
 from shutil import copy
-from typing import Iterable
 
 
 def install(*sources: Path):
