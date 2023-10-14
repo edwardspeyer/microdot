@@ -4,7 +4,7 @@ from shutil import copy
 from typing import Iterable
 
 
-def install(*sources: Iterable[Path]):
+def install(*sources: Path):
     for source in sources:
         _install_one(source)
 
