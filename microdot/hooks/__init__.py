@@ -1,7 +1,7 @@
 import re
 import textwrap
-from pathlib import Path
 from enum import Enum
+from pathlib import Path
 
 
 class Position(Enum):
