@@ -71,3 +71,7 @@ def install():
     if not is_debian():
         return
     apt_install(DAILY_DEBIAN_PACKAGES)
+
+
+if __name__ == "__main__":
+    install()
