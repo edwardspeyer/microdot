@@ -17,14 +17,17 @@ PYTHON_PACKAGES = {
 
 
 def install():
-    run(
-        [
-            "pip3",
-            "install",
-            "--quiet",
-            "--break-system-packages",
-            "--user",
-            *PYTHON_PACKAGES,
-        ],
-        check=True,
-    )
+    command = [
+        "pip3",
+        "install",
+        "--quiet",
+        # "--break-system-packages",
+        "--user",
+        *PYTHON_PACKAGES,
+    ]
+    print("+", command)
+    run(command, check=True)
+
+
+if __name__ == "__main__":
+    install()
