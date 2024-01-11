@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -ex
+
 export PATH="\
 $HOME/bin:\
 $HOME/.local/bin:\
@@ -16,6 +18,10 @@ base="`dirname "$0"`"
 xsetroot -solid black
 
 xrdb -merge $base/Xresources
+if [ -f ~/.Xresources ]
+then
+  xrdb -merge ~/.Xresources
+fi
 
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
