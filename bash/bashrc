@@ -27,7 +27,7 @@ then
 fi
 
 # Restart inside fish
-if [ "$SHELL" != "fish" ]
+if [ "$SHELL" != "fish" ] && command -v fish >/dev/null
 then
   export SHELL=fish
   exec fish -i
