@@ -34,6 +34,34 @@ source /home/edwardspeyer/.config/microdot/bash/bashrc
 export TZ=UTC
 ```
 
+## Modules
+
+```
+# My favourite fonts
+microdot.fonts
+
+# My gpg key stubs
+microdot.gnupg
+
+# Dotfile hooks
+microdot.hooks
+
+# My favourite debian and python packages
+microdot.packages.debian
+microdot.packages.python
+
+# Build some things from source
+microdot.packages.source.delta
+microdot.packages.source.fish
+microdot.packages.source.i3
+microdot.packages.source.tmux
+
+# More complex config
+microdot.terminfo
+microdot.thunderbird
+microdot.x11
+```
+
 
 ## Note: Colors
 
