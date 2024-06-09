@@ -32,6 +32,9 @@ fi
 
 x-terminal-emulator &
 
+# Make ~/.XCompose work
+xmodmap -e 'keysym Alt_L = Multi_key'
+
 # Required to get firefox to respect ~/.XCompose
 export GTK_IM_MODULE='xim'
 
