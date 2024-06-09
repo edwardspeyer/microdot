@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+#
+# Long-winded version of this tool:
+# https://www.reddit.com/r/tmux/comments/sv6skh/clickable_urls/
+#
+
+import re
+from subprocess import PIPE, check_output, run
+
+
+def tmux_capture_pane() -> str:
+    return check_output(
+        [
+            "tmux",
+            "capture-pane",
+            "-J",  # Join lines
+            "-p",  # To stdout
+        ],
+        text=True,
+    )
+
+
+def fzf_tmux(choices: list[str]) -> str | None:
+    proc = run(
+        "fzf-tmux",
+        input="\n".join(choices),
+        text=True,
+        stdout=PIPE,
+    )
+    if selection := proc.stdout.strip():
+        return selection
+    return None
+
+
+urls = re.findall(r"https?://\S+", tmux_capture_pane())
+
+if urls and (selection := fzf_tmux(urls)):
+    run(["open", selection])
