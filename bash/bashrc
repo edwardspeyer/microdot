@@ -26,6 +26,9 @@ then
   exec tmux -2u new-session -A -D -s main
 fi
 
+# Useful for helping other tools' config files to find sibling files.
+export MICRODOT_INSTALL_PATH="$(dirname $(dirname $BASH_SOURCE))"
+
 # Restart inside fish
 if [ "$SHELL" != "fish" ] && command -v fish >/dev/null
 then
