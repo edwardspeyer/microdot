@@ -1,1 +1,37 @@
 Xft.dpi: 200
+
+xterm*faceName: SF Mono:style=Medium
+xterm*faceSize: 14
+xterm*faceSize1: 4
+xterm*faceSize2: 8
+xterm*faceSize3: 10
+xterm*faceSize4: 14
+xterm*faceSize5: 18
+xterm*faceSize6: 22
+xterm*faceSize7: 26
+xterm*selectToClipboard: true
+xterm*translations: #override \n\
+    Ctrl Shift <Key> minus: smaller-vt-font() \n\
+    Ctrl Shift <Key> equal: larger-vt-font() \n\
+    Ctrl Shift <Key> BackSpace: set-vt-font(d) \n\
+    Ctrl Shift <Key> C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key> V: insert-selection(CLIPBOARD)
+
+! From kitty
+! https://github.com/kovidgoyal/kitty/blob/d5fe1333e2115787b21bde861c12b63a2a1d1e01/kitty/options/definition.py#L1563
+xterm*color0: rgb:00/00/00
+xterm*color1: rgb:cc/04/03
+xterm*color2: rgb:19/cb/00
+xterm*color3: rgb:ce/cb/00
+xterm*color4: rgb:0d/73/cc
+xterm*color5: rgb:cb/1e/d1
+xterm*color6: rgb:0d/cd/cd
+xterm*color7: rgb:dd/dd/dd
+xterm*color8: rgb:76/76/76
+xterm*color9: rgb:f2/20/1f
+xterm*color10: rgb:23/fd/00
+xterm*color11: rgb:ff/fd/00
+xterm*color12: rgb:1a/8f/ff
+xterm*color13: rgb:fd/28/ff
+xterm*color14: rgb:14/ff/ff
+xterm*color15: rgb:ff/ff/ff
