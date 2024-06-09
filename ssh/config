@@ -2,6 +2,7 @@
 
 Host *
   ForwardAgent no
+  AddKeysToAgent yes
   HashKnownHosts no
   PreferredAuthentications publickey
   ControlMaster auto
