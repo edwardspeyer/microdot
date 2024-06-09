@@ -15,7 +15,7 @@ def install():
 
     xorg_conf_directory = Path("/etc/X11/xorg.conf.d")
     if xorg_conf_directory.exists() and has_amd_gpu():
-        copy(source / "20-xorg-amdgpu.conf", xorg_conf_directory)
+        copy(source / "amdgpu.conf", xorg_conf_directory)
 
 
 def has_amd_gpu():
