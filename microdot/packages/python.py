@@ -13,6 +13,7 @@ PYTHON_PACKAGES = {
     "pylint",
     "pytest",
     "python-lsp-server[all]",  # Newer than python-language-server
+    "ruff",
 }
 
 
