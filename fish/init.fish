@@ -2,13 +2,6 @@ if not status --is-interactive
         exit
 end
 
-fish_add_path ~/bin
-fish_add_path ~/.local/bin
-fish_add_path ~/.cargo/bin
-fish_add_path /usr/local/sbin
-fish_add_path /usr/sbin
-fish_add_path /sbin
-
 set -x LESS '--RAW-CONTROL-CHARS --chop-long-lines'
 
 alias ncdu 'ncdu -x'

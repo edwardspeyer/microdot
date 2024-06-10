@@ -1,22 +1,8 @@
 # If we are not running interactively, don't do anything.
 [ -z "$PS1" ] && return
 
-# Some basic environment stuff that we'll need everywhere, in particular tmux,
-# which launches before fish.
-export EDITOR='vim'
-export LANG='en_US.UTF-8'
-export LC_TIME='en_GB.UTF-8'
-export TZ='Europe/London'
-
-# apt tweaks
-export APT_CONFIG="$HOME/.config/apt.conf"
-
 # A way to disable the startup logic, if something goes horribly wrong.
 [ "$MICRODOT_DISABLED" ] && return
-
-# Fish and Tmux might be on a weird path, so we have to set that up now.
-[ -d /opt/homebrew/bin ] && PATH="/opt/homebrew/bin:$PATH"
-[ -d $HOME/.local/bin ] && PATH="$HOME/.local/bin:$PATH"
 
 # Restart inside tmux
 if [ "$SSH_TTY" ] && [ -z "$TMUX" ]
@@ -26,11 +12,8 @@ then
   exec tmux -2u new-session -A -D -s main
 fi
 
-# Useful for helping other tools' config files to find sibling files.
-export MICRODOT_INSTALL_PATH="$(dirname $(dirname $BASH_SOURCE))"
-
 # Restart inside fish
-if [ "$SHELL" != "fish" ] && command -v fish >/dev/null
+if command -v fish >/dev/null
 then
   export SHELL=fish
   exec fish -i

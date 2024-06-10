@@ -85,6 +85,15 @@ def install():
     )
 
     install_hook(
+        path=home / ".bash_profile",
+        comment="#",
+        position=Position.TOP,
+        text=f"""\
+        source {BASE}/bash/bash_profile
+        """,
+    )
+
+    install_hook(
         path=home / ".bashrc",
         comment="#",
         position=Position.TOP,
