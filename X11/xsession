@@ -1,23 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
 set -ex
 
-export PATH="\
-$HOME/bin:\
-$HOME/.local/bin:\
-/usr/local/sbin:\
-/usr/sbin:\
-/sbin:\
-/usr/local/bin:\
-/usr/bin:\
-/bin:\
-"
-
-base="`dirname "$0"`"
+source ~/.bash_profile
 
 xsetroot -solid black
 
-xrdb -merge $base/Xresources
+xrdb -merge $MICRODOT_INSTALL_PATH/X11/Xresources
+
 if [ -f ~/.Xresources ]
 then
   xrdb -merge ~/.Xresources
@@ -37,10 +27,6 @@ xmodmap -e 'keysym Alt_L = Multi_key'
 
 # Required to get firefox to respect ~/.XCompose
 export GTK_IM_MODULE='xim'
-
-export TZ="Europe/London"
-export LC_TIME="en_GB.UTF-8"
-export LC_PAPER="en_GB.UTF-8"
 
 # Force a dark theme
 export GTK_THEME="Adwaita:dark"
