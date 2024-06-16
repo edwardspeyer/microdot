@@ -9,6 +9,8 @@ xterm*faceSize4: 14
 xterm*faceSize5: 18
 xterm*faceSize6: 22
 xterm*faceSize7: 26
+xterm*reverseVideo: true
+xterm*borderColor: black
 xterm*selectToClipboard: true
 xterm*translations: #override \n\
     Ctrl Shift <Key> minus: smaller-vt-font() \n\
