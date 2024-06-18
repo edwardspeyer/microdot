@@ -13,7 +13,10 @@ then
   xrdb -merge ~/.Xresources
 fi
 
-gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+if command -v gsettings
+then
+  gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+fi
 
 if command -v pulseaudio
 then
