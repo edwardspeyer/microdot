@@ -193,6 +193,24 @@ def install():
         """,
     )
 
+    install_hook(
+        path=home / ".config/sway/config",
+        comment="#",
+        position=Position.TOP,
+        text=f"""\
+        include {BASE}/sway/config
+        """,
+    )
+
+    install_hook(
+        path=home / ".config/foot/foot.ini",
+        comment="#",
+        position=Position.TOP,
+        text=f"""\
+        include={BASE}/foot/foot.ini
+        """
+    )
+
 
 if __name__ == "__main__":
     install()

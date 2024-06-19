@@ -1,0 +1,13 @@
+set $mod Mod4
+
+output HDMI-A-1 scale 2.0
+
+include $MICRODOT_INSTALL_PATH/i3/common
+
+bindsym $mod+Return exec foot
+bindsym $mod+Space exec dmenu_path | wmenu | xargs swaymsg exec --
+
+exec {
+    gsettings set 'org.gnome.desktop.interface' 'gtk-theme' 'Adwaita-dark'
+    foot
+}
