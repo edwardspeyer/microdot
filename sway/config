@@ -7,6 +7,8 @@ include $MICRODOT_INSTALL_PATH/i3/common
 bindsym $mod+Return exec foot
 bindsym $mod+Space exec dmenu_path | wmenu | xargs swaymsg exec --
 
+seat * hide_cursor when-typing enable
+
 exec {
     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
     foot
