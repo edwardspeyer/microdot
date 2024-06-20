@@ -1,0 +1,44 @@
+# vim: ft=sh
+
+# Default editor
+export EDITOR="vim"
+
+# Default locale: US makes sense for most programming tasks and anything that
+# needs to assume I have an ANSI keyboard
+export LANG="en_US.UTF-8"
+
+# Printers are loaded with A4 paper
+export LC_PAPER="en_GB.UTF-8"
+
+# Default to 24h clock
+export LC_TIME="en_GB.UTF-8"
+
+# Timezone
+export TZ="Europe/London"
+
+# Required to get firefox to respect ~/.XCompose
+export GTK_IM_MODULE='xim'
+
+# Bug fix to force Firefox into Wayland hi-resolution mode
+export MOZ_ENABLE_WAYLAND=1
+
+# Various settings to force dark mode in GTK and QT apps
+export GTK_THEME="Adwaita:dark"
+export GTK2_RC_FILES="/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
+export QT_STYLE_OVERRIDE="adwaita-dark"
+
+# Enable per-user apt config (which then hooks into microdot)
+export APT_CONFIG="$HOME/.config/apt.conf"
+
+# Set up PATH
+export PATH="\
+$HOME/bin:\
+$HOME/.local/bin:\
+$HOME/.cargo/bin:\
+/usr/local/sbin:\
+/usr/local/bin:\
+/usr/sbin:\
+/usr/bin:\
+/sbin:\
+/bin:\
+"
