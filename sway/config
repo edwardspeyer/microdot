@@ -8,6 +8,6 @@ bindsym $mod+Return exec foot
 bindsym $mod+Space exec dmenu_path | wmenu | xargs swaymsg exec --
 
 exec {
-    gsettings set 'org.gnome.desktop.interface' 'gtk-theme' 'Adwaita-dark'
+    dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
     foot
 }
