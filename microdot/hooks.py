@@ -85,11 +85,13 @@ def install():
     )
 
     install_hook(
-        path=home / ".bash_profile",
+        path=home / ".profile",
         comment="#",
         position=Position.TOP,
         text=f"""\
-        source {BASE}/bash/bash_profile
+        # Useful for helping other tools' config files find sibling files.
+        export MICRODOT_INSTALL_PATH="{BASE}"
+        . $MICRODOT_INSTALL_PATH/sh/profile
         """,
     )
 
@@ -98,7 +100,7 @@ def install():
         comment="#",
         position=Position.TOP,
         text=f"""\
-        source {BASE}/bash/bashrc
+        source {BASE}/sh/bashrc
         """,
     )
 

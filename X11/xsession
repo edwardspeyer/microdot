@@ -2,7 +2,7 @@
 
 set -ex
 
-source ~/.bash_profile
+source ~/.profile
 
 xsetroot -solid black
 
@@ -28,13 +28,6 @@ x-terminal-emulator &
 # Make ~/.XCompose work
 xmodmap -e 'keysym Alt_L = Multi_key'
 
-# Required to get firefox to respect ~/.XCompose
-export GTK_IM_MODULE='xim'
-
-# Force a dark theme
-export GTK_THEME="Adwaita:dark"
-export GTK2_RC_FILES="/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc"
-export QT_STYLE_OVERRIDE="adwaita-dark"
 
 if command -v ssh-agent
 then
