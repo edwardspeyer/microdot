@@ -10,4 +10,5 @@ bindsym $mod+Space exec dmenu_path | wmenu | xargs swaymsg exec --
 exec {
     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
     foot
+    /usr/libexec/xdg-desktop-portal -r
 }
