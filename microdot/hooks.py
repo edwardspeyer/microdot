@@ -100,6 +100,7 @@ def install():
         comment="#",
         position=Position.TOP,
         text=f"""\
+        export MICRODOT_INSTALL_PATH="{BASE}"
         source {BASE}/sh/bashrc
         """,
     )
