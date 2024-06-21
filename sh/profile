@@ -42,8 +42,3 @@ $HOME/.cargo/bin:\
 /sbin:\
 /bin:\
 "
-
-# Force weird highlighting with foot + tmux + less
-escape=''
-export LESS_TERMCAP_so="${escape}[48;2;168;27;60m"
-export LESS_TERMCAP_se="${escape}[0m"
