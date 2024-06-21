@@ -4,8 +4,10 @@ output HDMI-A-1 scale 2.0
 
 include $MICRODOT_INSTALL_PATH/i3/common
 
-bindsym $mod+Return exec foot
-bindsym $mod+Space exec dmenu_path | wmenu | xargs swaymsg exec --
+bindsym {
+    $mod+Return exec foot
+    $mod+Space  exec dmenu_path | wmenu | xargs swaymsg exec --
+}
 
 seat * hide_cursor when-typing enable
 
