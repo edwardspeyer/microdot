@@ -3,7 +3,7 @@ from pathlib import Path
 from shutil import copy
 
 
-def install():
+def install_terminfos():
     base = Path(__file__).parent.parent
     sources = base.glob("**/terminfo/*")
     for source in sources:
@@ -26,7 +26,3 @@ def _install_one(source: Path):
     destination.parent.mkdir(parents=True, exist_ok=True)
     print("  TERMINFO", source)
     copy(source, destination)
-
-
-if __name__ == "__main__":
-    install()
