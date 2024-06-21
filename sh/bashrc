@@ -13,8 +13,9 @@ then
 fi
 
 # Restart inside fish
-if command -v fish >/dev/null
+fish=$(command -v fish)
+if [ $fish ]
 then
-  export SHELL=fish
-  exec fish -i
+  export SHELL=$fish
+  exec $fish -i
 fi
