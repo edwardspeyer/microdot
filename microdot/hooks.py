@@ -53,7 +53,7 @@ def install_hook(
             path.write_text(old + "\n" + outer)
 
 
-def install():
+def install_hooks():
     home = Path.home()
 
     install_hook(
@@ -213,7 +213,3 @@ def install():
         include={BASE}/foot/foot.ini
         """
     )
-
-
-if __name__ == "__main__":
-    install()
