@@ -30,14 +30,6 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+Shift+s move scratchpad
 bindsym $mod+s scratchpad show
 
-# change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
-#bindsym $mod+w layout tabbed
-#bindsym $mod+e layout toggle split
-
-# change focus between tiling / floating windows
-#bindsym $mod+space focus mode_toggle
-
 # Workspaces
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
