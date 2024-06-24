@@ -9,7 +9,6 @@ xterm*faceSize4: 14
 xterm*faceSize5: 18
 xterm*faceSize6: 22
 xterm*faceSize7: 26
-xterm*reverseVideo: true
 xterm*borderColor: black
 xterm*selectToClipboard: true
 xterm*translations: #override \n\
@@ -21,6 +20,8 @@ xterm*translations: #override \n\
 
 ! From kitty
 ! https://github.com/kovidgoyal/kitty/blob/d5fe1333e2115787b21bde861c12b63a2a1d1e01/kitty/options/definition.py#L1563
+xterm*foreground: white
+xterm*background: black
 xterm*color0: rgb:00/00/00
 xterm*color1: rgb:cc/04/03
 xterm*color2: rgb:19/cb/00
