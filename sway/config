@@ -2,7 +2,7 @@ set $mod Mod4
 
 output HDMI-A-1 scale 2.0
 
-include $MICRODOT_INSTALL_PATH/i3/common
+include common
 
 bindsym {
     $mod+Return exec foot
