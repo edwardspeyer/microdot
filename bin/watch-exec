@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+from itertools import count
+from time import time
+from subprocess import check_output, run
+from sys import argv, stderr, exit
+from pathlib import Path
+from typing import Iterable
+
+
+RESET = "\033[0m"
+UNDERLINE = "\033[4m"
+CLEAR = "\033[H\033[J"
+
+
+def await_modifications(paths: Iterable[Path]) -> str:
+    cmd = [
+        "inotifywait",
+        "--recursive",
+        "--quiet",
+        *("--event", "attrib"),
+        *("--event", "create"),
+        *("--event", "modify"),
+        *("--event", "move"),
+        "--",
+        *(map(str, paths)),
+    ]
+    return check_output(cmd, text=True).strip()
+
+
+if "--" in argv:
+    i = argv.index("--")
+    command = argv[i+1:]
+    paths = [Path(p) for p in argv[1:i]]
+else:
+    command = argv[1:]
+    paths = [p for p in map(Path, command) if p.exists()]
+
+if not paths:
+    print(f"no paths in argv!: {argv!r}", file=stderr)
+    exit(3)
+
+for path in paths:
+    if not path.exists():
+        print(f"path does not exist!: {path}", file=stderr)
+        exit(3)
+
+for n in count():
+    if n == 0:
+        reason = None
+    else:
+        try:
+            reason = '♺ ' + await_modifications(paths)
+        except KeyboardInterrupt:
+            reason = "^C"
+    print(CLEAR, end='', flush=True)
+    t0 = time()
+    run(command)
+    duration = int(1000 * (time() - t0))
+    message = f"{duration}ms"
+    if reason:
+        message += " " + reason
+    print(UNDERLINE + message + RESET)
