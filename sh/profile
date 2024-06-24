@@ -32,6 +32,7 @@ export APT_CONFIG="$HOME/.config/apt.conf"
 
 # Set up PATH
 export PATH="\
+$MICRODOT_INSTALL_PATH/bin:\
 $HOME/bin:\
 $HOME/.local/bin:\
 $HOME/.cargo/bin:\
