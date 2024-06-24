@@ -1,6 +1,6 @@
 set $mod Mod4
 
-include $MICRODOT_INSTALL_PATH/i3/common
+include common
 
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
