@@ -62,7 +62,7 @@ default_floating_border pixel 2
 
 bar {
   mode hide
-  status_command python3 $MICRODOT_INSTALL_PATH/i3/i3status.py
+  status_command python3 $MICRODOT_INSTALL_PATH/i3/status.py
   colors {
     background #202020
     statusline #808080

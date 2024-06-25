@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+from argparse import ArgumentParser
 from datetime import datetime
 from pathlib import Path
 from queue import Queue
@@ -93,6 +94,10 @@ def watch(fn, interval):
 
 
 def main():
+    parser = ArgumentParser()
+    parser.add_argument("--test", action="store_true")
+    args = parser.parse_args()
+
     latest_wifi_information = watch(get_wifi_information, 5)
     latest_audio_level = watch(get_audio_level, 0.2)
 
@@ -119,6 +124,7 @@ def main():
         ],
     ]
 
+    t0 = time()
     while True:
         buf = []
         for tag, fn in pairs:
@@ -127,6 +133,8 @@ def main():
         line = " ".join(buf)
         print(line, flush=True)
         sleep(0.1)
+        if args.test and time() - t0 > 1:
+            break
 
 
 if __name__ == "__main__":
