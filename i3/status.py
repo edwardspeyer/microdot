@@ -8,6 +8,7 @@ from queue import Queue
 from subprocess import STDOUT, CalledProcessError, check_output, run
 from threading import Thread
 from time import sleep, time
+from typing import Tuple
 
 STALE_DATA_AGE = 60
 
@@ -26,6 +27,16 @@ def get_battery_status_text():
         line = f"{status} {capacity:3d}%"
         buf.append(line)
     return " ".join(buf)
+
+
+def get_temperature_summary() -> str:
+    def read() -> Tuple[str, float]:
+        for tz in Path("/sys/class/thermal").glob("thermal_zone*"):
+            name = (tz / "type").read_text().strip()
+            temp = int((tz / "temp").read_text()) // 1000
+            yield name, temp
+
+    return ' '.join(f"{v}\N{DEGREE SIGN}C" for k, v in read() if 'pkg' in k)
 
 
 def get_clock():
@@ -109,6 +120,10 @@ def main():
         [
             "Battery",
             get_battery_status_text,
+        ],
+        [
+            "Temperature",
+            get_temperature_summary,
         ],
         [
             "Audio",
