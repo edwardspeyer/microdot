@@ -1,0 +1,36 @@
+#!/bin/sh
+
+fatal() {
+  echo >&2 "$*"
+  exit 1
+}
+
+needs() {
+  if ! command -v $1 >/dev/null
+  then
+    fatal "needs $1!"
+  fi
+}
+
+grab_wayland() {
+  needs grim
+  needs slurp
+  needs swappy
+  grim -g "`slurp`" - | swappy -f -
+}
+
+grab_x() {
+  needs maim
+  needs xclip
+  maim --select | xclip -selection clipboard -t image/png
+}
+
+if [ "$WAYLAND_DISPLAY" ]
+then
+  grab_wayland
+elif [ "$DISPLAY" ]
+then
+  grab_x
+else
+  fatal "not running in a desktop environment!"
+fi
