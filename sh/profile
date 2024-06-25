@@ -43,3 +43,6 @@ $HOME/.cargo/bin:\
 /sbin:\
 /bin:\
 "
+
+# Postgres client config
+export PSQLRC="$HOME/.config/psqlrc"

@@ -213,3 +213,12 @@ def install_hooks():
         include={BASE}/foot/foot.ini
         """
     )
+
+    install_hook(
+        path=home / ".config/psqlrc",
+        comment="--",
+        position=Position.TOP,
+        text=f"""\
+        \i {BASE}/psql/psqlrc
+        """,
+    )
