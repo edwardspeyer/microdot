@@ -28,7 +28,3 @@ def install():
     ]
     print("+", command)
     run(command, check=True)
-
-
-if __name__ == "__main__":
-    install()

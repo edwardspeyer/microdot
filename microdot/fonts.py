@@ -55,7 +55,3 @@ def install_linux():
         for source in Path(tmp).glob("**/*.otf"):
             print("  FONT", source.name)
             copy(source, target)
-
-
-if __name__ == "__main__":
-    install()
