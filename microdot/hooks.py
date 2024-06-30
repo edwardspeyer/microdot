@@ -75,10 +75,10 @@ def install():
     )
 
     run(
-        """
+        f"""
         mkdir -p ~/.vim/autoload/
-        cp vim/autoload/* ~/.vim/autoload
-        tar -C ~/.vim/ -xf vim/plugged.tar.gz
+        cp {BASE}/vim/autoload/* ~/.vim/autoload
+        tar -C ~/.vim/ -xf {BASE}/vim/plugged.tar.gz
         """,
         shell=True,
         check=True,
