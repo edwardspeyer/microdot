@@ -53,7 +53,7 @@ def install_hook(
             path.write_text(old + "\n" + outer)
 
 
-def install_hooks():
+def install():
     home = Path.home()
 
     install_hook(
@@ -211,14 +211,14 @@ def install_hooks():
         position=Position.TOP,
         text=f"""\
         include={BASE}/foot/foot.ini
-        """
+        """,
     )
 
     install_hook(
         path=home / ".config/psqlrc",
         comment="--",
         position=Position.TOP,
-        text=f"""\
+        text=rf"""\
         \i {BASE}/psql/psqlrc
         """,
     )

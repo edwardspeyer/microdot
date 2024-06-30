@@ -3,7 +3,7 @@ from pathlib import Path
 from shutil import copy
 
 
-def install_terminfos():
+def install():
     base = Path(__file__).parent.parent
     sources = base.glob("**/terminfo/*")
     for source in sources:

@@ -24,7 +24,3 @@ def install():
 
     assert platform.system() == "Linux"
     install_from_script(SCRIPT, VERSION)
-
-
-if __name__ == "__main__":
-    install()

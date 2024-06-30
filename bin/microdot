@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export PYTHONPATH="$MICRODOT_INSTALL_PATH"
+exec python3 -m microdot "$@"

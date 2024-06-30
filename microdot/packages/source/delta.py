@@ -20,7 +20,3 @@ def install():
             return
     assert platform.system() == "Linux", "Can only install delta in linux"
     install_from_script(SCRIPT, VERSION)
-
-
-if __name__ == "__main__":
-    install()
