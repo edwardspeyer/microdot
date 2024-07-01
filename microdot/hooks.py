@@ -37,7 +37,13 @@ def install_hook(
         return
 
     old = path.read_text()
-    new = re.sub(pattern, outer, old)
+    new = re.sub(
+        pattern,
+        # re.sub will interpret backslashes in the replacement string, so we
+        # have to pre-escape them.
+        re.sub(r'\\', r'\\\\', outer),
+        old,
+    )
 
     if re.search(pattern, old):
         if old == new:
@@ -218,7 +224,5 @@ def install():
         path=home / ".config/psqlrc",
         comment="--",
         position=Position.TOP,
-        text=rf"""\
-        \i {BASE}/psql/psqlrc
-        """,
+        text=rf"\i {BASE}/psql/psqlrc",
     )
