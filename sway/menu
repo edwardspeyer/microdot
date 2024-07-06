@@ -1,0 +1,5 @@
+#!/bin/sh
+
+dmenu_path \
+  | wmenu -f 'SF Mono 14' -l 10 \
+  | xargs swaymsg exec --
