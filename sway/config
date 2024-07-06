@@ -7,7 +7,7 @@ include common
 
 bindsym {
     $mod+Return exec foot
-    $mod+Space  exec dmenu_path | wmenu | xargs swaymsg exec --
+    $mod+Space  exec $MICRODOT_INSTALL_PATH/sway/menu
 }
 
 seat * hide_cursor when-typing enable
