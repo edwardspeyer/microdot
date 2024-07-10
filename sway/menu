@@ -1,5 +1,10 @@
 #!/bin/sh
 
-dmenu_path \
-  | wmenu -f 'SF Mono 14' -l 10 \
-  | xargs swaymsg exec --
+exec 9>"/run/lock/sway-menu-lock"
+
+if flock -xn 9
+then
+  dmenu_path \
+    | wmenu -f 'SF Mono 14' -l 10 \
+    | xargs swaymsg exec --
+fi
