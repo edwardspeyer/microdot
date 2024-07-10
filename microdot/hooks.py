@@ -1,4 +1,5 @@
 import re
+from shutil import copyfile as copy
 import textwrap
 from enum import Enum
 from pathlib import Path
@@ -59,6 +60,13 @@ def install_hook(
             path.write_text(old + "\n" + outer)
 
 
+def install_vim_plug(home: Path):
+    source = BASE / 'vim' / 'autoload' / 'plug.vim'
+    destination = home / '.vim' / 'autoload' / 'plug.vim'
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    copy(source, destination)
+
+
 def install():
     home = Path.home()
 
@@ -71,6 +79,8 @@ def install():
         """,
     )
 
+    install_vim_plug(home)
+
     install_hook(
         path=home / ".vimrc",
         comment='"',
@@ -78,16 +88,6 @@ def install():
         text=f"""\
         source {BASE}/vim/vimrc
         """,
-    )
-
-    run(
-        f"""
-        mkdir -p ~/.vim/autoload/
-        cp {BASE}/vim/autoload/* ~/.vim/autoload
-        tar -C ~/.vim/ -xf {BASE}/vim/plugged.tar.gz
-        """,
-        shell=True,
-        check=True,
     )
 
     install_hook(

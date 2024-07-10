@@ -113,16 +113,15 @@ set expandtab
 " Plugins
 "
 call plug#begin()
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'preservim/nerdtree'
-Plug 'jlanzarotta/bufexplorer'
-Plug 'jamessan/vim-gnupg'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'dag/vim-fish.git'
-Plug 'junegunn/goyo.vim'
+Plug 'jamessan/vim-gnupg', { 'commit': '96be0be1240a848da56d665b38e1b0fe7ee3f1af' }
+Plug 'jlanzarotta/bufexplorer', { 'commit': '4b1d3adca7e968ebc619cf2f6f3e197ef78c8342' }
+Plug 'junegunn/fzf', { 'commit': '5f385d88e0a786f20c4231b82f250945a6583a17' }
+Plug 'junegunn/fzf.vim', { 'commit': '1f7bfa4007043c30027b2cd79625e8aac5cff1f9' }
+Plug 'junegunn/goyo.vim', { 'commit': '7f5d35a65510083ea5c2d0941797244b9963d4a9' }
+Plug 'mattn/vim-lsp-settings', { 'commit': 'b72e714b0764dc72bdbd7e8507d9777ac731207a' }
+Plug 'prabirshrestha/vim-lsp', { 'commit': '3d0fc4072bef08b578d4a4aa4a6f91de571e99e4' }
+Plug 'preservim/nerdtree', { 'commit': 'eed488b1cd1867bd25f19f90e10440c5cc7d6424' }
+Plug 'tpope/vim-fugitive', { 'commit': '5b0b138483de17a8fd8dfcec0b491782c8fbf102' }
 call plug#end()
 
 
