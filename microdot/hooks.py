@@ -226,3 +226,12 @@ def install():
         position=Position.TOP,
         text=rf"\i {BASE}/psql/psqlrc",
     )
+
+    install_hook(
+        path=home / ".config/ipython/profile_default/startup/microdot.py",
+        comment="#",
+        position=Position.TOP,
+        text=f"""\
+        exec(open("{BASE}/ipython/config.py").read())
+        """
+    )

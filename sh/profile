@@ -46,3 +46,6 @@ $HOME/.cargo/bin:\
 
 # Postgres client config
 export PSQLRC="$HOME/.config/psqlrc"
+
+# iPython config
+export IPYTHONDIR="$HOME/.config/ipython"
