@@ -1,0 +1,5 @@
+#!/bin/sh
+
+month=`date +%Y-%m`
+mkdir -p "$HOME/Projects/Months/$month"
+ln -nsf "Months/$month" "$HOME/Projects/Current"
