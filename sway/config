@@ -1,6 +1,5 @@
 set $mod Mod4
 
-output HDMI-A-1 scale 2.0
 output * bg #000000 solid_color
 
 include common
