@@ -7,6 +7,7 @@ from subprocess import run
 PYTHON_PACKAGES = {
     "black",
     "isort",
+    "markdown",
     "mypy",
     "pre_commit",
     "pycodestyle",
