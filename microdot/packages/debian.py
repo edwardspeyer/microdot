@@ -1,3 +1,4 @@
+from os import environ
 from pathlib import Path
 from subprocess import run
 
@@ -39,6 +40,15 @@ DAILY_DEBIAN_PACKAGES = {
     "xz-utils",
 }
 
+SWAY_DEBIAN_PACKAGES = {
+    "grim",
+    "slurp",
+    "swappy",
+    "swaylock",
+    "wl-clipboard",
+}
+
+
 CREATIVE_DEBIAN_PACKAGES = {
     # Admin
     "locales",
@@ -70,7 +80,12 @@ def is_debian():
     return Path("/etc/apt").exists()
 
 
+def is_sway():
+    return "WAYLAND_DISPLAY" in environ
+
+
 def install():
-    if not is_debian():
-        return
-    apt_install(DAILY_DEBIAN_PACKAGES)
+    if is_debian():
+        apt_install(DAILY_DEBIAN_PACKAGES)
+        if is_sway():
+            apt_install(SWAY_DEBIAN_PACKAGES)
