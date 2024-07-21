@@ -62,6 +62,7 @@ default_floating_border pixel 2
 
 bar {
   mode hide
+  font pango:SF Mono 14
   status_command python3 $MICRODOT_INSTALL_PATH/i3/status.py
   colors {
     background #202020
