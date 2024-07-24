@@ -37,3 +37,6 @@ conflictstyle = diff3
 
 [diff]
 colorMoved = default
+
+[alias]
+backup = !$MICRODOT_INSTALL_PATH/git/backup

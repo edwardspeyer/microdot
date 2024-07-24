@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# Back up all local branches (`refs/heads/*`) to a bundle.  Only the commits
+# since the branch-point are added, so the packs should be minimal in size.
+#
+
+set -e
+
+state=$HOME/.local/state/git-backup
+path=$state/`hostname --fqdn``pwd | sed -e s,/,_,g  `_`date +%Y%m%d%H%M%S.pack`
+specs=`git for-each-ref 'refs/heads/*' --format 'origin..%(refname)'`
+count=`echo "$specs" | wc -l`
+
+log() {
+  echo >&2 "\033[38;2;67;230;96m""✇ git-backup: $*""\033[0m"
+}
+
+has_commits() {
+  for spec in $specs
+  do
+    if [ "`git log $spec`" ]
+    then
+      return
+    fi
+  done
+  return 1
+}
+
+if [ -z "$specs" ]
+then
+  log "no branches"
+  exit 0
+fi
+
+if ! has_commits
+then
+  log "no local commits"
+  exit 0
+fi
+
+git bundle create $path $specs
+log "backed up $count branch(es) to ... $path"
