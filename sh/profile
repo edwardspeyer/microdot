@@ -49,3 +49,6 @@ export PSQLRC="$HOME/.config/psqlrc"
 
 # iPython config
 export IPYTHONDIR="$HOME/.config/ipython"
+
+# Never use mtr's GTK mode
+export MTR_OPTIONS="-t"
