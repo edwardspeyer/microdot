@@ -6,8 +6,18 @@
 
 set -e
 
-state=$HOME/.local/state/git-backup
-path=$state/`hostname --fqdn``pwd | sed -e s,/,_,g  `_`date +%Y%m%d%H%M%S.pack`
+if [ "$1" ]
+then
+  path="$1"
+else
+  state_path=$HOME/.local/state/git-backup
+  mkdir -p $state_path
+  hostname=`hostname --fqdn`
+  escaped_pwd=`pwd | sed -e s,/,_,g`
+  time=`date +%Y%m%d%H%M%S`
+  path="$state_path/${hostname}${escaped_pwd}_${time}.pack"
+fi
+
 specs=`git for-each-ref 'refs/heads/*' --format 'origin..%(refname)'`
 count=`echo "$specs" | wc -l`
 
