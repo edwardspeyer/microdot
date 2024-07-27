@@ -21,6 +21,7 @@ DAILY_DEBIAN_PACKAGES = {
     "jq",
     "kitty",
     "less",
+    "mtr",
     "mutt",
     "ncdu",
     "python3-pip",
