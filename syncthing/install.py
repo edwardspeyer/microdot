@@ -1,17 +1,18 @@
 """Build a simple syncthing config.xml file from a list of devices:
 
-    - name: mycomputer
-      id: "0000000-0000000-0000000-0000000-0000000-0000000-0000000-0000000"
-      address: "tcp6://mycomputer.example.com:22000"
-    - ...
+- name: mycomputer
+  id: "0000000-0000000-0000000-0000000-0000000-0000000-0000000-0000000"
+  address: "tcp6://mycomputer.example.com:22000"
+- ...
 
 """
 
-from string import ascii_letters
 import random
-from pathlib import Path
 from copy import deepcopy
+from pathlib import Path
+from string import ascii_letters
 from xml.etree import ElementTree as ET
+
 import yaml
 
 
@@ -42,7 +43,7 @@ def build_folder_device_node(id: str) -> ET.Element:
 
 
 def build_api_key() -> str:
-    return ''.join(random.sample(ascii_letters, 32))
+    return "".join(random.sample(ascii_letters, 32))
 
 
 def main():

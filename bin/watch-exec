@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
 from itertools import count
-from time import time
-from subprocess import check_output, run
-from sys import argv, stderr, exit
 from pathlib import Path
+from subprocess import check_output, run
+from sys import argv, exit, stderr
+from time import time
 from typing import Iterable
-
 
 RESET = "\033[0m"
 UNDERLINE = "\033[4m"
@@ -30,7 +29,7 @@ def await_modifications(paths: Iterable[Path]) -> str:
 
 if "--" in argv:
     i = argv.index("--")
-    command = argv[i+1:]
+    command = argv[i + 1 :]
     paths = [Path(p) for p in argv[1:i]]
 else:
     command = argv[1:]
@@ -50,10 +49,10 @@ for n in count():
         reason = None
     else:
         try:
-            reason = '♺ ' + await_modifications(paths)
+            reason = "♺ " + await_modifications(paths)
         except KeyboardInterrupt:
             reason = "^C"
-    print(CLEAR, end='', flush=True)
+    print(CLEAR, end="", flush=True)
     t0 = time()
     run(command)
     duration = int(1000 * (time() - t0))
