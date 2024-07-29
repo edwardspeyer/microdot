@@ -36,7 +36,7 @@ def get_temperature_summary() -> str:
             temp = int((tz / "temp").read_text()) // 1000
             yield name, temp
 
-    return ' '.join(f"{v}\N{DEGREE SIGN}C" for k, v in read() if 'pkg' in k)
+    return " ".join(f"{v}\N{DEGREE SIGN}C" for k, v in read() if "pkg" in k)
 
 
 def get_clock():

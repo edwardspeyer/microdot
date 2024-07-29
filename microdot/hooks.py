@@ -1,9 +1,8 @@
 import re
-from shutil import copyfile as copy
 import textwrap
 from enum import Enum
 from pathlib import Path
-from subprocess import run
+from shutil import copyfile as copy
 
 BASE = Path(__file__).parent.parent.resolve()
 
@@ -42,7 +41,7 @@ def install_hook(
         pattern,
         # re.sub will interpret backslashes in the replacement string, so we
         # have to pre-escape them.
-        re.sub(r'\\', r'\\\\', outer),
+        re.sub(r"\\", r"\\\\", outer),
         old,
     )
 
@@ -61,8 +60,8 @@ def install_hook(
 
 
 def install_vim_plug(home: Path):
-    source = BASE / 'vim' / 'autoload' / 'plug.vim'
-    destination = home / '.vim' / 'autoload' / 'plug.vim'
+    source = BASE / "vim" / "autoload" / "plug.vim"
+    destination = home / ".vim" / "autoload" / "plug.vim"
     destination.parent.mkdir(parents=True, exist_ok=True)
     copy(source, destination)
 
@@ -233,5 +232,5 @@ def install():
         position=Position.TOP,
         text=f"""\
         exec(open("{BASE}/ipython/config.py").read())
-        """
+        """,
     )
