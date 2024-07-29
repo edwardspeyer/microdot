@@ -52,15 +52,23 @@ def main():
         return
 
     base = Path(__file__).parent
-    root = ET.parse(base / "config.xml").getroot()
+    out_path = Path.home() / ".local" / "state" / "syncthing" / "config.xml"
+
+    # Keep the API key if possible
+    if out_path.exists():
+        api_key = ET.parse(out_path).getroot().find("gui/apikey").text
+    else:
+        api_key = build_api_key()
+
+    in_path = base / "config.xml"
+    root = ET.parse(in_path).getroot()
     doc = yaml.safe_load(config_path.read_text())
     assert isinstance(doc, list)
     for h in doc:
         root.append(build_device_node(root, h["name"], h["id"], h["address"]))
         root.find("folder").append(build_folder_device_node(h["id"]))
-    root.find("gui/apikey").text = build_api_key()
+    root.find("gui/apikey").text = api_key
     xml = ET.tostring(root)
-    out_path = Path.home() / ".local" / "state" / "syncthing" / "config.xml"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_bytes(xml)
 
