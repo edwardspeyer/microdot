@@ -19,7 +19,6 @@ DAILY_DEBIAN_PACKAGES = {
     "iproute2",
     "iputils-ping",
     "jq",
-    "kitty",
     "less",
     "mtr",
     "mutt",
