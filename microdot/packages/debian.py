@@ -42,25 +42,16 @@ DAILY_DEBIAN_PACKAGES = {
 }
 
 SWAY_DEBIAN_PACKAGES = {
+    "firefox",
     "grim",
+    "pavucontrol",
+    "pulseaudio",
     "slurp",
+    "suckless-tools",
     "swappy",
     "swaylock",
     "wl-clipboard",
-}
-
-
-CREATIVE_DEBIAN_PACKAGES = {
-    # Admin
-    "locales",
-    "man-db",
-    # Tools
-    "docker.io",
-    "ffmpeg",
-    "firefox",
-    "git-lfs",
-    "postgresql-client",
-    "ubuntu-standard",
+    "xdg-desktop-portal-wlr",
 }
 
 
