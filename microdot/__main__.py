@@ -66,5 +66,6 @@ block("~/.config/apt.conf", comment="//")(
     """
 )
 
+packages.debian.install()
 packages.pip.install()
 packages.docker.install()

@@ -1,3 +1,6 @@
+import platform
+from subprocess import run
+
 DAILY_DEBIAN_PACKAGES = {
     "apt-file",
     "bash-completion",
@@ -43,3 +46,25 @@ CREATIVE_DEBIAN_PACKAGES = {
     "postgresql-client",
     "ubuntu-standard",
 }
+
+
+def apt_install(packages):
+    run(
+        [
+            "sudo",
+            "apt",
+            "install",
+            "--no-install-recommends",
+            *packages,
+        ],
+    )
+
+
+def is_debian():
+    return run("which apt", capture_output=True, shell=True) != ""
+
+
+def install():
+    if not is_debian():
+        return
+    apt_install(DAILY_DEBIAN_PACKAGES)
