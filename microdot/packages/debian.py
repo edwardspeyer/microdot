@@ -41,6 +41,7 @@ DAILY_DEBIAN_PACKAGES = {
 }
 
 SWAY_DEBIAN_PACKAGES = {
+    "brightnessctl",
     "firefox",
     "grim",
     "pavucontrol",
