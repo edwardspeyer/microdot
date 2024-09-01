@@ -77,7 +77,12 @@ def is_sway():
 
 
 def install():
-    if is_debian():
-        apt_install(DAILY_DEBIAN_PACKAGES)
+    if not is_debian():
+        return
+
+    def get_packages():
+        yield from DAILY_DEBIAN_PACKAGES
         if is_sway():
-            apt_install(SWAY_DEBIAN_PACKAGES)
+            yield from SWAY_DEBIAN_PACKAGES
+
+    apt_install(get_packages())
