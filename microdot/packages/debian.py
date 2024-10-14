@@ -16,6 +16,7 @@ DAILY_DEBIAN_PACKAGES = {
     "fish",
     "fzf",
     "git",
+    "inotify-tools",
     "iproute2",
     "iputils-ping",
     "jq",
@@ -42,15 +43,20 @@ DAILY_DEBIAN_PACKAGES = {
 
 SWAY_DEBIAN_PACKAGES = {
     "brightnessctl",
-    "firefox",
+    "firefox-esr",
     "grim",
+    "libspa-0.2-bluetooth",
+    "mplayer",
     "pavucontrol",
+    "pipewire",
     "pulseaudio",
     "slurp",
     "suckless-tools",
     "swappy",
     "swaylock",
+    "wev",
     "wl-clipboard",
+    "wmenu",
     "xdg-desktop-portal-wlr",
 }
 
