@@ -13,6 +13,7 @@ include common
 bindsym {
     $mod+Return exec foot
     $mod+Space  exec $MICRODOT_INSTALL_PATH/sway/menu
+    $mod+l      exec swaylock
 }
 
 bindsym {
