@@ -2,3 +2,4 @@ core
 .DS_Store
 __pycache__
 tags
+.venv
