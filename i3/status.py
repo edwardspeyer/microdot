@@ -29,41 +29,8 @@ def get_battery_status_text():
     return " ".join(buf)
 
 
-def get_temperature_summary() -> str:
-    def read() -> Tuple[str, float]:
-        for tz in Path("/sys/class/thermal").glob("thermal_zone*"):
-            name = (tz / "type").read_text().strip()
-            temp = int((tz / "temp").read_text()) // 1000
-            yield name, temp
-
-    return " ".join(f"{v}\N{DEGREE SIGN}C" for k, v in read() if "pkg" in k)
-
-
 def get_clock():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
-def get_audio_level():
-    script = "pactl get-sink-volume @DEFAULT_SINK@"
-    try:
-        output = check_output(script, shell=True, text=True, stderr=STDOUT)
-        match_data = re.search(r"(\d+)%", output)
-        if not match_data:
-            return "?"
-        level = int(match_data.groups()[0])
-        return f"{level:3d}%"
-    except CalledProcessError:
-        return "?"
-
-
-def get_display_brightness():
-    base = Path("/sys/class/backlight/intel_backlight")
-    if not base.exists():
-        return ""
-    actual = int((base / "actual_brightness").read_text())
-    maximum = int((base / "max_brightness").read_text())
-    percentage = int(100 * actual / maximum)
-    return f"{percentage:3d}%"
 
 
 def get_wifi_information():
@@ -110,7 +77,6 @@ def main():
     args = parser.parse_args()
 
     latest_wifi_information = watch(get_wifi_information, 5)
-    latest_audio_level = watch(get_audio_level, 0.2)
 
     pairs = [
         [
@@ -120,18 +86,6 @@ def main():
         [
             "Battery",
             get_battery_status_text,
-        ],
-        [
-            "Temperature",
-            get_temperature_summary,
-        ],
-        [
-            "Audio",
-            latest_audio_level,
-        ],
-        [
-            "Display",
-            get_display_brightness,
         ],
         [
             "",
