@@ -13,7 +13,7 @@ include common
 bindsym {
     $mod+Return exec foot
     $mod+Space  exec $MICRODOT_INSTALL_PATH/sway/menu
-    $mod+l      exec swaylock
+    $mod+l      exec $MICRODOT_INSTALL_PATH/sway/lock
 }
 
 bindsym {
@@ -30,4 +30,5 @@ exec {
     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
     foot
     /usr/libexec/xdg-desktop-portal -r
+    $MICRODOT_INSTALL_PATH/sway/idle
 }

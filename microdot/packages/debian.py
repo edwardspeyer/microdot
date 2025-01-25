@@ -53,6 +53,7 @@ SWAY_DEBIAN_PACKAGES = {
     "slurp",
     "suckless-tools",
     "swappy",
+    "swayidle",
     "swaylock",
     "wev",
     "wl-clipboard",

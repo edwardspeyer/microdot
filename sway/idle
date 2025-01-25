@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# From the swayidle manpage:
+#
+# * lock the screen after 100 seconds of inactivity
+# * turn off displays after another 600 seconds
+# * turn your screens back on when resumed
+# * lock screen before sleep
+#
+# To make sure swayidle waits for swaylock to lock the screen before it
+# releases the inhibition lock, the -w options is used in swayidle, and -f in
+# swaylock.
+#
+
+exec swayidle -w \
+  timeout 100   $MICRODOT_INSTALL_PATH/sway/lock      \
+  timeout 600   'swaymsg "output * dpms off"'         \
+  resume        'swaymsg "output * dpms on"'          \
+  before-sleep  $MICRODOT_INSTALL_PATH/sway/lock      \
+  ;
