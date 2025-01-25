@@ -50,15 +50,7 @@ filetype indent on
 " Show the cursor position all the time
 set ruler
 
-"
-" Swapfiles
-"
-" I don't really like them, and like CAPSLOCK, I only ever seem to encounter
-" them whenever they have caused a problem and need turning off.  I used to
-" keep them out the way in another directory but now I just turn them off
-" altogether.
-"
-"set directory=$HOME/.vim/swapfiles
+" Disable crash recovery
 set noswapfile
 
 " Expand tabs into spaces by default (except for Makefiles)
@@ -74,39 +66,6 @@ set expandtab
 :autocmd Filetype sh            set tabstop=2 shiftwidth=2
 :autocmd Filetype python        set tabstop=4 shiftwidth=4
 :autocmd Filetype javascript    set tabstop=2 shiftwidth=2
-
-
-"" Settings taken from the Debian defaults
-"set nocompatible                " Use Vim defaults instead of 100% vi
-"                                " compatibility
-"set backspace=indent,eol,start  " more powerful backspacing
-"set autoindent                  " always set autoindenting on
-"set textwidth=0                 " Don't wrap words by default
-"set nobackup                    " Don't keep a backup file
-"set viminfo='20,\"50            " read/write a .viminfo file, don't store more
-"                                " than 50 lines of registers
-"set history=50                  " keep 50 lines of command line history
-"set showcmd                     " Show (partial) command in status line
-"set showmatch                   " Show matching brackets
-"set autowrite                   " Automatically save before commands like :next
-"                                " and :make
-"
-"" Navigate the results of make-ing / grep-ing
-""map <S-J> :cprevious<CR>
-""map <S-K> :cnext<CR>
-"
-":au Filetype ruby set errorformat=\ \ \ \ %f:%l:%m,\	from\ %f:%l:%m,\	from\ %f:%l,%f:%l:%m
-"
-"" Turn on the mouse for console vim
-""set mouse=a
-"set mouse=n
-"
-"" Make * a bullet point, not a comment prefix.
-"set comments-=mb:*
-"set comments+=fb:*
-"
-"" OS X crontab editing
-"au BufEnter /tmp/crontab.* setl backupcopy=yes
 
 
 "
