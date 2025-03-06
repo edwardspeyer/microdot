@@ -1,3 +1,7 @@
+[project]
+name = "microdot"
+version = "0.0.0"
+
 [tool.ruff]
 line-length = 120
 
