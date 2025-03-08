@@ -34,13 +34,10 @@ def await_modifications(paths: Iterable[Path]) -> str:
 def trace_run(command: list[str]) -> set[Path]:
     def parse_strace(lines: Iterable[str]) -> Iterator[tuple[str, ...]]:
         for line in lines:
-            md = re.match(r"^\d+ (\w+)\((.+)\) = \d+$", line)
-            if not md:
-                continue
-
-            fn, args_str = md.groups()
-            args = next(csv.reader([args_str], skipinitialspace=True))
-            yield fn, *args
+            if md := re.match(r"^\d+ +(\w+)\((.+)\) = \d+$", line):
+                fn, args_str = md.groups()
+                args = next(csv.reader([args_str], skipinitialspace=True))
+                yield fn, *args
 
     def parse_strace_opened_paths(lines: Iterable[str]) -> Iterator[tuple[Path, int]]:
         for fn, *args in parse_strace(lines):
@@ -114,11 +111,12 @@ def main():
         if reason:
             message += " " + reason
         print(UNDERLINE + message + RESET)
+
         if new_paths:
             ps = sorted(new_paths)
             print(f"...adding {len(ps)} new path(s) to watch list:")
             for p in ps:
-                print(" ", p)
+                print("+", p)
             paths |= new_paths
 
 
