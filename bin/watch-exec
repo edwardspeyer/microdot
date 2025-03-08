@@ -53,7 +53,7 @@ def trace_run(command: list[str]) -> set[Path]:
     def parse_strace_read_only_opened_paths(lines: Iterable[str]) -> Iterator[Path]:
         for path, flags in parse_strace_opened_paths(lines):
             if flags & os.O_RDONLY == os.O_RDONLY:
-                yield path
+                yield path.resolve()
 
     with TemporaryDirectory() as tmp:
         trace_path = Path(tmp) / "trace"
@@ -73,7 +73,7 @@ def trace_run(command: list[str]) -> set[Path]:
             return {
                 p.relative_to(d)
                 for p in parse_strace_read_only_opened_paths(f)
-                if p.is_file() and p.is_relative_to(d) and os.access(p, os.W_OK)
+                if p.exists() and p.is_file() and p.is_relative_to(d) and os.access(p, os.W_OK)
             }
 
 
