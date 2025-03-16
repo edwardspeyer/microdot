@@ -15,6 +15,7 @@ PYTHON_PACKAGES = {
     "pytest",
     "python-lsp-server[all]",  # Newer than python-language-server
     "ruff",
+    "uv",
 }
 
 
