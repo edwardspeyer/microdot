@@ -6,8 +6,12 @@
 #
 # /// script
 # requires-python = ">=3.10"
+# dependencies = [
+#     "lxml",
+#     "markdown",
+#     "rich",
+# ]
 # ///
-#
 
 import re
 from argparse import ArgumentParser
@@ -15,6 +19,12 @@ from datetime import datetime
 from pathlib import Path
 from subprocess import check_output, run
 from uuid import uuid4 as create_uuid
+
+import lxml.html
+from markdown import markdown
+from rich import box
+from rich.console import Console
+from rich.table import Table
 
 NEW_TEMPLATE = "~/Projects/Months/%Y-%m/Note.%Y-%m-%dT%H.%M.md"
 
@@ -47,19 +57,38 @@ def list_notes() -> None:
     HOME = Path.home().resolve()
     output = check_output(["fdfind", "--type", "file", ".md$", str(HOME)], text=True)
     paths = sorted(output.splitlines())
-    for path in paths:
-        with open(path) as f:
-            doc = f.read()
-            md = re.search(r"<!-- +note +(.+)-->", doc)
+
+    def rows():
+        for path in paths:
+            with open(path) as f:
+                source = f.read()
+            md = re.search(r"<!-- +note +(.+)-->", source)
             if not md:
                 continue
-            print(path)
+            meta = dict(pair.split(":", maxsplit=1) for pair in md.group(1).split())
+            created = meta.get("created", "?")
+            html = markdown(source)
+            doc = lxml.html.fromstring(html)
+            title = headings[0].text if (headings := doc.xpath('//h1 | //h2 | //h3')) else "?"
+            yield created, title, path
+
+    table = Table(box=box.ROUNDED)
+
+    table.add_column("Created", style="cyan", no_wrap=True)
+    table.add_column("Title", style="bold")
+    table.add_column("Path")
+
+    for row in sorted(rows()):
+        table.add_row(*row)
+
+    console = Console()
+    console.print(table)
 
 
 def main() -> None:
     parser = ArgumentParser()
 
-    parser.add_argument("--list", action="store_true")
+    parser.add_argument("-l", "--list", action="store_true")
 
     """
     TODO rename: suggest renaming for files based on the title?
