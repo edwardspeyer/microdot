@@ -14,6 +14,7 @@
 # ///
 
 import re
+import shlex
 from argparse import ArgumentParser
 from dataclasses import dataclass
 from datetime import datetime
@@ -67,11 +68,10 @@ class Note:
 def get_notes() -> Iterator[Note]:
     HOME = Path.home().resolve()
     output = check_output(["fdfind", "--type", "file", ".md$", str(HOME)], text=True)
-    paths = sorted(output.splitlines())
+    paths = sorted(map(Path, output.splitlines()))
 
     for path in paths:
-        with open(path) as f:
-            source = f.read()
+        source = path.read_text()
         md = re.search(r"<!-- +note +(.+)-->", source)
         if not md:
             continue
@@ -79,7 +79,7 @@ def get_notes() -> Iterator[Note]:
         created = datetime.fromisoformat(v) if (v := meta.get("created")) else None
         html = markdown(source)
         doc = lxml.html.fromstring(html)
-        title = headings[0].text if (headings := doc.xpath('//h1 | //h2 | //h3')) else "?"
+        title = headings[0].text if (headings := doc.xpath("//h1 | //h2 | //h3")) else "?"
 
         yield Note(path, source, created, html, title)
 
@@ -95,24 +95,39 @@ def list_notes() -> None:
         return n.created
 
     for note in sorted(get_notes(), key=by_date):
-        table.add_row(note.created.strftime("%Y-%m-%d"), note.title, note.path)
+        table.add_row(
+            note.created.strftime("%Y-%m-%d"),
+            note.title,
+            str(note.path),
+        )
 
     console = Console()
     console.print(table)
+
+
+def print_rename_script() -> None:
+    for note in get_notes():
+        safe_title = re.sub(r"\W", "_", note.title)
+        new_path = note.path.parent / f"{safe_title}.md"
+        if new_path.exists():
+            continue
+        command = ["mv", note.path, new_path]
+        script = shlex.join(map(str, command))
+        print(script)
 
 
 def main() -> None:
     parser = ArgumentParser()
 
     parser.add_argument("-l", "--list", action="store_true")
-
-    """
-    TODO rename: suggest renaming for files based on the title?
-    """
+    parser.add_argument("-r", "--rename", action="store_true")
 
     args = parser.parse_args()
+
     if args.list:
         list_notes()
+    elif args.rename:
+        print_rename_script()
     else:
         create_new_note()
 
