@@ -22,6 +22,7 @@ from pathlib import Path
 from subprocess import check_output, run
 from typing import Iterator
 from uuid import uuid4 as create_uuid
+from textwrap import dedent
 
 import lxml.html
 from markdown import markdown
@@ -46,7 +47,13 @@ def create_new_note() -> None:
         else:
             raise Exception("!!!")  # TODO
     uuid = create_uuid()
-    template = f"# New Note\n\n<!-- note created:{t.isoformat()} uuid:{uuid} -->\n"
+    template = dedent(
+        f"""\
+        # {t.date().isoformat()} New Note
+
+        <!-- note created:{t.isoformat()} uuid:{uuid} -->
+        """
+    )
     p.write_text(template)
     cmd = ["vim", str(p)]
     run(cmd)
