@@ -19,7 +19,7 @@ from argparse import ArgumentParser
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from subprocess import check_output, run
+from subprocess import check_output, run, PIPE
 from typing import Iterator
 from uuid import uuid4 as create_uuid
 from textwrap import dedent
@@ -31,6 +31,10 @@ from rich.console import Console
 from rich.table import Table
 
 NEW_TEMPLATE = "~/Projects/Months/%Y-%m/Note.%Y-%m-%dT%H.%M.md"
+
+
+def edit(path: str) -> None:
+    run(["vim", path])
 
 
 def create_new_note() -> None:
@@ -55,8 +59,7 @@ def create_new_note() -> None:
         """
     )
     p.write_text(template)
-    cmd = ["vim", str(p)]
-    run(cmd)
+    edit(str(p))
 
     if p.exists() and p.read_text() == template:
         # TODO log
@@ -123,11 +126,38 @@ def print_rename_script() -> None:
         print(script)
 
 
+def fuzzy_find_and_edit() -> None:
+    def tabulate(rows: list[list[str]]) -> list[str]:
+        columns = zip(*rows)
+        widths = [max(map(len, c)) for c in columns]
+        return ["\x1f  ".join(v.ljust(w) for v, w in zip(row, widths)) for row in rows]
+
+    rows = [[n.created.isoformat(), n.title, str(n.path)] for n in get_notes()]
+    table = "\n".join(tabulate(rows))
+    p = run(["fzf", "--delimiter", "\\x1F", "--accept-nth", "3"], text=True, input=table, stdout=PIPE)
+    if p.returncode != 0:
+        return  # TODO Log?
+    if path := p.stdout.strip():
+        edit(path)
+
+
+def find_and_edit(search_term: str) -> None:
+    matches = [n for n in get_notes() if re.search(search_term, repr(n), re.IGNORECASE)]
+    if len(matches) == 0:
+        print(f"no matches for {search_term=}!")
+        return
+    if len(matches) > 1:
+        print(f">1 match!: {matches=}")
+        return
+    edit(str(matches[0].path))
+
+
 def main() -> None:
     parser = ArgumentParser()
 
     parser.add_argument("-l", "--list", action="store_true")
     parser.add_argument("-r", "--rename", action="store_true")
+    parser.add_argument("-e", "--edit", default=False, nargs="?")
 
     args = parser.parse_args()
 
@@ -135,6 +165,10 @@ def main() -> None:
         list_notes()
     elif args.rename:
         print_rename_script()
+    elif args.edit is None:
+        fuzzy_find_and_edit()
+    elif args.edit:
+        find_and_edit(args.edit)
     else:
         create_new_note()
 
