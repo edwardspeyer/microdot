@@ -131,8 +131,9 @@ def print_rename_script() -> None:
         print(script)
 
 
-def fuzzy_find_and_edit() -> None:
-    rows = [[n.created.isoformat(), n.title, str(n.path)] for n in reversed(get_notes_by_date())]
+def fuzzy_find() -> Note | None:
+    notes = get_notes_by_date()
+    rows = [[n.created.isoformat(), n.title, str(n.path)] for n in reversed(notes)]
     columns = zip(*rows)
     widths = [max(map(len, c)) for c in columns]
 
@@ -151,19 +152,23 @@ def fuzzy_find_and_edit() -> None:
     p = run(command, text=True, input=body, stdout=PIPE)
     if p.returncode != 0:
         return  # TODO Log?
-    if path := p.stdout.strip():
-        edit(path)
+    path = p.stdout.strip()
+    for note in notes:
+        if str(note.path) == path:
+            return note
+    raise Exception("!!")
 
 
-def find_and_edit(search_term: str) -> None:
-    matches = [n for n in get_notes_by_date() if re.search(search_term, repr(n), re.IGNORECASE)]
+def find(search_term: str) -> Note | None:
+    notes = get_notes_by_date()
+    matches = [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
     if len(matches) == 0:
         print(f"no matches for {search_term=}!")
         return
     if len(matches) > 1:
         print(f">1 match!: {matches=}")
         return
-    edit(str(matches[0].path))
+    return matches[0]
 
 
 def main() -> None:
@@ -179,10 +184,10 @@ def main() -> None:
         list_notes()
     elif args.rename:
         print_rename_script()
-    elif args.edit is None:
-        fuzzy_find_and_edit()
-    elif args.edit:
-        find_and_edit(args.edit)
+    elif args.edit is None and (note := fuzzy_find()):
+        edit(note.path)
+    elif args.edit and (note := find(args.edit)):
+        edit(note.path)
     else:
         create_new_note()
 
