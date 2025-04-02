@@ -23,6 +23,8 @@ from subprocess import check_output, run, PIPE
 from typing import Iterator
 from uuid import uuid4 as create_uuid
 from textwrap import dedent
+from sys import stdout
+from tempfile import NamedTemporaryFile
 
 import lxml.html
 from markdown import markdown
@@ -120,10 +122,13 @@ def list_notes() -> None:
     console.print(table)
 
 
+def title_basename(note: Note) -> str:
+    return re.sub(r"\W", "_", note.title)
+
+
 def print_rename_script() -> None:
     for note in get_notes_by_date():
-        safe_title = re.sub(r"\W", "_", note.title)
-        new_path = note.path.parent / f"{safe_title}.md"
+        new_path = note.path.parent / f"{title_basename(note)}.md"
         if new_path.exists():
             continue
         command = ["mv", note.path, new_path]
@@ -171,12 +176,68 @@ def find(search_term: str) -> Note | None:
     return matches[0]
 
 
+def print_pdf(note: Note) -> None:
+    stylesheet = """
+    body {
+      color: black;
+      font-family: sans-serif;
+    }
+
+    @media print {
+      body {
+        margin: 0.20in 0.35in 0.50in 0.35in;
+        font-size: 10pt;
+      }
+    }
+    """
+
+    doc = f"""\
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf8">
+        <title>{note.title}</title>
+        <style>
+          {stylesheet}
+        </style>
+      </head>
+      <body>
+        {note.html}
+      </body>
+    </html>
+    """
+
+    with NamedTemporaryFile(suffix=".html") as tf:
+        tf.write(doc.encode())
+        tf.flush()
+        command = [
+            "chromium",
+            "--headless",
+            "--disable-gpu",
+            "--print-to-pdf",
+            "--no-pdf-header-footer",
+            "--no-margins",
+            "--print-to-pdf=/dev/stdout",
+            tf.name,
+        ]
+        pdf = check_output(command, input=doc.encode())
+
+    if stdout.isatty():
+        out_path = title_basename(note) + ".pdf"
+        print(f"writing to {out_path}")
+        with open(out_path, "wb") as f:
+            f.write(pdf)
+    else:
+        stdout.buffer.write(pdf)
+
+
 def main() -> None:
     parser = ArgumentParser()
 
     parser.add_argument("-l", "--list", action="store_true")
     parser.add_argument("-r", "--rename", action="store_true")
     parser.add_argument("-e", "--edit", default=False, nargs="?")
+    parser.add_argument("-p", "--print", default=False, nargs="?")
 
     args = parser.parse_args()
 
@@ -188,6 +249,10 @@ def main() -> None:
         edit(note.path)
     elif args.edit and (note := find(args.edit)):
         edit(note.path)
+    elif args.print is None and (note := fuzzy_find()):
+        print_pdf(note)
+    elif args.print and (note := find(args.print)):
+        print_pdf(note)
     else:
         create_new_note()
 
