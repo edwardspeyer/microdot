@@ -58,6 +58,7 @@ def create_new_note() -> None:
         <!-- note created:{t.isoformat()} uuid:{uuid} -->
         """
     )
+    p.parent.mkdir(exist_ok=True, parents=True)
     p.write_text(template)
     edit(str(p))
 
