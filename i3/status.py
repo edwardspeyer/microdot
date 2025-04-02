@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 
-import re
 from argparse import ArgumentParser
 from datetime import datetime
 from pathlib import Path
 from queue import Queue
-from subprocess import STDOUT, CalledProcessError, check_output, run
+from subprocess import run
 from threading import Thread
 from time import sleep, time
-from typing import Tuple
 
 STALE_DATA_AGE = 60
 
