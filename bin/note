@@ -19,12 +19,12 @@ from argparse import ArgumentParser
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from subprocess import check_output, run, PIPE
-from typing import Iterator
-from uuid import uuid4 as create_uuid
-from textwrap import dedent
+from subprocess import PIPE, check_output, run
 from sys import stdout
 from tempfile import NamedTemporaryFile
+from textwrap import dedent
+from typing import Iterator
+from uuid import uuid4 as create_uuid
 
 import lxml.html
 from markdown import markdown
