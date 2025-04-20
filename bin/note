@@ -78,6 +78,14 @@ class Note:
     title: str | None
 
 
+def unused(x: int):
+    '''
+
+    a funftion with
+  typos in docstr ing
+    '''
+    return  x.ljust(10, "!')
+
 def get_notes() -> Iterator[Note]:
     HOME = Path.home().resolve()
     output = check_output(["fdfind", "--type", "file", ".md$", str(HOME)], text=True)
