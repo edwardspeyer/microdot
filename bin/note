@@ -9,11 +9,13 @@
 # dependencies = [
 #     "lxml",
 #     "markdown",
+# "regex",
 #     "rich",
 # ]
 # ///
 
 import re
+import regex
 import shlex
 from argparse import ArgumentParser
 from dataclasses import dataclass
