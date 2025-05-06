@@ -1,15 +1,5 @@
 # Ensure we are connected to an agent, if one exists.
 
-if not status --is-interactive
-    return
-end
-
-
-if test $SSH_AUTH_SOCK
-    return
-end
-
-
 function ssh_test_socket
     env SSH_AUTH_SOCK=$argv[1] ssh-add -l >/dev/null 2>&1
     switch $status
@@ -32,4 +22,6 @@ function ssh_connect_to_existing_agent
 end
 
 
-ssh_connect_to_existing_agent
+if status --is-interactive; and not set -q $SSH_AUTH_SOCK
+    ssh_connect_to_existing_agent
+end
