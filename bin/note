@@ -80,7 +80,7 @@ class Note:
 
 def get_notes() -> Iterator[Note]:
     HOME = Path.home().resolve()
-    output = check_output(["fdfind", "--type", "file", ".md$", str(HOME)], text=True)
+    output = check_output(["fdfind", "--type", "file", r"\.md$", str(HOME)], text=True)
     paths = sorted(map(Path, output.splitlines()))
 
     for path in paths:
