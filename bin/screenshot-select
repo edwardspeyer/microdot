@@ -1,36 +1,22 @@
-#!/bin/sh
+#!/usr/bin/env python3
 
-fatal() {
-  echo >&2 "$*"
-  exit 1
-}
+from subprocess import run
+from pathlib import Path
+from datetime import datetime
+from sys import stderr
 
-needs() {
-  if ! command -v $1 >/dev/null
-  then
-    fatal "needs $1!"
-  fi
-}
 
-grab_wayland() {
-  needs grim
-  needs slurp
-  needs swappy
-  grim -g "`slurp`" - | swappy -f -
-}
+def sh(script: str, *args) -> bool:
+    print("+", script, *args, file=stderr)
+    v = run(["sh", "-c", script, "--", *map(str, args)])
+    return v.returncode == 0
 
-grab_x() {
-  needs maim
-  needs xclip
-  maim --select | xclip -selection clipboard -t image/png
-}
 
-if [ "$WAYLAND_DISPLAY" ]
-then
-  grab_wayland
-elif [ "$DISPLAY" ]
-then
-  grab_x
-else
-  fatal "not running in a desktop environment!"
-fi
+base = Path.home() / "Screenshots"
+base.mkdir(exist_ok=True, parents=True)
+
+t = datetime.now()
+path = base / f"{t:%Y-%m-%dT%H-%M-%S}.png"
+
+if sh('grim -g "`slurp`" "$1"', path):
+    sh('swappy -f "$1"', path)
