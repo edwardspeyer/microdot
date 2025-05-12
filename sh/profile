@@ -52,3 +52,23 @@ export IPYTHONDIR="$HOME/.config/ipython"
 
 # Never use mtr's GTK mode
 export MTR_OPTIONS="-t"
+
+# If we are running interactively, bootstrap into tmux and/or fish.
+if [ "$PS1" ] && [ -z "$MICRODOT_DISABLED" ]
+then
+  # Restart inside tmux
+  if [ "$SSH_TTY" ] && [ -z "$TMUX" ]
+  then
+    # Force 256 colour UTF-8 output
+    # Start (or attach to) a session called `main`
+    exec tmux -2u new-session -A -D -s main
+  fi
+
+  # Restart inside fish
+  fish=$(command -v fish)
+  if [ $fish ]
+  then
+    export SHELL=$fish
+    exec $fish -i
+  fi
+fi

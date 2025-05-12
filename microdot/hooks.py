@@ -89,26 +89,17 @@ def install():
         """,
     )
 
-    install_hook(
-        path=home / ".profile",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        # Useful for helping other tools' config files find sibling files.
-        export MICRODOT_INSTALL_PATH="{BASE}"
-        . $MICRODOT_INSTALL_PATH/sh/profile
-        """,
-    )
-
-    install_hook(
-        path=home / ".bashrc",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        export MICRODOT_INSTALL_PATH="{BASE}"
-        source {BASE}/sh/bashrc
-        """,
-    )
+    # These config files should all hook into the generic sh startup code.
+    for rc in {".profile", ".bashrc", ".zshrc"}:
+        install_hook(
+            path=home / rc,
+            comment="#",
+            position=Position.TOP,
+            text=f"""\
+            export MICRODOT_INSTALL_PATH="{BASE}"
+            . $MICRODOT_INSTALL_PATH/sh/profile
+            """,
+        )
 
     install_hook(
         path=home / ".gitconfig",
