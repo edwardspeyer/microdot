@@ -146,6 +146,15 @@ def install():
     )
 
     install_hook(
+        path=home / ".config/kitty/kitty.conf",
+        comment="#",
+        position=Position.TOP,
+        text=f"""\
+        include {BASE}/kitty/kitty.conf
+        """,
+    )
+
+    install_hook(
         path=home / ".config/i3/config",
         comment="#",
         position=Position.TOP,
