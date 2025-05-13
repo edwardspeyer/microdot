@@ -68,7 +68,6 @@ then
   fish=$(command -v fish)
   if [ $fish ]
   then
-    export SHELL=$fish
     exec $fish -i
   fi
 fi
