@@ -4,7 +4,6 @@ end
 
 set -x LESS '--RAW-CONTROL-CHARS --chop-long-lines'
 
-alias fd 'fdfind'
 alias ncdu 'ncdu -x'
 alias sudo 'sudo -E'
 alias tmux 'tmux -2'

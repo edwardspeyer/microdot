@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ `command -v fdfind` ]
+then
+    exec fdfind "$@"
+else
+    exec fd "$@"
+fi
