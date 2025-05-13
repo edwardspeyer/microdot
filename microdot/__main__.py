@@ -5,6 +5,7 @@ from pathlib import Path
 import microdot.fonts
 import microdot.gnupg
 import microdot.hooks
+import microdot.macos
 import microdot.packages.debian
 import microdot.packages.python
 import microdot.packages.source.delta
@@ -66,6 +67,10 @@ actions = {
         "Download and install some extra fonts.",
         microdot.fonts.install,
     ),
+    "macos": (
+        "Configure a macOS user account.",
+        microdot.macos.setup,
+    )
 }
 
 parser = ArgumentParser(
