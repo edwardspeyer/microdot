@@ -53,8 +53,15 @@ export IPYTHONDIR="$HOME/.config/ipython"
 # Never use mtr's GTK mode
 export MTR_OPTIONS="-t"
 
+is_interactive() {
+  case $- in
+    *i*) return 0;;
+      *) return 1;;
+  esac
+}
+
 # If we are running interactively, bootstrap into tmux and/or fish.
-if [ "$PS1" ] && [ -z "$MICRODOT_DISABLED" ]
+if is_interactive && [ -z "$MICRODOT_DISABLED" ]
 then
   # Restart inside tmux
   if [ "$SSH_TTY" ] && [ -z "$TMUX" ]
