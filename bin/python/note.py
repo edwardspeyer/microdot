@@ -35,8 +35,8 @@ from rich.table import Table
 NEW_TEMPLATE = "~/Projects/Months/%Y-%m/Note.%Y-%m-%dT%H.%M.md"
 
 
-def edit(path: str) -> None:
-    run(["vim", path])
+def edit(path: Path) -> None:
+    run(["vim", str(path)])
 
 
 def create_new_note() -> None:
@@ -62,7 +62,7 @@ def create_new_note() -> None:
     )
     p.parent.mkdir(exist_ok=True, parents=True)
     p.write_text(template)
-    edit(str(p))
+    edit(p)
 
     if p.exists() and p.read_text() == template:
         # TODO log
@@ -98,8 +98,10 @@ def get_notes() -> Iterator[Note]:
 
 
 def get_notes_by_date() -> list[Note]:
+    T0 = datetime.fromtimestamp(0)
+
     def by_date(n: Note) -> datetime:
-        return n.created
+        return n.created or T0
 
     return sorted(get_notes(), key=by_date)
 
@@ -113,7 +115,7 @@ def list_notes() -> None:
 
     for note in get_notes_by_date():
         table.add_row(
-            note.created.strftime("%Y-%m-%d"),
+            note.created.strftime("%Y-%m-%d") if note.created else "-",
             note.title,
             str(note.path),
         )
@@ -123,11 +125,14 @@ def list_notes() -> None:
 
 
 def title_basename(note: Note) -> str:
+    assert note.title
     return re.sub(r"\W", "_", note.title)
 
 
 def print_rename_script() -> None:
     for note in get_notes_by_date():
+        if not note.title:
+            continue
         new_path = note.path.parent / f"{title_basename(note)}.md"
         if new_path.exists():
             continue
@@ -138,7 +143,14 @@ def print_rename_script() -> None:
 
 def fuzzy_find() -> Note | None:
     notes = get_notes_by_date()
-    rows = [[n.created.isoformat(), n.title, str(n.path)] for n in reversed(notes)]
+    rows = [
+        [
+            n.created.isoformat() if n.created else "-",
+            n.title or "-",
+            str(n.path),
+        ]
+        for n in reversed(notes)
+    ]
     columns = zip(*rows)
     widths = [max(map(len, c)) for c in columns]
 
@@ -156,7 +168,7 @@ def fuzzy_find() -> Note | None:
     ]
     p = run(command, text=True, input=body, stdout=PIPE)
     if p.returncode != 0:
-        return  # TODO Log?
+        return None  # TODO Log?
     path = p.stdout.strip()
     for note in notes:
         if str(note.path) == path:
@@ -169,14 +181,15 @@ def find(search_term: str) -> Note | None:
     matches = [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
     if len(matches) == 0:
         print(f"no matches for {search_term=}!")
-        return
+        return None
     if len(matches) > 1:
         print(f">1 match!: {matches=}")
-        return
+        return None
     return matches[0]
 
 
 def print_pdf(note: Note) -> None:
+    assert note.title, "Cannot print note without a title"
     stylesheet = """
     body {
       color: black;
