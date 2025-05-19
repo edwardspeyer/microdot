@@ -70,7 +70,7 @@ actions = {
     "macos": (
         "Configure a macOS user account.",
         microdot.macos.setup,
-    )
+    ),
 }
 
 parser = ArgumentParser(

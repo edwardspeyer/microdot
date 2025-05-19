@@ -1,7 +1,8 @@
 def setup():
     print("TODO")
 
-'''
+
+"""
 Pop up the xcode install GUI and start installation.  This takes about 20
 minutes:
 
@@ -24,4 +25,4 @@ Install brew packages:
 - Keyboard layout is wrong: shift-3 is "£" not "#"
 - Mouse scroll wheel is wrong
 - UI is unreadably small; how to make everything larger?
-'''
+"""
