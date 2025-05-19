@@ -23,7 +23,7 @@ from subprocess import PIPE, check_output, run
 from sys import stdout
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
-from typing import Iterator
+from typing import Iterable, Iterator
 from uuid import uuid4 as create_uuid
 
 import lxml.html
@@ -32,17 +32,16 @@ from rich import box
 from rich.console import Console
 from rich.table import Table
 
-NEW_TEMPLATE = "~/Projects/Months/%Y-%m/Note.%Y-%m-%dT%H.%M.md"
+NEW_TEMPLATE = "Note.%Y-%m-%dT%H.%M.md"
 
 
 def edit(path: Path) -> None:
     run(["vim", str(path)])
 
 
-def create_new_note() -> None:
+def create_new_note(base: Path) -> None:
     t = datetime.now().replace(microsecond=0)
-    s = t.strftime(NEW_TEMPLATE)
-    p = Path(s).expanduser()
+    p = base / t.strftime(NEW_TEMPLATE)
     if p.exists():
         p0 = p
         for i in range(100):
@@ -78,9 +77,8 @@ class Note:
     title: str | None
 
 
-def get_notes() -> Iterator[Note]:
-    HOME = Path.home().resolve()
-    output = check_output(["fd", "--type", "file", r"\.md$", str(HOME)], text=True)
+def get_notes(base: Path) -> Iterator[Note]:
+    output = check_output(["fd", "--type", "file", r"\.md$", str(base)], text=True)
     paths = sorted(map(Path, output.splitlines()))
 
     for path in paths:
@@ -97,23 +95,14 @@ def get_notes() -> Iterator[Note]:
         yield Note(path, source, created, html, title)
 
 
-def get_notes_by_date() -> list[Note]:
-    T0 = datetime.fromtimestamp(0)
-
-    def by_date(n: Note) -> datetime:
-        return n.created or T0
-
-    return sorted(get_notes(), key=by_date)
-
-
-def list_notes() -> None:
+def print_listing(notes: Iterable[Note]) -> None:
     table = Table(box=box.ROUNDED)
 
     table.add_column("Created", style="cyan", no_wrap=True)
     table.add_column("Title", style="bold")
     table.add_column("Path")
 
-    for note in get_notes_by_date():
+    for note in notes:
         table.add_row(
             note.created.strftime("%Y-%m-%d") if note.created else "-",
             note.title,
@@ -129,8 +118,8 @@ def title_basename(note: Note) -> str:
     return re.sub(r"\W", "_", note.title)
 
 
-def print_rename_script() -> None:
-    for note in get_notes_by_date():
+def print_rename_script(notes: Iterable[Note]) -> None:
+    for note in notes:
         if not note.title:
             continue
         new_path = note.path.parent / f"{title_basename(note)}.md"
@@ -141,15 +130,14 @@ def print_rename_script() -> None:
         print(script)
 
 
-def fuzzy_find() -> Note | None:
-    notes = get_notes_by_date()
+def fuzzy_find(notes: Iterable[Note]) -> Note | None:
     rows = [
         [
             n.created.isoformat() if n.created else "-",
             n.title or "-",
             str(n.path),
         ]
-        for n in reversed(notes)
+        for n in reversed(list(notes))
     ]
     columns = zip(*rows)
     widths = [max(map(len, c)) for c in columns]
@@ -176,8 +164,7 @@ def fuzzy_find() -> Note | None:
     raise Exception("!!")
 
 
-def find(search_term: str) -> Note | None:
-    notes = get_notes_by_date()
+def find(search_term: str, notes: Iterable[Note]) -> Note | None:
     matches = [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
     if len(matches) == 0:
         print(f"no matches for {search_term=}!")
@@ -251,23 +238,25 @@ def main() -> None:
     parser.add_argument("-r", "--rename", action="store_true")
     parser.add_argument("-e", "--edit", default=False, nargs="?")
     parser.add_argument("-p", "--print", default=False, nargs="?")
+    parser.add_argument("-C", "--directory", default=Path("."), type=Path)
 
     args = parser.parse_args()
+    notes = sorted(get_notes(args.directory), key=lambda n: n.created or datetime.fromtimestamp(0))
 
     if args.list:
-        list_notes()
+        print_listing(notes)
     elif args.rename:
-        print_rename_script()
-    elif args.edit is None and (note := fuzzy_find()):
+        print_rename_script(notes)
+    elif args.edit is None and (note := fuzzy_find(notes)):
         edit(note.path)
-    elif args.edit and (note := find(args.edit)):
+    elif args.edit and (note := find(args.edit, notes)):
         edit(note.path)
-    elif args.print is None and (note := fuzzy_find()):
+    elif args.print is None and (note := fuzzy_find(notes)):
         print_pdf(note)
-    elif args.print and (note := find(args.print)):
+    elif args.print and (note := find(args.print, notes)):
         print_pdf(note)
     else:
-        create_new_note()
+        create_new_note(args.directory)
 
 
 if __name__ == "__main__":
