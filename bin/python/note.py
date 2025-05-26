@@ -17,7 +17,9 @@ import re
 import shlex
 from argparse import ArgumentParser
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
+from email.parser import BytesParser
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from subprocess import PIPE, check_output, run
 from sys import stdout
@@ -40,7 +42,7 @@ def edit(path: Path) -> None:
 
 
 def create_new_note(base: Path) -> None:
-    t = datetime.now().replace(microsecond=0)
+    t = datetime.now(tz=timezone.utc).replace(microsecond=0)
     p = base / t.strftime(NEW_TEMPLATE)
     if p.exists():
         p0 = p
@@ -75,24 +77,52 @@ class Note:
     created: datetime | None
     html: str
     title: str | None
+    # readonly: bool  # TODO
 
 
-def get_notes(base: Path) -> Iterator[Note]:
-    output = check_output(["fd", "--type", "file", r"\.md$", str(base)], text=True)
-    paths = sorted(map(Path, output.splitlines()))
+def find_fd(*args: str) -> list[Path]:
+    output = check_output(["fd", "--type", "file", *args], text=True)
+    return sorted(Path(p) for p in output.splitlines())
 
-    for path in paths:
+
+def get_markdown_notes(base: Path) -> Iterator[Note]:
+    for path in find_fd(r"\.md$", str(base)):
         source = path.read_text()
         md = re.search(r"<!-- +note +(.+)-->", source)
         if not md:
             continue
         meta = dict(pair.split(":", maxsplit=1) for pair in md.group(1).split())
-        created = datetime.fromisoformat(v) if (v := meta.get("created")) else None
+        created = datetime.fromisoformat(v).astimezone(timezone.utc) if (v := meta.get("created")) else None
         html = markdown(source)
         doc = lxml.html.fromstring(html)
         title = headings[0].text if (headings := doc.xpath("//h1 | //h2 | //h3")) else "?"
 
         yield Note(path, source, created, html, title)
+
+
+def get_mail_notes(base: Path) -> Iterator[Note]:
+    for path in find_fd("--full-path", r".*/Notes/(cur|new)/.*", str(base)):
+        with path.open("rb") as f:
+            message = BytesParser().parse(f)
+        if not message.get("X-Uniform-Type-Identifier", "").endswith("mail-note"):
+            continue
+        # uuid = message['X-Universally-Unique-Identifier']  # TODO
+        parts = list(message.walk())
+        if len(parts) != 1:
+            print(f"Unexpected number of parts for a mail-note ({len(parts)}) in {path}: {parts!r}")
+            continue
+        title = message["Subject"]
+        created = parsedate_to_datetime(message["Date"])
+        html = parts[0].get_payload()
+        if not isinstance(html, str):
+            print(f"Expected a single string mime part (in {path}), not: {parts!r}")
+            continue
+        yield Note(path, html, created, html, title)
+
+
+def get_notes(base: Path) -> Iterator[Note]:
+    yield from get_markdown_notes(base)
+    yield from get_mail_notes(base)
 
 
 def print_listing(notes: Iterable[Note]) -> None:
