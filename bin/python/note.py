@@ -20,12 +20,13 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from email.parser import BytesParser
 from email.utils import parsedate_to_datetime
+from functools import cached_property
 from pathlib import Path
 from subprocess import PIPE, check_output, run
 from sys import stderr, stdout
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Protocol
 from uuid import uuid4 as create_uuid
 
 import lxml.html
@@ -74,14 +75,37 @@ def create_new_note(base: Path) -> None:
         p.unlink()
 
 
+class Note(Protocol):
+    path: Path
+    created: datetime | None
+    html: str
+    title: str | None
+    # readonly: bool  # TODO
+
+    @property
+    def source(self) -> str: ...
+
+
 @dataclass
-class Note:
+class MarkdownNote:
     path: Path
     source: str
     created: datetime | None
     html: str
     title: str | None
-    # readonly: bool  # TODO
+
+
+@dataclass
+class MailNote:
+    path: Path
+    created: datetime | None
+    html: str
+    title: str | None
+
+    @cached_property
+    def source(self) -> str:
+        command = ["w3m", "-dump", "-T", "text/html", "-"]
+        return check_output(command, text=True, input=self.html)
 
 
 def find_fd(*args: str) -> list[Path]:
@@ -101,7 +125,7 @@ def get_markdown_notes(base: Path) -> Iterator[Note]:
         doc = lxml.html.fromstring(html)
         title = headings[0].text if (headings := doc.xpath("//h1 | //h2 | //h3")) else "?"
 
-        yield Note(path, source, created, html, title)
+        yield MarkdownNote(path, source, created, html, title)
 
 
 def get_mail_notes(base: Path) -> Iterator[Note]:
@@ -117,11 +141,11 @@ def get_mail_notes(base: Path) -> Iterator[Note]:
             continue
         title = message["Subject"]
         created = parsedate_to_datetime(message["Date"])
-        html = parts[0].get_payload()
-        if not isinstance(html, str):
+        html = parts[0].get_payload(decode=True)
+        if not isinstance(html, bytes):
             warning(f"Expected a single string mime part (in {path}), not: {parts!r}")
             continue
-        yield Note(path, html, created, html, title)
+        yield MailNote(path, created, html.decode(), title)
 
 
 def get_notes(base: Path) -> Iterator[Note]:
