@@ -22,7 +22,7 @@ from email.parser import BytesParser
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from subprocess import PIPE, check_output, run
-from sys import stdout
+from sys import stderr, stdout
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
 from typing import Iterable, Iterator
@@ -39,6 +39,10 @@ NEW_TEMPLATE = "Note.%Y-%m-%dT%H.%M.md"
 
 def edit(path: Path) -> None:
     run(["vim", str(path)])
+
+
+def warning(*message) -> None:
+    print(*message, file=stderr)
 
 
 def create_new_note(base: Path) -> None:
@@ -109,13 +113,13 @@ def get_mail_notes(base: Path) -> Iterator[Note]:
         # uuid = message['X-Universally-Unique-Identifier']  # TODO
         parts = list(message.walk())
         if len(parts) != 1:
-            print(f"Unexpected number of parts for a mail-note ({len(parts)}) in {path}: {parts!r}")
+            warning(f"Unexpected number of parts for a mail-note ({len(parts)}) in {path}: {parts!r}")
             continue
         title = message["Subject"]
         created = parsedate_to_datetime(message["Date"])
         html = parts[0].get_payload()
         if not isinstance(html, str):
-            print(f"Expected a single string mime part (in {path}), not: {parts!r}")
+            warning(f"Expected a single string mime part (in {path}), not: {parts!r}")
             continue
         yield Note(path, html, created, html, title)
 
@@ -197,10 +201,10 @@ def fuzzy_find(notes: Iterable[Note]) -> Note | None:
 def find(search_term: str, notes: Iterable[Note]) -> Note | None:
     matches = [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
     if len(matches) == 0:
-        print(f"no matches for {search_term=}!")
+        warning(f"no matches for {search_term=}!")
         return None
     if len(matches) > 1:
-        print(f">1 match!: {matches=}")
+        warning(f">1 match!: {matches=}")
         return None
     return matches[0]
 
