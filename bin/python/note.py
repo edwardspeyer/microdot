@@ -222,8 +222,12 @@ def fuzzy_find(notes: Iterable[Note]) -> Note | None:
     raise Exception("!!")
 
 
-def find(search_term: str, notes: Iterable[Note]) -> Note | None:
-    matches = [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
+def find_all(search_term: str, notes: Iterable[Note]) -> list[Note]:
+    return [n for n in notes if re.search(search_term, repr(n), re.IGNORECASE)]
+
+
+def find_one(search_term: str, notes: Iterable[Note]) -> Note | None:
+    matches = find_all(search_term, notes)
     if len(matches) == 0:
         warning(f"no matches for {search_term=}!")
         return None
@@ -282,11 +286,16 @@ def print_pdf(note: Note) -> None:
 
     if stdout.isatty():
         out_path = title_basename(note) + ".pdf"
-        print(f"writing to {out_path}")
+        warning(f"writing to {out_path}")
         with open(out_path, "wb") as f:
             f.write(pdf)
     else:
         stdout.buffer.write(pdf)
+
+
+def cat(notes: Iterable[Note]) -> None:
+    for note in notes:
+        print(note.source)
 
 
 def main() -> None:
@@ -295,6 +304,7 @@ def main() -> None:
     parser.add_argument("-l", "--list", action="store_true")
     parser.add_argument("-r", "--rename", action="store_true")
     parser.add_argument("-e", "--edit", default=False, nargs="?")
+    parser.add_argument("-c", "--cat", default=False, nargs="?")
     parser.add_argument("-p", "--print", default=False, nargs="?")
     parser.add_argument("-C", "--directory", default=Path("."), type=Path)
 
@@ -307,12 +317,15 @@ def main() -> None:
         print_rename_script(notes)
     elif args.edit is None and (note := fuzzy_find(notes)):
         edit(note.path)
-    elif args.edit and (note := find(args.edit, notes)):
+    elif args.edit and (note := find_one(args.edit, notes)):
         edit(note.path)
     elif args.print is None and (note := fuzzy_find(notes)):
         print_pdf(note)
-    elif args.print and (note := find(args.print, notes)):
+    elif args.print and (note := find_one(args.print, notes)):
         print_pdf(note)
+    elif args.cat:
+        notes = find_all(args.cat, notes)
+        cat(notes)
     else:
         create_new_note(args.directory)
 
