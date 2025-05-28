@@ -9,7 +9,7 @@
 # dependencies = [
 #     "lxml",
 #     "markdown",
-#     "rich",
+#     "tabulate",
 # ]
 # ///
 
@@ -31,9 +31,7 @@ from uuid import uuid4 as create_uuid
 
 import lxml.html
 from markdown import markdown
-from rich import box
-from rich.console import Console
-from rich.table import Table
+from tabulate import tabulate
 
 NEW_TEMPLATE = "Note.%Y-%m-%dT%H.%M.md"
 
@@ -154,21 +152,23 @@ def get_notes(base: Path) -> Iterator[Note]:
 
 
 def print_listing(notes: Iterable[Note]) -> None:
-    table = Table(box=box.ROUNDED)
+    def truncate(s: str) -> str:
+        MAX = 30
+        if len(s) <= MAX:
+            return s
+        return s[:MAX] + "\N{HORIZONTAL ELLIPSIS}"
 
-    table.add_column("Created", style="cyan", no_wrap=True)
-    table.add_column("Title", style="bold")
-    table.add_column("Path")
-
-    for note in notes:
-        table.add_row(
+    rows = [
+        [
             note.created.strftime("%Y-%m-%d") if note.created else "-",
-            note.title,
+            truncate(note.title) if note.title else "",
             str(note.path),
-        )
+        ]
+        for note in notes
+    ]
+    headers = ["Created", "Title", "Path"]
 
-    console = Console()
-    console.print(table)
+    print(tabulate(rows, headers=headers, tablefmt="rounded_outline"))
 
 
 def title_basename(note: Note) -> str:
