@@ -151,7 +151,7 @@ def get_notes(base: Path) -> Iterator[Note]:
     yield from get_mail_notes(base)
 
 
-def print_listing(notes: Iterable[Note]) -> None:
+def print_listing(base: Path, notes: Iterable[Note], is_verbose: bool) -> None:
     def truncate(s: str) -> str:
         MAX = 30
         if len(s) <= MAX:
@@ -161,14 +161,22 @@ def print_listing(notes: Iterable[Note]) -> None:
     rows = [
         [
             note.created.strftime("%Y-%m-%d") if note.created else "-",
-            truncate(note.title) if note.title else "",
-            str(note.path),
+            (note.title if is_verbose else truncate(note.title)) if note.title else "",
+            str(note.path if is_verbose else note.path.relative_to(base)),
         ]
         for note in notes
     ]
-    headers = ["Created", "Title", "Path"]
 
-    print(tabulate(rows, headers=headers, tablefmt="rounded_outline"))
+    if is_verbose:
+        table = tabulate(rows, tablefmt="plain")
+    else:
+        table = tabulate(
+            rows,
+            headers=["Created", "Title", "Path"],
+            tablefmt="rounded_outline",
+        )
+
+    print(table)
 
 
 def title_basename(note: Note) -> str:
@@ -307,12 +315,15 @@ def main() -> None:
     parser.add_argument("-c", "--cat", default=False, nargs="?")
     parser.add_argument("-p", "--print", default=False, nargs="?")
     parser.add_argument("-C", "--directory", default=Path("."), type=Path)
+    parser.add_argument("-v", "--verbose", action="store_true")
 
     args = parser.parse_args()
-    notes = sorted(get_notes(args.directory), key=lambda n: n.created or datetime.fromtimestamp(0))
+    base = args.directory
+    notes = list(get_notes(base))
+    notes = sorted(notes, key=lambda n: n.created or datetime.fromtimestamp(0))
 
     if args.list:
-        print_listing(notes)
+        print_listing(base, notes, args.verbose)
     elif args.rename:
         print_rename_script(notes)
     elif args.edit is None and (note := fuzzy_find(notes)):
