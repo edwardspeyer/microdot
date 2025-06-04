@@ -44,6 +44,13 @@ def warning(*message) -> None:
     print(*message, file=stderr)
 
 
+def build_comment(t: datetime) -> str:
+    t = t.astimezone(timezone.utc)
+    t = t.replace(microsecond=0)
+    uuid = create_uuid()
+    return f"<!-- note created:{t.isoformat()} uuid:{uuid} -->"
+
+
 def create_new_note(base: Path) -> None:
     t = datetime.now(tz=timezone.utc).replace(microsecond=0)
     p = base / t.strftime(NEW_TEMPLATE)
@@ -56,12 +63,11 @@ def create_new_note(base: Path) -> None:
                 break
         else:
             raise Exception("!!!")  # TODO
-    uuid = create_uuid()
     template = dedent(
         f"""\
         # {t.date().isoformat()} New Note
 
-        <!-- note created:{t.isoformat()} uuid:{uuid} -->
+        {build_comment(t)}
         """
     )
     p.parent.mkdir(exist_ok=True, parents=True)
@@ -144,6 +150,10 @@ def get_mail_notes(base: Path) -> Iterator[Note]:
             warning(f"Expected a single string mime part (in {path}), not: {parts!r}")
             continue
         yield MailNote(path, created, html.decode(), title)
+
+
+def print_new_comment():
+    print(build_comment(datetime.now()))
 
 
 def get_notes(base: Path) -> Iterator[Note]:
@@ -317,7 +327,19 @@ def main() -> None:
     parser.add_argument("-C", "--directory", default=Path("."), type=Path)
     parser.add_argument("-v", "--verbose", action="store_true")
 
+    parser.add_argument(
+        "-g",
+        "--generate-comment",
+        action="store_true",
+        help="""Build a new note HTML comment, useful for adding to existing
+        files not originally created by note.""",
+    )
+
     args = parser.parse_args()
+
+    if args.generate_comment:
+        return print_new_comment()
+
     base = args.directory
     notes = list(get_notes(base))
     notes = sorted(notes, key=lambda n: n.created or datetime.fromtimestamp(0))
