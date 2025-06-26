@@ -125,7 +125,13 @@ def get_markdown_notes(base: Path) -> Iterator[Note]:
             continue
         meta = dict(pair.split(":", maxsplit=1) for pair in md.group(1).split())
         created = datetime.fromisoformat(v).astimezone(timezone.utc) if (v := meta.get("created")) else None
-        html = markdown(source)
+        html = markdown(
+            source,
+            extensions=[
+                "tables",
+                "md_in_html",
+            ],
+        )
         doc = lxml.html.fromstring(html)
         title = headings[0].text if (headings := doc.xpath("//h1 | //h2 | //h3")) else "?"
 
