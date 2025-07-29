@@ -41,7 +41,7 @@ $HOME/.cargo/bin:\
 /usr/sbin:\
 /usr/bin:\
 /sbin:\
-/bin:\
+/bin\
 "
 
 # Postgres client config
