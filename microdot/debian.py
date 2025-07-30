@@ -7,6 +7,8 @@ from subprocess import DEVNULL, run
 from textwrap import dedent
 from typing import Iterable
 
+from microdot.paths import BASE
+
 
 def setup_sudo():
     def is_configured() -> bool:
@@ -78,7 +80,7 @@ def setup_greetd() -> None:
         vt = 7
 
         [default_session]
-        command = "sh -c '. ~/.profile; exec env XDG_CURRENT_DESKTOP=sway sway'"
+        command = "{BASE}/greetd/init"
         user = "{user}"
         """
     )

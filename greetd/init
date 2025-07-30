@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -ex
+
+. ~/.profile
+
+if command -v sway
+then
+  export XDG_CURRENT_DESKTOP=sway
+  exec sway
+fi
+
+echo >&2 "No window managers installed!"
+exit 3
