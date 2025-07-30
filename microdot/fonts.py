@@ -27,9 +27,34 @@ def install_macosx():
         copy(source, target)
 
 
-def install_linux():
-    if re.search(r"SF.*Mono", check_output("fc-list", text=True)):
-        print("  OK  ", "SF Mono installation")
+def fc_has_font(name: str) -> bool:
+    log = check_output("fc-list", text=True)
+    return re.search(name, log) is not None
+
+
+def install_linux_iosevka():
+    if fc_has_font("Iosevka Term"):
+        print("  OK  ", "Iosevka installed")
+        return
+
+    with TemporaryDirectory() as tmp:
+        run(
+            r"""
+            set -ex
+            wget -O font.zip \
+                https://github.com/be5invis/Iosevka/releases/download/v33.2.7/SuperTTC-SGr-IosevkaTerm-33.2.7.zip
+            unzip font.zip
+            mv SGr-IosevkaTerm.ttc ~/.local/share/fonts
+            """,
+            shell=True,
+            cwd=tmp,
+            check=True,
+        )
+
+
+def install_linux_sf_mono():
+    if fc_has_font("SF Mono"):
+        print("  OK  ", "SF Mono installed")
         return
 
     with TemporaryDirectory() as tmp:
@@ -55,3 +80,8 @@ def install_linux():
         for source in Path(tmp).glob("**/*.otf"):
             print("  FONT", source.name)
             copy(source, target)
+
+
+def install_linux():
+    install_linux_iosevka()
+    install_linux_sf_mono()
