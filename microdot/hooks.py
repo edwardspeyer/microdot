@@ -25,7 +25,7 @@ def install_text_hook(
     position: Position,
     text: str,
     mode: int = 0o644,
-):
+) -> None:
     inner = textwrap.dedent(text).rstrip("\n") + "\n"
     begin = f"{comment} {BEGIN}\n"
     end = f"{comment} {END}\n"
@@ -34,32 +34,32 @@ def install_text_hook(
 
     if not path.exists():
         log("NEW", path)
-        path.parent.mkdir(exist_ok=True, parents=True, mode=0o700)
-        path.touch(mode=mode)
-        path.write_text(outer)
-        return
-
-    old = path.read_text()
-    new = re.sub(
-        pattern,
-        # re.sub will interpret backslashes in the replacement string, so we
-        # have to pre-escape them.
-        re.sub(r"\\", r"\\\\", outer),
-        old,
-    )
-
-    if re.search(pattern, old):
-        if old == new:
-            log("SAME", path)
-        else:
-            log("UPDATE", path)
-            path.write_text(new)
+        new = outer
     else:
-        log("EDIT", path)
-        if position == Position.TOP:
-            path.write_text(outer + "\n" + old)
-        elif position == Position.BOTTOM:
-            path.write_text(old + "\n" + outer)
+        old = path.read_text()
+        new = re.sub(
+            pattern,
+            # re.sub will interpret backslashes in the replacement string, so we
+            # have to pre-escape them.
+            re.sub(r"\\", r"\\\\", outer),
+            old,
+        )
+
+        if re.search(pattern, old):
+            if old == new:
+                log("SAME", path)
+            else:
+                log("UPDATE", path)
+        else:
+            log("EDIT", path)
+            if position == Position.TOP:
+                new = outer + "\n" + old
+            elif position == Position.BOTTOM:
+                new = old + "\n" + outer
+
+    path.parent.mkdir(exist_ok=True, parents=True, mode=0o700)
+    path.touch(mode=mode)
+    path.write_text(new)
 
 
 def test_install_text_hook_new(tmp_path: Path) -> None:
