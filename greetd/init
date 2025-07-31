@@ -4,6 +4,12 @@ set -ex
 
 . ~/.profile
 
+if command -v niri
+then
+  export NIRI_CONFIG="$MICRODOT_INSTALL_PATH/niri/config.kdl"
+  exec niri --session
+fi
+
 if command -v sway
 then
   export XDG_CURRENT_DESKTOP=sway

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ask_for_command() {
+  dmenu_path \
+    | wmenu -f 'Iosevka Term Extended 14' -l 10
+}
+
+response=`ask_for_command`
+
+if [ "$response" ]
+then
+  exec $response
+fi
