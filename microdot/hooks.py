@@ -6,6 +6,9 @@ from shutil import copyfile as copy
 
 BASE = Path(__file__).parent.parent.resolve()
 
+BEGIN = "-----BEGIN MICRODOT-----"
+END = "-----END MICRODOT-----"
+
 
 class Position(Enum):
     TOP = "TOP"
@@ -16,7 +19,7 @@ def log(action, path):
     print(f"  {action:6s}  {path}", flush=True)
 
 
-def install_hook(
+def install_text_hook(
     path: Path,
     comment: str,
     position: Position,
@@ -24,8 +27,8 @@ def install_hook(
     mode: int = 0o644,
 ):
     inner = textwrap.dedent(text).rstrip("\n") + "\n"
-    begin = f"{comment} -----BEGIN MICRODOT-----\n"
-    end = f"{comment} -----END MICRODOT-----\n"
+    begin = f"{comment} {BEGIN}\n"
+    end = f"{comment} {END}\n"
     outer = begin + inner + end
     pattern = re.compile(f"{begin}.+?\n{end}", re.DOTALL)
 
@@ -59,6 +62,27 @@ def install_hook(
             path.write_text(old + "\n" + outer)
 
 
+def test_install_text_hook_new(tmp_path: Path) -> None:
+    f = tmp_path / "f"
+    install_text_hook(f, "#", Position.TOP, "hi")
+    assert f.exists()
+    assert f.read_text() == f"# {BEGIN}\nhi\n# {END}\n"
+
+
+def test_install_text_hook_top(tmp_path: Path) -> None:
+    f = tmp_path / "f"
+    f.write_text("bye\n")
+    install_text_hook(f, "!", Position.TOP, "hi")
+    assert f.read_text() == f"! {BEGIN}\nhi\n! {END}\n\nbye\n"
+
+
+def test_install_text_hook_bottom(tmp_path: Path) -> None:
+    f = tmp_path / "f"
+    f.write_text("hi\n")
+    install_text_hook(f, "!", Position.BOTTOM, "bye")
+    assert f.read_text() == f"hi\n\n! {BEGIN}\nbye\n! {END}\n"
+
+
 def install_vim_plug(home: Path):
     source = BASE / "vim" / "autoload" / "plug.vim"
     destination = home / ".vim" / "autoload" / "plug.vim"
@@ -69,7 +93,7 @@ def install_vim_plug(home: Path):
 def install():
     home = Path.home()
 
-    install_hook(
+    install_text_hook(
         path=home / ".tmux.conf",
         comment="#",
         position=Position.TOP,
@@ -80,7 +104,7 @@ def install():
 
     install_vim_plug(home)
 
-    install_hook(
+    install_text_hook(
         path=home / ".vimrc",
         comment='"',
         position=Position.TOP,
@@ -91,7 +115,7 @@ def install():
 
     # These config files should all hook into the generic sh startup code.
     for rc in {".profile", ".bashrc", ".zshrc"}:
-        install_hook(
+        install_text_hook(
             path=home / rc,
             comment="#",
             position=Position.TOP,
@@ -101,7 +125,7 @@ def install():
             """,
         )
 
-    install_hook(
+    install_text_hook(
         path=home / ".gitconfig",
         comment="#",
         position=Position.TOP,
@@ -114,7 +138,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".ssh/config",
         comment="#",
         position=Position.BOTTOM,
@@ -124,7 +148,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/fish/conf.d/microdot.fish",
         comment="#",
         position=Position.TOP,
@@ -135,7 +159,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/apt.conf",
         comment="//",
         position=Position.TOP,
@@ -145,7 +169,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/kitty/kitty.conf",
         comment="#",
         position=Position.TOP,
@@ -154,7 +178,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/i3/config",
         comment="#",
         position=Position.TOP,
@@ -163,7 +187,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".xsession",
         comment="#",
         mode=0o744,
@@ -174,7 +198,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".XCompose",
         comment="#",
         position=Position.TOP,
@@ -183,7 +207,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".muttrc",
         comment="#",
         position=Position.BOTTOM,
@@ -192,7 +216,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/sway/config",
         comment="#",
         position=Position.TOP,
@@ -201,7 +225,7 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/foot/foot.ini",
         comment="#",
         position=Position.TOP,
@@ -210,14 +234,14 @@ def install():
         """,
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/psqlrc",
         comment="--",
         position=Position.TOP,
         text=rf"\i {BASE}/psql/psqlrc",
     )
 
-    install_hook(
+    install_text_hook(
         path=home / ".config/ipython/profile_default/startup/microdot.py",
         comment="#",
         position=Position.TOP,
