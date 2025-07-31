@@ -3,11 +3,14 @@ import textwrap
 from enum import Enum
 from pathlib import Path
 from shutil import copyfile as copy
+from typing import Callable
 
 BASE = Path(__file__).parent.parent.resolve()
 
 BEGIN = "-----BEGIN MICRODOT-----"
 END = "-----END MICRODOT-----"
+
+Editor = Callable[[str | None], str]
 
 
 class Position(Enum):
@@ -19,43 +22,53 @@ def log(action, path):
     print(f"  {action:6s}  {path}", flush=True)
 
 
-def install_text_hook(
-    path: Path,
-    comment: str,
+def insert_text(
     position: Position,
+    comment: Editor,
     text: str,
+) -> Editor:
+    def fn(original: str | None) -> str:
+        inner = textwrap.dedent(text).rstrip("\n") + "\n"
+        begin = comment(BEGIN)
+        end = comment(END)
+        outer = begin + inner + end
+
+        if not original:
+            return outer
+
+        pattern = re.compile(f"{re.escape(begin)}.+?\n{re.escape(end)}", re.DOTALL)
+        if re.search(pattern, original):
+            return re.sub(
+                pattern,
+                # re.sub will interpret backslashes in the replacement string, so we
+                # have to pre-escape them.
+                re.sub(r"\\", r"\\\\", outer),
+                original,
+            )
+
+        if position == Position.TOP:
+            return outer + "\n" + original
+        if position == Position.BOTTOM:
+            return original + "\n" + outer
+
+        raise Exception("Unreachable!")
+
+    return fn
+
+
+def install_hook(
+    path: Path,
+    editor: Editor,
     mode: int = 0o644,
 ) -> None:
-    inner = textwrap.dedent(text).rstrip("\n") + "\n"
-    begin = f"{comment} {BEGIN}\n"
-    end = f"{comment} {END}\n"
-    outer = begin + inner + end
-    pattern = re.compile(f"{begin}.+?\n{end}", re.DOTALL)
-
-    if not path.exists():
+    old = path.read_text() if path.exists() else None
+    new = editor(old)
+    if old is None:
         log("NEW", path)
-        new = outer
+    elif old == new:
+        log("SAME", path)
     else:
-        old = path.read_text()
-        new = re.sub(
-            pattern,
-            # re.sub will interpret backslashes in the replacement string, so we
-            # have to pre-escape them.
-            re.sub(r"\\", r"\\\\", outer),
-            old,
-        )
-
-        if re.search(pattern, old):
-            if old == new:
-                log("SAME", path)
-            else:
-                log("UPDATE", path)
-        else:
-            log("EDIT", path)
-            if position == Position.TOP:
-                new = outer + "\n" + old
-            elif position == Position.BOTTOM:
-                new = old + "\n" + outer
+        log("EDIT", path)
 
     path.parent.mkdir(exist_ok=True, parents=True, mode=0o700)
     path.touch(mode=mode)
@@ -64,7 +77,7 @@ def install_text_hook(
 
 def test_install_text_hook_new(tmp_path: Path) -> None:
     f = tmp_path / "f"
-    install_text_hook(f, "#", Position.TOP, "hi")
+    install_hook(f, insert_text(Position.TOP, comment_prefix("#"), "hi"))
     assert f.exists()
     assert f.read_text() == f"# {BEGIN}\nhi\n# {END}\n"
 
@@ -72,14 +85,14 @@ def test_install_text_hook_new(tmp_path: Path) -> None:
 def test_install_text_hook_top(tmp_path: Path) -> None:
     f = tmp_path / "f"
     f.write_text("bye\n")
-    install_text_hook(f, "!", Position.TOP, "hi")
+    install_hook(f, insert_text(Position.TOP, comment_prefix("!"), "hi"))
     assert f.read_text() == f"! {BEGIN}\nhi\n! {END}\n\nbye\n"
 
 
 def test_install_text_hook_bottom(tmp_path: Path) -> None:
     f = tmp_path / "f"
     f.write_text("hi\n")
-    install_text_hook(f, "!", Position.BOTTOM, "bye")
+    install_hook(f, insert_text(Position.BOTTOM, comment_prefix("!"), "bye"))
     assert f.read_text() == f"hi\n\n! {BEGIN}\nbye\n! {END}\n"
 
 
@@ -90,162 +103,203 @@ def install_vim_plug(home: Path):
     copy(source, destination)
 
 
+def comment_prefix(symbol: str) -> Editor:
+    def fn(text: str | None) -> str:
+        if text is None:
+            return symbol
+        return f"{symbol} {text}\n"
+
+    return fn
+
+
 def install():
     home = Path.home()
 
-    install_text_hook(
-        path=home / ".tmux.conf",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        source {BASE}/tmux/tmux.conf
-        """,
+    install_hook(
+        home / ".tmux.conf",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            source {BASE}/tmux/tmux.conf
+            """,
+        ),
     )
 
     install_vim_plug(home)
 
-    install_text_hook(
-        path=home / ".vimrc",
-        comment='"',
-        position=Position.TOP,
-        text=f"""\
-        source {BASE}/vim/vimrc
-        """,
+    install_hook(
+        home / ".vimrc",
+        insert_text(
+            Position.TOP,
+            comment_prefix('"'),
+            f"""\
+            source {BASE}/vim/vimrc
+            """,
+        ),
     )
 
     # These config files should all hook into the generic sh startup code.
     for rc in {".profile", ".bashrc", ".zshrc"}:
-        install_text_hook(
-            path=home / rc,
-            comment="#",
-            position=Position.TOP,
-            text=f"""\
-            export MICRODOT_INSTALL_PATH="{BASE}"
-            . $MICRODOT_INSTALL_PATH/sh/profile
-            """,
+        install_hook(
+            home / rc,
+            insert_text(
+                Position.TOP,
+                comment_prefix("#"),
+                f"""\
+                export MICRODOT_INSTALL_PATH="{BASE}"
+                . $MICRODOT_INSTALL_PATH/sh/profile
+                """,
+            ),
         )
 
-    install_text_hook(
-        path=home / ".gitconfig",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        [include]
-        path = {BASE}/git/config
+    install_hook(
+        home / ".gitconfig",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            [include]
+            path = {BASE}/git/config
 
-        [core]
-        excludesfile = {BASE}/git/ignore
-        """,
+            [core]
+            excludesfile = {BASE}/git/ignore
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".ssh/config",
-        comment="#",
-        position=Position.BOTTOM,
-        text=f"""\
-        Host *
-        Include {BASE}/ssh/config
-        """,
+    install_hook(
+        home / ".ssh/config",
+        insert_text(
+            Position.BOTTOM,
+            comment_prefix("#"),
+            f"""\
+            Host *
+            Include {BASE}/ssh/config
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/fish/conf.d/microdot.fish",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        for file in {BASE}/fish/*.fish
-            source $file
-        end
-        """,
+    install_hook(
+        home / ".config/fish/conf.d/microdot.fish",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            for file in {BASE}/fish/*.fish
+                source $file
+            end
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/apt.conf",
-        comment="//",
-        position=Position.TOP,
-        text=f"""\
-        // Requires APT_CONFIG to also be set in the environment
-        #include "{BASE}/apt/apt.conf";
-        """,
+    install_hook(
+        home / ".config/apt.conf",
+        insert_text(
+            Position.TOP,
+            comment_prefix("//"),
+            f"""\
+            // Requires APT_CONFIG to also be set in the environment
+            #include "{BASE}/apt/apt.conf";
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/kitty/kitty.conf",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        include {BASE}/kitty/kitty.conf
-        """,
+    install_hook(
+        home / ".config/kitty/kitty.conf",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            include {BASE}/kitty/kitty.conf
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/i3/config",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        include {BASE}/i3/config
-        """,
+    install_hook(
+        home / ".config/i3/config",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            include {BASE}/i3/config
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".xsession",
-        comment="#",
+    install_hook(
+        home / ".xsession",
+        insert_text(
+            Position.BOTTOM,
+            comment_prefix("#"),
+            f"""\
+            # Hand control to microdot's xsession
+            exec {BASE}/X11/xsession
+            """,
+        ),
         mode=0o744,
-        position=Position.BOTTOM,
-        text=f"""\
-        # Hand control to microdot's xsession
-        exec {BASE}/X11/xsession
-        """,
     )
 
-    install_text_hook(
-        path=home / ".XCompose",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        include "{BASE}/X11/XCompose"
-        """,
+    install_hook(
+        home / ".XCompose",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            include "{BASE}/X11/XCompose"
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".muttrc",
-        comment="#",
-        position=Position.BOTTOM,
-        text=f"""\
-        source {BASE}/mutt/muttrc
-        """,
+    install_hook(
+        home / ".muttrc",
+        insert_text(
+            Position.BOTTOM,
+            comment_prefix("#"),
+            f"""\
+            source {BASE}/mutt/muttrc
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/sway/config",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        include {BASE}/sway/config
-        """,
+    install_hook(
+        home / ".config/sway/config",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            include {BASE}/sway/config
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/foot/foot.ini",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        include={BASE}/foot/foot.ini
-        """,
+    install_hook(
+        home / ".config/foot/foot.ini",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            include={BASE}/foot/foot.ini
+            """,
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/psqlrc",
-        comment="--",
-        position=Position.TOP,
-        text=rf"\i {BASE}/psql/psqlrc",
+    install_hook(
+        home / ".config/psqlrc",
+        insert_text(
+            Position.TOP,
+            comment_prefix("--"),
+            rf"\i {BASE}/psql/psqlrc",
+        ),
     )
 
-    install_text_hook(
-        path=home / ".config/ipython/profile_default/startup/microdot.py",
-        comment="#",
-        position=Position.TOP,
-        text=f"""\
-        exec(open("{BASE}/ipython/config.py").read())
-        """,
+    install_hook(
+        home / ".config/ipython/profile_default/startup/microdot.py",
+        insert_text(
+            Position.TOP,
+            comment_prefix("#"),
+            f"""\
+            exec(open("{BASE}/ipython/config.py").read())
+            """,
+        ),
     )
