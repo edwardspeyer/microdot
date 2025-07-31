@@ -1,3 +1,4 @@
+import json
 import re
 import textwrap
 from enum import Enum
@@ -108,6 +109,15 @@ def comment_prefix(symbol: str) -> Editor:
         if text is None:
             return symbol
         return f"{symbol} {text}\n"
+
+    return fn
+
+
+def comment_wrap(pre: str, post: str) -> Editor:
+    def fn(text: str | None) -> str:
+        if text is None:
+            return f"{pre} {post}"
+        return f"{pre} {text} {post}"
 
     return fn
 
@@ -302,4 +312,31 @@ def install():
             exec(open("{BASE}/ipython/config.py").read())
             """,
         ),
+    )
+
+    install_hook(
+        home / ".config/waybar/style.css",
+        insert_text(
+            Position.TOP,
+            comment_wrap("/*", "*/"),
+            """
+            @import url("file:///home/egs/.config/microdot/waybar/style.css");
+            """,
+        ),
+    )
+
+    def add_json_include(path: str) -> Editor:
+        def fn(text: str | None) -> str:
+            text = re.sub(r"/\*.*\*/", "", text or "{}")
+            doc = json.loads(text)
+            includes = set(doc.get("include", []))
+            includes.add(path)
+            doc["include"] = list(includes)
+            return json.dumps(doc)
+
+        return fn
+
+    install_hook(
+        home / ".config/waybar/config.jsonc",
+        add_json_include(f"{BASE}/waybar/config.jsonc"),
     )
