@@ -3,7 +3,7 @@
     "exclusive": false,
     "position": "bottom",
     "height": 20,
-    "spacing": 14,
+    "spacing": 5,
 
     "modules-right": [
         "network",

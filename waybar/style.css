@@ -10,5 +10,9 @@ window#waybar {
 #temperature {
 }
 
-#clock {
+#network, #battery, #clock {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 6px;
+  padding: 4px;
+  margin: 3px;
 }
