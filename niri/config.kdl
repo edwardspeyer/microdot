@@ -11,6 +11,7 @@ cursor { hide-when-typing; }
 animations { slowdown 0.7;  /* <1 = faster  */ }
 overview { zoom 0.4; }
 spawn-at-startup "waybar"
+spawn-at-startup "swaybg" "-i" "Pictures/Backgrounds/bg"
 // prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
