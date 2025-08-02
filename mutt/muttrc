@@ -40,10 +40,9 @@ set timeout=1
 # Threading
 folder-hook . "exec collapse-all"
 set collapse_unread=no
-set sort_aux=last-date-received
 set sort_browser=alpha
-#set sort=reverse-threads
-set sort=reverse-date-received
+set sort=reverse-threads
+set sort_aux=last-date-received
 set strict_threads=no
 
 # Look and feel
