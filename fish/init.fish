@@ -11,6 +11,7 @@ alias tmux 'tmux -2'
 # What actually needs this?
 alias python 'python3'
 alias pip 'pip3'
+alias astroterm 'astroterm --city Coventry --color --threshold 3 --unicode'
 
 switch (uname)
         case Darwin
