@@ -1,8 +1,32 @@
 #!/bin/sh
 
+fuzzel_wmenu() {
+  # Fuzzel in wmenu-pretend mode
+  fuzzel \
+    --dmenu \
+    \
+    --font 'IosevkaTerm:size=14:style=Extended' \
+    --prompt '' \
+    \
+    --anchor top \
+    --border-radius 0 \
+    --width 50 \
+    --horizontal-pad 16 \
+    --lines 10 \
+    \
+    --background 222222FF \
+    --text-color BBBBBBFF \
+    --prompt-color EEEEEEFF \
+    --selection-color 005577FF \
+    --selection-text-color EEEEEEFF \
+    --match-color EEEEEEFF \
+    --selection-match-color EEEEEEFF \
+    \
+    ;
+}
+
 ask_for_command() {
-  dmenu_path \
-    | wmenu -f 'Iosevka Term Extended 14' -l 10
+  dmenu_path | fuzzel_wmenu
 }
 
 response=`ask_for_command`
