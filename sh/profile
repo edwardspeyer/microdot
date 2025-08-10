@@ -31,18 +31,27 @@ export QT_STYLE_OVERRIDE="adwaita-dark"
 export APT_CONFIG="$HOME/.config/apt.conf"
 
 # Set up PATH
-export PATH="\
-$MICRODOT_INSTALL_PATH/bin:\
-$HOME/bin:\
-$HOME/.local/bin:\
-$HOME/.cargo/bin:\
-/usr/local/sbin:\
-/usr/local/bin:\
-/usr/sbin:\
-/usr/bin:\
-/sbin:\
-/bin\
-"
+for additional_path in \
+  $MICRODOT_INSTALL_PATH/bin \
+  $HOME/bin \
+  $HOME/.local/bin \
+  $HOME/.cargo/bin \
+  /usr/local/sbin \
+  /usr/local/bin \
+  /usr/sbin \
+  /usr/bin \
+  /sbin \
+  /bin
+do
+  case ":$PATH:" in
+    *":$additional_path:"*)
+        continue  # Already in PATH
+        ;;
+    *)
+        PATH="$PATH:$additional_path"
+        ;;
+  esac
+done
 
 # Postgres client config
 export PSQLRC="$HOME/.config/psqlrc"
