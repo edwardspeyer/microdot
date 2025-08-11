@@ -29,6 +29,7 @@ input {
 
     warp-mouse-to-focus // warp to the center of focused windows
     focus-follows-mouse
+    disable-power-key-handling
 }
 
 
