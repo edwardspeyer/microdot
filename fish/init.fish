@@ -4,6 +4,7 @@ end
 
 set -x LESS '--RAW-CONTROL-CHARS --chop-long-lines'
 
+alias duf 'duf --hide special --output mountpoint,size,avail,usage'
 alias ncdu 'ncdu -x'
 alias sudo 'sudo -E'
 alias tmux 'tmux -2'
