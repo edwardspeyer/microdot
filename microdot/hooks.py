@@ -340,3 +340,8 @@ def install():
         home / ".config/waybar/config.jsonc",
         add_json_include(f"{BASE}/waybar/config.jsonc"),
     )
+
+    install_hook(
+        home / ".config/mimeapps.list",
+        insert_text(Position.BOTTOM, comment_prefix("#"), (BASE / "xdg-open/mimeapps.list").read_text()),
+    )
