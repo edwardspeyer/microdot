@@ -204,6 +204,15 @@ def install():
     )
 
     install_hook(
+        home / ".config/fish/fish_variables",
+        insert_text(
+            Position.BOTTOM,
+            comment_prefix("#"),
+            (BASE / "fish/fish_variables").read_text(),
+        ),
+    )
+
+    install_hook(
         home / ".config/apt.conf",
         insert_text(
             Position.TOP,
