@@ -51,7 +51,7 @@ def setup_locales(expected: Iterable[str]) -> None:
 
 def setup_timezone(tz_name: str) -> None:
     path = Path("/etc/timezone")
-    if path.read_text().strip() == tz_name:
+    if path.exists() and path.read_text().strip() == tz_name:
         return
     write(path, f"{tz_name}\n")
 
