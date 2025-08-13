@@ -31,27 +31,37 @@ export QT_STYLE_OVERRIDE="adwaita-dark"
 export APT_CONFIG="$HOME/.config/apt.conf"
 
 # Set up PATH
-for additional_path in \
-  $MICRODOT_INSTALL_PATH/bin \
-  $HOME/bin \
-  $HOME/.local/bin \
-  $HOME/.cargo/bin \
-  /usr/local/sbin \
-  /usr/local/bin \
-  /usr/sbin \
-  /usr/bin \
-  /sbin \
-  /bin
+my_paths="\
+$MICRODOT_INSTALL_PATH/bin:\
+$HOME/bin:\
+$HOME/.local/bin:\
+$HOME/.cargo/bin:\
+/usr/local/sbin:\
+/usr/local/bin:\
+/usr/sbin:\
+/usr/bin:\
+/sbin:\
+/bin\
+"
+
+IFS=":"
+
+# Build existing_paths: paths that are in PATH and not in my_paths
+for path in $PATH
 do
-  case ":$PATH:" in
-    *":$additional_path:"*)
-        continue  # Already in PATH
-        ;;
+  case ":$my_paths:" in
+    *":$path:"*)
+      ;;
     *)
-        PATH="$PATH:$additional_path"
-        ;;
+      existing_paths="${existing_paths:+$existing_paths:}$path" ;;
   esac
 done
+
+IFS="
+"
+
+# Prioritize anything existing that isn't in my_paths
+PATH="${existing_paths:+$existing_paths:}${my_paths}"
 
 # Postgres client config
 export PSQLRC="$HOME/.config/psqlrc"
