@@ -12,6 +12,7 @@ DAILY_DEBIAN_PACKAGES = {
     "dc",
     "dnsutils",
     "dpkg-dev",
+    "duf",
     "exuberant-ctags",
     "fd-find",
     "fish",
