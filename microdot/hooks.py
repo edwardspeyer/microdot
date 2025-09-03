@@ -302,6 +302,20 @@ def install():
         ),
     )
 
+    # waybar is weird: provide an option for local overrides though
+    local_base = Path.home() / ".config/waybar"
+    local_base.mkdir(parents=True, exist_ok=True)
+    config = json.dumps(
+        {
+            "include": [
+                f"{BASE}/waybar/config.jsonc",
+                f"{local_base}/config.local.jsonc",
+            ]
+        },
+        indent=4,
+    )
+    (local_base / "config.jsonc").write_text(config)
+
     install_hook(
         "~/.config/waybar/style.css",
         insert_text(
@@ -310,22 +324,6 @@ def install():
             """,
             comment=("/*", "*/"),
         ),
-    )
-
-    def add_json_include(path: str) -> Editor:
-        def fn(text: str | None) -> str:
-            text = re.sub(r"/\*.*\*/", "", text or "{}")
-            doc = json.loads(text)
-            includes = set(doc.get("include", []))
-            includes.add(path)
-            doc["include"] = list(includes)
-            return json.dumps(doc)
-
-        return fn
-
-    install_hook(
-        "~/.config/waybar/config.jsonc",
-        add_json_include(f"{BASE}/waybar/config.jsonc"),
     )
 
     install_hook(
