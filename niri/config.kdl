@@ -43,7 +43,14 @@ layout {
     center-focused-column "never"
     focus-ring { off; }
     border { off; }
-    preset-column-widths    { proportion 0.50; proportion 1.00; }
+
+    preset-column-widths {
+        proportion 1.00
+        proportion 0.70
+        proportion 0.50
+        proportion 0.30
+    }
+
     preset-window-heights   { proportion 0.50; proportion 1.00; }
     default-column-width    { proportion 0.50; }
     shadow {
