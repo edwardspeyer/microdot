@@ -54,14 +54,13 @@ class Database:
         self.conn.commit()
 
 
-def find_logs() -> list[Path]:
+def find_logs(base: Path) -> list[Path]:
     def key(p: Path) -> int:
         if "." not in p.name:
             return 0
         _, n, *_ = p.name.split(".")
         return int(n)
 
-    base = Path("/var/log/exim4")
     logs = base.glob("mainlog*")
     return sorted(logs, key=key)
 
@@ -107,12 +106,13 @@ def colorizer() -> Iterator[Callable]:
 
 
 def main() -> None:
-    db = Database()
     parser = ArgumentParser()
+    parser.add_argument("--logs-directory", type=Path, default="/var/log/exim4")
     parser.add_argument("term")
     args = parser.parse_args()
+    db = Database()
     with colorizer() as print:
-        for log in reversed(find_logs()):
+        for log in reversed(find_logs(args.logs_directory)):
             checksum = calculate_tail_checksum(log)
             if db.query_was_empty(checksum, args.term):
                 continue
