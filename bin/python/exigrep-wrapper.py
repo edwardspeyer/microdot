@@ -9,7 +9,7 @@ from io import SEEK_END
 from pathlib import Path
 from subprocess import PIPE, STDOUT, Popen
 from textwrap import dedent
-from typing import Any, Callable, Iterator
+from typing import Callable, Iterator
 from zlib import crc32
 
 
@@ -95,12 +95,12 @@ def colorizer() -> Iterator[Callable]:
         io = p.stdin
         assert io is not None
 
-        def print_fn(*args: Any, end="\n", sep=" ") -> None:
-            io.write(sep.join(str(a) for a in args))
-            io.write(end)
-            io.flush()
+        def print_wrapper(*args, **kwargs) -> None:
+            assert "file" not in kwargs
+            kwargs["file"] = io
+            print(*args, **kwargs)
 
-        yield print_fn
+        yield print_wrapper
         io.close()
         p.wait()
 
