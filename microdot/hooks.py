@@ -19,15 +19,43 @@ def log(action, path):
 
 
 def insert_text(
-    comment: Editor,
     text: str,
     *,
     position: Position = "top",
+    comment: str | tuple[str, str] = "#",
 ) -> Editor:
+    """
+    comment: prefix with a string or wrap with a pair of strings.
+    """
+
+    def comment_prefix(symbol: str) -> Editor:
+        def fn(text: str | None) -> str:
+            if text is None:
+                return symbol
+            return f"{symbol} {text}\n"
+
+        return fn
+
+    def comment_wrap(pre: str, post: str) -> Editor:
+        def fn(text: str | None) -> str:
+            if text is None:
+                return f"{pre} {post}"
+            return f"{pre} {text} {post}"
+
+        return fn
+
+    match comment:
+        case str():
+            commenter = comment_prefix(comment)
+        case tuple():
+            commenter = comment_wrap(*comment)
+        case _:
+            raise Exception(f"unexpected {comment=}!")
+
     def fn(original: str | None) -> str:
         inner = textwrap.dedent(text).rstrip("\n") + "\n"
-        begin = comment(BEGIN)
-        end = comment(END)
+        begin = commenter(BEGIN)
+        end = commenter(END)
         outer = begin + inner + end
 
         if not original:
@@ -76,7 +104,7 @@ def install_hook(
 
 def test_install_text_hook_new(tmp_path: Path) -> None:
     f = tmp_path / "f"
-    install_hook(f, insert_text(comment_prefix("#"), "hi"))
+    install_hook(f, insert_text("hi"))
     assert f.exists()
     assert f.read_text() == f"# {BEGIN}\nhi\n# {END}\n"
 
@@ -84,14 +112,14 @@ def test_install_text_hook_new(tmp_path: Path) -> None:
 def test_install_text_hook_top(tmp_path: Path) -> None:
     f = tmp_path / "f"
     f.write_text("bye\n")
-    install_hook(f, insert_text(comment_prefix("!"), "hi"))
+    install_hook(f, insert_text("hi", comment="!"))
     assert f.read_text() == f"! {BEGIN}\nhi\n! {END}\n\nbye\n"
 
 
 def test_install_text_hook_bottom(tmp_path: Path) -> None:
     f = tmp_path / "f"
     f.write_text("hi\n")
-    install_hook(f, insert_text(comment_prefix("!"), "bye", position="bottom"))
+    install_hook(f, insert_text("bye", position="bottom", comment="!"))
     assert f.read_text() == f"hi\n\n! {BEGIN}\nbye\n! {END}\n"
 
 
@@ -102,29 +130,10 @@ def install_vim_plug():
     copy(source, destination)
 
 
-def comment_prefix(symbol: str) -> Editor:
-    def fn(text: str | None) -> str:
-        if text is None:
-            return symbol
-        return f"{symbol} {text}\n"
-
-    return fn
-
-
-def comment_wrap(pre: str, post: str) -> Editor:
-    def fn(text: str | None) -> str:
-        if text is None:
-            return f"{pre} {post}"
-        return f"{pre} {text} {post}"
-
-    return fn
-
-
 def install():
     install_hook(
         "~/.tmux.conf",
         insert_text(
-            comment_prefix("#"),
             f"""\
             source {BASE}/tmux/tmux.conf
             """,
@@ -136,10 +145,10 @@ def install():
     install_hook(
         "~/.vimrc",
         insert_text(
-            comment_prefix('"'),
             f"""\
             source {BASE}/vim/vimrc
             """,
+            comment='"',
         ),
     )
 
@@ -148,7 +157,6 @@ def install():
         install_hook(
             Path.home() / rc,
             insert_text(
-                comment_prefix("#"),
                 f"""\
                 export MICRODOT_INSTALL_PATH="{BASE}"
                 . $MICRODOT_INSTALL_PATH/sh/profile
@@ -159,7 +167,6 @@ def install():
     install_hook(
         "~/.gitconfig",
         insert_text(
-            comment_prefix("#"),
             f"""\
             [include]
             path = {BASE}/git/config
@@ -173,7 +180,6 @@ def install():
     install_hook(
         "~/.ssh/config",
         insert_text(
-            comment_prefix("#"),
             f"""\
             Host *
             Include {BASE}/ssh/config
@@ -185,7 +191,6 @@ def install():
     install_hook(
         "~/.config/fish/conf.d/microdot.fish",
         insert_text(
-            comment_prefix("#"),
             f"""\
             for file in {BASE}/fish/*.fish
                 source $file
@@ -197,7 +202,6 @@ def install():
     install_hook(
         "~/.config/fish/fish_variables",
         insert_text(
-            comment_prefix("#"),
             (BASE / "fish/fish_variables").read_text(),
             position="bottom",
         ),
@@ -206,18 +210,17 @@ def install():
     install_hook(
         "~/.config/apt.conf",
         insert_text(
-            comment_prefix("//"),
             f"""\
             // Requires APT_CONFIG to also be set in the environment
             #include "{BASE}/apt/apt.conf";
             """,
+            comment="//",
         ),
     )
 
     install_hook(
         "~/.config/kitty/kitty.conf",
         insert_text(
-            comment_prefix("#"),
             f"""\
             include {BASE}/kitty/kitty.conf
             """,
@@ -227,7 +230,6 @@ def install():
     install_hook(
         "~/.config/i3/config",
         insert_text(
-            comment_prefix("#"),
             f"""\
             include {BASE}/i3/config
             """,
@@ -237,7 +239,6 @@ def install():
     install_hook(
         "~/.xsession",
         insert_text(
-            comment_prefix("#"),
             f"""\
             # Hand control to microdot's xsession
             exec {BASE}/X11/xsession
@@ -250,7 +251,6 @@ def install():
     install_hook(
         "~/.XCompose",
         insert_text(
-            comment_prefix("#"),
             f"""\
             include "{BASE}/X11/XCompose"
             """,
@@ -260,7 +260,6 @@ def install():
     install_hook(
         "~/.muttrc",
         insert_text(
-            comment_prefix("#"),
             f"""\
             source {BASE}/mutt/muttrc
             """,
@@ -271,7 +270,6 @@ def install():
     install_hook(
         "~/.config/sway/config",
         insert_text(
-            comment_prefix("#"),
             f"""\
             include {BASE}/sway/config
             """,
@@ -281,7 +279,6 @@ def install():
     install_hook(
         "~/.config/foot/foot.ini",
         insert_text(
-            comment_prefix("#"),
             f"""\
             include={BASE}/foot/foot.ini
             """,
@@ -291,15 +288,14 @@ def install():
     install_hook(
         "~/.config/psqlrc",
         insert_text(
-            comment_prefix("--"),
             rf"\i {BASE}/psql/psqlrc",
+            comment="--",
         ),
     )
 
     install_hook(
         "~/.config/ipython/profile_default/startup/microdot.py",
         insert_text(
-            comment_prefix("#"),
             f"""\
             exec(open("{BASE}/ipython/config.py").read())
             """,
@@ -309,10 +305,10 @@ def install():
     install_hook(
         "~/.config/waybar/style.css",
         insert_text(
-            comment_wrap("/*", "*/"),
             f"""
             @import url("file://{BASE}/waybar/style.css");
             """,
+            comment=("/*", "*/"),
         ),
     )
 
@@ -335,7 +331,6 @@ def install():
     install_hook(
         "~/.config/mimeapps.list",
         insert_text(
-            comment_prefix("#"),
             (BASE / "xdg-open/mimeapps.list").read_text(),
             position="bottom",
         ),
