@@ -1,0 +1,8 @@
+from microdot import cwd, install_hook
+
+install_hook(
+    "~/.tmux.conf",
+    f"""\
+    source {cwd()}/tmux.conf
+    """,
+)

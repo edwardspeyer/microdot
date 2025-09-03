@@ -1,0 +1,9 @@
+from microdot import BASE, install_hook
+
+install_hook(
+    "~/.muttrc",
+    f"""\
+    source {BASE}/mutt/muttrc
+    """,
+    position="bottom",
+)

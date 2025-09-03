@@ -67,6 +67,9 @@ set expandtab
 :autocmd Filetype python        set tabstop=4 shiftwidth=4
 :autocmd Filetype javascript    set tabstop=2 shiftwidth=2
 
+" Microdot files are Python source
+:autocmd BufNewFile,BufRead μ.,u. setfiletype python
+
 
 "
 " Plugins

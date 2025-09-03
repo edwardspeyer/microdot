@@ -1,0 +1,8 @@
+from microdot import BASE, install_hook
+
+install_hook(
+    "~/.config/sway/config",
+    f"""\
+    include {BASE}/sway/config
+    """,
+)

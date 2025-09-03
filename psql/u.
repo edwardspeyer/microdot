@@ -1,0 +1,7 @@
+from microdot import BASE, install_hook
+
+install_hook(
+    "~/.config/psqlrc",
+    rf"\i {BASE}/psql/psqlrc",
+    comment="--",
+)

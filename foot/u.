@@ -1,0 +1,8 @@
+from microdot import BASE, install_hook
+
+install_hook(
+    "~/.config/foot/foot.ini",
+    f"""\
+    include={BASE}/foot/foot.ini
+    """,
+)

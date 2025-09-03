@@ -1,11 +1,15 @@
 repos:
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.5
+    rev: v0.12.11
     hooks:
-      - id: ruff
+      - id: ruff-check
+        files: &python_files '(μ\.|u\.|\.py)$'
+        types_or: [python, file]
         args: [--fix]
       - id: ruff-format
+        files: *python_files
+        types_or: [python, file]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: 'v1.15.0'

@@ -18,7 +18,7 @@ BASE = Path(__file__).parent.parent.resolve()
 
 
 def install():
-    microdot.hooks.install()
+    microdot.hooks.search_and_install()
     microdot.terminfo.install()
 
 
@@ -29,7 +29,7 @@ actions = {
     ),
     "hooks": (
         "Install config file hooks.",
-        microdot.hooks.install,
+        microdot.hooks.search_and_install,
     ),
     "terminfos": (
         "Install missing terminfo for common TERM settings.",
