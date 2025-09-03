@@ -58,10 +58,12 @@ def insert_text(
 
 
 def install_hook(
-    path: Path,
+    path: Path | str,
     editor: Editor,
     mode: int = 0o644,
 ) -> None:
+    if isinstance(path, str):
+        path = Path(path).expanduser()
     old = path.read_text() if path.exists() else None
     new = editor(old)
     if old is None:
@@ -97,9 +99,9 @@ def test_install_text_hook_bottom(tmp_path: Path) -> None:
     assert f.read_text() == f"hi\n\n! {BEGIN}\nbye\n! {END}\n"
 
 
-def install_vim_plug(home: Path):
+def install_vim_plug():
     source = BASE / "vim" / "autoload" / "plug.vim"
-    destination = home / ".vim" / "autoload" / "plug.vim"
+    destination = Path.home() / ".vim" / "autoload" / "plug.vim"
     destination.parent.mkdir(parents=True, exist_ok=True)
     copy(source, destination)
 
@@ -123,10 +125,8 @@ def comment_wrap(pre: str, post: str) -> Editor:
 
 
 def install():
-    home = Path.home()
-
     install_hook(
-        home / ".tmux.conf",
+        "~/.tmux.conf",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -136,10 +136,10 @@ def install():
         ),
     )
 
-    install_vim_plug(home)
+    install_vim_plug()
 
     install_hook(
-        home / ".vimrc",
+        "~/.vimrc",
         insert_text(
             Position.TOP,
             comment_prefix('"'),
@@ -150,9 +150,9 @@ def install():
     )
 
     # These config files should all hook into the generic sh startup code.
-    for rc in {".profile", ".bashrc", ".zshrc"}:
+    for rc in [".profile", ".bashrc", ".zshrc"]:
         install_hook(
-            home / rc,
+            Path.home() / rc,
             insert_text(
                 Position.TOP,
                 comment_prefix("#"),
@@ -164,7 +164,7 @@ def install():
         )
 
     install_hook(
-        home / ".gitconfig",
+        "~/.gitconfig",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -179,7 +179,7 @@ def install():
     )
 
     install_hook(
-        home / ".ssh/config",
+        "~/.ssh/config",
         insert_text(
             Position.BOTTOM,
             comment_prefix("#"),
@@ -191,7 +191,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/fish/conf.d/microdot.fish",
+        "~/.config/fish/conf.d/microdot.fish",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -204,7 +204,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/fish/fish_variables",
+        "~/.config/fish/fish_variables",
         insert_text(
             Position.BOTTOM,
             comment_prefix("#"),
@@ -213,7 +213,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/apt.conf",
+        "~/.config/apt.conf",
         insert_text(
             Position.TOP,
             comment_prefix("//"),
@@ -225,7 +225,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/kitty/kitty.conf",
+        "~/.config/kitty/kitty.conf",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -236,7 +236,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/i3/config",
+        "~/.config/i3/config",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -247,7 +247,7 @@ def install():
     )
 
     install_hook(
-        home / ".xsession",
+        "~/.xsession",
         insert_text(
             Position.BOTTOM,
             comment_prefix("#"),
@@ -260,7 +260,7 @@ def install():
     )
 
     install_hook(
-        home / ".XCompose",
+        "~/.XCompose",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -271,7 +271,7 @@ def install():
     )
 
     install_hook(
-        home / ".muttrc",
+        "~/.muttrc",
         insert_text(
             Position.BOTTOM,
             comment_prefix("#"),
@@ -282,7 +282,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/sway/config",
+        "~/.config/sway/config",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -293,7 +293,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/foot/foot.ini",
+        "~/.config/foot/foot.ini",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -304,7 +304,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/psqlrc",
+        "~/.config/psqlrc",
         insert_text(
             Position.TOP,
             comment_prefix("--"),
@@ -313,7 +313,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/ipython/profile_default/startup/microdot.py",
+        "~/.config/ipython/profile_default/startup/microdot.py",
         insert_text(
             Position.TOP,
             comment_prefix("#"),
@@ -324,7 +324,7 @@ def install():
     )
 
     install_hook(
-        home / ".config/waybar/style.css",
+        "~/.config/waybar/style.css",
         insert_text(
             Position.TOP,
             comment_wrap("/*", "*/"),
@@ -346,11 +346,15 @@ def install():
         return fn
 
     install_hook(
-        home / ".config/waybar/config.jsonc",
+        "~/.config/waybar/config.jsonc",
         add_json_include(f"{BASE}/waybar/config.jsonc"),
     )
 
     install_hook(
-        home / ".config/mimeapps.list",
-        insert_text(Position.BOTTOM, comment_prefix("#"), (BASE / "xdg-open/mimeapps.list").read_text()),
+        "~/.config/mimeapps.list",
+        insert_text(
+            Position.BOTTOM,
+            comment_prefix("#"),
+            (BASE / "xdg-open/mimeapps.list").read_text(),
+        ),
     )
