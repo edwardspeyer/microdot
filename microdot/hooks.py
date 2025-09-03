@@ -328,8 +328,8 @@ def install():
         insert_text(
             Position.TOP,
             comment_wrap("/*", "*/"),
-            """
-            @import url("file:///home/egs/.config/microdot/waybar/style.css");
+            f"""
+            @import url("file://{BASE}/waybar/style.css");
             """,
         ),
     )
