@@ -1,8 +1,8 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.config/i3/config",
     f"""\
-    include {BASE}/i3/config
+    include {cwd()}/config
     """,
 )

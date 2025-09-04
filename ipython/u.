@@ -1,8 +1,8 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.config/ipython/profile_default/startup/microdot.py",
     f"""\
-    exec(open("{BASE}/ipython/config.py").read())
+    exec(open("{cwd()}/config.py").read())
     """,
 )

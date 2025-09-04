@@ -1,8 +1,8 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.config/kitty/kitty.conf",
     f"""\
-    include {BASE}/kitty/kitty.conf
+    include {cwd()}/kitty.conf
     """,
 )

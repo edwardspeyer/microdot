@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 # waybar is weird: provide an option for local overrides though
 local_base = Path.home() / ".config/waybar"
@@ -9,7 +9,7 @@ local_base.mkdir(parents=True, exist_ok=True)
 config = json.dumps(
     {
         "include": [
-            f"{BASE}/waybar/config.jsonc",
+            f"{cwd()}/config.jsonc",
             f"{local_base}/config.local.jsonc",
         ]
     },
@@ -20,7 +20,7 @@ config = json.dumps(
 install_hook(
     "~/.config/waybar/style.css",
     f"""
-    @import url("file://{BASE}/waybar/style.css");
+    @import url("file://{cwd()}/style.css");
     """,
     comment=("/*", "*/"),
 )

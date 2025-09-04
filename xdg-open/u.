@@ -1,7 +1,7 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.config/mimeapps.list",
-    (BASE / "xdg-open/mimeapps.list").read_text(),
+    (cwd() / "mimeapps.list").read_text(),
     position="bottom",
 )

@@ -1,10 +1,10 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.xsession",
     f"""\
     # Hand control to microdot's xsession
-    exec {BASE}/X11/xsession
+    exec {cwd()}/xsession
     """,
     position="bottom",
     mode=0o744,
@@ -13,6 +13,6 @@ install_hook(
 install_hook(
     "~/.XCompose",
     f"""\
-    include "{BASE}/X11/XCompose"
+    include "{cwd()}/XCompose"
     """,
 )

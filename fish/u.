@@ -1,9 +1,9 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.config/fish/conf.d/microdot.fish",
     f"""\
-    for file in {BASE}/fish/*.fish
+    for file in {cwd()}/*.fish
         source $file
     end
     """,
@@ -11,6 +11,6 @@ install_hook(
 
 install_hook(
     "~/.config/fish/fish_variables",
-    (BASE / "fish/fish_variables").read_text(),
+    (cwd() / "fish_variables").read_text(),
     position="bottom",
 )

@@ -1,10 +1,10 @@
-from microdot import BASE, install_hook
+from microdot import cwd, install_hook
 
 install_hook(
     "~/.ssh/config",
     f"""\
     Host *
-    Include {BASE}/ssh/config
+    Include {cwd()}/config
     """,
     position="bottom",
 )
