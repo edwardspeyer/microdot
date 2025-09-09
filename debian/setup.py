@@ -3,16 +3,20 @@
 import shlex
 from getpass import getuser
 from pathlib import Path
-from subprocess import DEVNULL, run
+from subprocess import DEVNULL, PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot.paths import BASE
+from microdot import BASE, register
+
+
+def is_debian() -> bool:
+    return Path("/etc/debian_version").exists()
 
 
 def setup_sudo():
     def is_configured() -> bool:
-        return run("which sudo && sudo -n id", shell=True).returncode == 0
+        return run("which sudo && sudo -n id", shell=True, stdout=PIPE).returncode == 0
 
     if is_configured():
         return
@@ -87,7 +91,10 @@ def setup_greetd() -> None:
     write(path, config)
 
 
+@register
 def setup():
+    if not is_debian():
+        return
     setup_sudo()
     setup_locales({"en_GB.UTF-8 UTF-8", "en_US.UTF-8 UTF-8"})
     setup_timezone("Etc/UTC")
