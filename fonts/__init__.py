@@ -6,6 +6,7 @@ from subprocess import check_output, run
 from tempfile import TemporaryDirectory
 
 from microdot import register
+from microdot.tests import is_ssh_remote
 
 
 def install_macosx():
@@ -84,6 +85,8 @@ def install_linux():
 
 @register
 def install():
+    if is_ssh_remote():
+        return
     if platform.system() == "Darwin":
         install_macosx()
     elif platform.system() == "Linux":
