@@ -1,4 +1,5 @@
 from pathlib import Path
+from shutil import which
 from subprocess import run
 from textwrap import dedent
 from typing import Iterator
@@ -42,6 +43,8 @@ def write_pipewire_fixes() -> Iterator[bool]:
 
 
 def restart_pipewire():
+    if not which("pipewire"):
+        return  # Pipewire is not yet installed and running
     script = "systemctl --user restart pipewire pipewire-pulse"
     run(script, shell=True, check=True)
 
