@@ -1,6 +1,8 @@
 from os import environ
-from pathlib import Path
 from subprocess import run
+
+from microdot import register
+from microdot.debian import is_debian
 
 DAILY_DEBIAN_PACKAGES = {
     "apt-file",
@@ -70,21 +72,17 @@ def apt_install(packages):
             "sudo",
             "apt",
             "install",
-            "--yes",
             "--no-install-recommends",
             *packages,
         ],
     )
 
 
-def is_debian():
-    return Path("/etc/apt").exists()
-
-
 def is_sway():
     return "WAYLAND_DISPLAY" in environ
 
 
+@register
 def install():
     if not is_debian():
         return

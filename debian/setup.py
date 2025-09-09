@@ -8,10 +8,7 @@ from textwrap import dedent
 from typing import Iterable
 
 from microdot import BASE, register
-
-
-def is_debian() -> bool:
-    return Path("/etc/debian_version").exists()
+from microdot.debian import is_debian
 
 
 def setup_sudo():
