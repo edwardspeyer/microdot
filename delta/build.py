@@ -1,7 +1,8 @@
 import platform
 from shutil import which
 
-from microdot.packages.source import get_version, install_from_script, parse_version
+from microdot import register
+from microdot.build import get_version, install_from_script, parse_version
 
 VERSION = "0.15.1"
 
@@ -14,6 +15,7 @@ cp v/usr/bin/delta out/bin/
 """
 
 
+@register
 def install():
     if which("delta"):
         if get_version("delta", "-V") >= parse_version(VERSION):
