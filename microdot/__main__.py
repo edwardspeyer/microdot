@@ -8,7 +8,8 @@ from microdot.hooks import BASE
 def find_module_paths() -> list[Path]:
     """The heuristic is that any .py _not_ alongside an __init__.py is probably
     a small script, and should be ignored."""
-    packages = {p.parent for p in BASE.rglob("__init__.py")}
+    IGNORE = {".venv", ".git"}
+    packages = {p.parent for p in BASE.rglob("__init__.py") if not (set(p.parts) & IGNORE)}
     modules = {p for d in packages for p in d.glob("*.py")}
     return sorted(modules)
 
