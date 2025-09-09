@@ -1,5 +1,6 @@
 from os import environ
-from subprocess import run
+from subprocess import check_output, run
+from typing import Iterable
 
 from microdot import register
 from microdot.debian import is_debian
@@ -66,7 +67,20 @@ SWAY_DEBIAN_PACKAGES = {
 }
 
 
-def apt_install(packages):
+def are_all_installed(packages: Iterable[str]) -> bool:
+    output = check_output(["dpkg", "--status", *packages], text=True)
+    is_installed = {}
+    for block in output.split("\n\n"):
+        lines = block.splitlines()
+        meta = dict(L.split(": ", maxsplit=2) for L in lines if ": " in L)
+        package = meta["Package"]
+        is_installed[package] = "installed" in meta["Status"]
+    return all(is_installed.get(p) for p in packages)
+
+
+def apt_install(packages: Iterable[str]) -> None:
+    if are_all_installed(packages):
+        return
     run(
         [
             "sudo",
@@ -78,12 +92,12 @@ def apt_install(packages):
     )
 
 
-def is_sway():
+def is_sway() -> bool:
     return "WAYLAND_DISPLAY" in environ
 
 
 @register
-def install():
+def install() -> None:
     if not is_debian():
         return
 
@@ -92,4 +106,4 @@ def install():
         if is_sway():
             yield from SWAY_DEBIAN_PACKAGES
 
-    apt_install(get_packages())
+    apt_install(set(get_packages()))
