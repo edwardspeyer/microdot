@@ -2,12 +2,7 @@ import platform
 from pathlib import Path
 from shutil import copy
 
-
-def install():
-    base = Path(__file__).parent.parent
-    sources = base.glob("**/terminfo/*")
-    for source in sources:
-        _install_one(source)
+from microdot import BASE, register
 
 
 def _install_one(source: Path):
@@ -26,3 +21,13 @@ def _install_one(source: Path):
     destination.parent.mkdir(parents=True, exist_ok=True)
     print("  TERMINFO", source)
     copy(source, destination)
+
+
+def find_terminfo_sources() -> list[Path]:
+    return sorted(p for p in BASE.glob("*/terminfo/*") if p.is_file())
+
+
+@register
+def install():
+    for source in find_terminfo_sources():
+        _install_one(source)
