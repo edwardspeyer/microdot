@@ -1,8 +1,0 @@
-from microdot import cwd, install_hook
-
-install_hook(
-    "~/.config/sway/config",
-    f"""\
-    include {cwd()}/config
-    """,
-)

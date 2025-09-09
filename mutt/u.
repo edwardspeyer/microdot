@@ -1,9 +1,0 @@
-from microdot import cwd, install_hook
-
-install_hook(
-    "~/.muttrc",
-    f"""\
-    source {cwd()}/muttrc
-    """,
-    position="bottom",
-)
