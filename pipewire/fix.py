@@ -46,7 +46,7 @@ def restart_pipewire():
     if not which("pipewire"):
         return  # Pipewire is not yet installed and running
     script = "systemctl --user restart pipewire pipewire-pulse"
-    run(script, shell=True, check=True)
+    run(script, shell=True)
 
 
 @register
