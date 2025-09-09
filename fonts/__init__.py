@@ -5,12 +5,7 @@ from shutil import copy
 from subprocess import check_output, run
 from tempfile import TemporaryDirectory
 
-
-def install():
-    if platform.system() == "Darwin":
-        install_macosx()
-    elif platform.system() == "Linux":
-        install_linux()
+from microdot import register
 
 
 def install_macosx():
@@ -85,3 +80,11 @@ def install_linux_sf_mono():
 def install_linux():
     install_linux_iosevka()
     install_linux_sf_mono()
+
+
+@register
+def install():
+    if platform.system() == "Darwin":
+        install_macosx()
+    elif platform.system() == "Linux":
+        install_linux()
