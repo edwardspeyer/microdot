@@ -1,11 +1,14 @@
 from pathlib import Path
 
 
-def get_debian_version() -> float | None:
+def get_debian_version() -> float | str | None:
     p = Path("/etc/debian_version")
     if not p.exists():
         return None
-    return float(p.read_text())
+    v = p.read_text().strip()
+    if v.isnumeric():
+        return float(v)
+    return v
 
 
 def is_debian() -> bool:

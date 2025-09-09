@@ -6,11 +6,11 @@ from microdot.debian import get_debian_version
 
 
 @register
-def install():
+def install() -> None:
     if which("astroterm"):
         return
 
-    if (v := get_debian_version()) and (v < 13):
+    if (v := get_debian_version()) and isinstance(v, float) and v < 13:
         print("This Debian is too old for building astroterm")
         return
 
