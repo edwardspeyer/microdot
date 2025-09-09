@@ -1,5 +1,5 @@
 from os import environ
-from subprocess import check_output, run
+from subprocess import PIPE, run
 from typing import Iterable
 
 from microdot import register
@@ -68,9 +68,11 @@ SWAY_DEBIAN_PACKAGES = {
 
 
 def are_all_installed(packages: Iterable[str]) -> bool:
-    output = check_output(["dpkg", "--status", *packages], text=True)
+    output = run(["dpkg", "--status", *packages], text=True, stdout=PIPE).stdout
     is_installed = {}
     for block in output.split("\n\n"):
+        if "Package" not in block:
+            continue
         lines = block.splitlines()
         meta = dict(L.split(": ", maxsplit=2) for L in lines if ": " in L)
         package = meta["Package"]
@@ -107,3 +109,7 @@ def install() -> None:
             yield from SWAY_DEBIAN_PACKAGES
 
     apt_install(set(get_packages()))
+
+
+if __name__ == "__main__":
+    install()
