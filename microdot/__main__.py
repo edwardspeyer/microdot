@@ -41,7 +41,7 @@ def main() -> None:
     tmux.build()
     fish.build()
     niri.build()
-    fonts.install()  # TODO skip this if `fc-*` not on PATH
+    fonts.install()
 
     # Configure everything
     apt.configure()

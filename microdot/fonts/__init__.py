@@ -1,7 +1,7 @@
 import platform
 import re
 from pathlib import Path
-from shutil import copy
+from shutil import copy, which
 from subprocess import check_output, run
 from tempfile import TemporaryDirectory
 
@@ -22,12 +22,19 @@ def install_macosx():
         copy(source, target)
 
 
+def has_fc() -> bool:
+    return which("fc-list") is not None
+
+
 def fc_has_font(name: str) -> bool:
     log = check_output("fc-list", text=True)
     return re.search(name, log) is not None
 
 
-def install_linux_iosevka():
+def install_linux_iosevka() -> None:
+    if not has_fc():
+        return
+
     if fc_has_font("Iosevka Term"):
         print("  OK  ", "Iosevka installed")
         return
@@ -47,39 +54,8 @@ def install_linux_iosevka():
         )
 
 
-def install_linux_sf_mono():
-    if fc_has_font("SF Mono"):
-        print("  OK  ", "SF Mono installed")
-        return
-
-    with TemporaryDirectory() as tmp:
-        run(
-            """
-            set -ex
-            url="https://devimages-cdn.apple.com/design/resources/download/SF-Mono.dmg"
-            sudo apt install --yes 7zip cpio
-            wget -O dmg $url
-            ls -l dmg
-            file dmg
-            7zz x dmg
-            7zz x "SFMonoFonts/SF Mono Fonts.pkg"
-            cpio -idv -F "Payload~"
-            find .
-            """,
-            shell=True,
-            cwd=tmp,
-            check=True,
-        )
-        target = Path.home() / ".local" / "share" / "fonts"
-        target.mkdir(exist_ok=True, parents=True)
-        for source in Path(tmp).glob("**/*.otf"):
-            print("  FONT", source.name)
-            copy(source, target)
-
-
-def install_linux():
+def install_linux() -> None:
     install_linux_iosevka()
-    install_linux_sf_mono()
 
 
 def install():
