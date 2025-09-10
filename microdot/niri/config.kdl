@@ -89,8 +89,8 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     Mod+Return  { spawn "foot"; }
-    Mod+Space   { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/packages/niri/menu"; }
-    Mod+L       { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/packages/sway/lock"; }
+    Mod+Space   { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/niri/menu"; }
+    Mod+L       { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/sway/lock"; }
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "+5%"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-5%"; }

@@ -1,4 +1,4 @@
-from microdot.packages import (
+from microdot import (
     X11,
     apt,
     astroterm,

@@ -72,7 +72,7 @@ def setup_console() -> None:
 
 
 def setup_greetd() -> None:
-    # TODO move this to microdot/packages/greetd
+    # TODO move this to microdot/greetd
     user = getuser()
     path = Path("/etc/greetd/config.toml")
     config = dedent(
@@ -81,7 +81,7 @@ def setup_greetd() -> None:
         vt = 7
 
         [default_session]
-        command = "{BASE}/microdot/packages/greetd/init"
+        command = "{BASE}/microdot/greetd/init"
         user = "{user}"
         """
     )
