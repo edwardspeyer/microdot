@@ -11,8 +11,6 @@ def build() -> None:
         print("This Debian is too old for building astroterm")
         return
 
-    breakpoint()
-
     install_from_script(
         r"""
         set -ex
