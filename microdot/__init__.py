@@ -43,7 +43,7 @@ def cwd() -> Path:
     return Path(frame.filename).parent.resolve()
 
 
-def log(action, path):
+def log(action, path) -> None:
     print(f"  {action:6s}  {path}", flush=True)
 
 
@@ -152,7 +152,7 @@ def test_install_text_hook_bottom(tmp_path: Path) -> None:
     assert f.read_text() == f"hi\n\n! {BEGIN}\nbye\n! {END}\n"
 
 
-def install_from_script(script, *args):
+def install_from_script(script, *args) -> None:
     """Run the script and assume everything everything in $tmp/out goes
     into ~/.local."""
     with TemporaryDirectory() as temporary_directory:
@@ -166,13 +166,13 @@ def install_from_script(script, *args):
         copytree(out, local, dirs_exist_ok=True)
 
 
-def get_version(command: str, option: str):
+def get_version(command: str, option: str) -> tuple[int | str, ...]:
     output = check_output([command, option], text=True)
     for token in output.split():
         if "." in token:
             return parse_version(token)
-    raise
+    raise Exception(f"Could not find a version number in {output=}")
 
 
-def parse_version(text: str):
-    return [int(v) if v.isnumeric() else v for v in text.split(".")]
+def parse_version(text: str) -> tuple[int | str, ...]:
+    return tuple(int(v) if v.isnumeric() else v for v in text.split("."))
