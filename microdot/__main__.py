@@ -21,7 +21,6 @@ from microdot import (
     sh,
     ssh,
     sway,
-    terminfo,
     thunderbird,
     tmux,
     vim,
@@ -58,7 +57,6 @@ def main() -> None:
     sh.configure()
     ssh.configure()
     sway.configure()
-    terminfo.install()  # TODO Let various term things install their own terminfos
     thunderbird.configure.install()
     tmux.configure()
     vim.install()

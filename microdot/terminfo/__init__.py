@@ -2,10 +2,8 @@ import platform
 from pathlib import Path
 from shutil import copy
 
-from microdot import BASE
 
-
-def _install_one(source: Path):
+def install_terminfo(source: Path) -> None:
     first_letter = source.name[0]
 
     if platform.system() == "Linux":
@@ -21,12 +19,3 @@ def _install_one(source: Path):
     destination.parent.mkdir(parents=True, exist_ok=True)
     print("  TERMINFO", source)
     copy(source, destination)
-
-
-def find_terminfo_sources() -> list[Path]:
-    return sorted(p for p in BASE.glob("*/terminfo/*") if p.is_file())
-
-
-def install():
-    for source in find_terminfo_sources():
-        _install_one(source)

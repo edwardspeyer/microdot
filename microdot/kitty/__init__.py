@@ -1,4 +1,5 @@
 from microdot import cwd, install_hook
+from microdot.terminfo import install_terminfo
 
 
 def configure() -> None:
@@ -8,3 +9,5 @@ def configure() -> None:
         include {cwd()}/kitty.conf
         """,
     )
+
+    install_terminfo(cwd() / "terminfo" / "kitty")

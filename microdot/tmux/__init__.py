@@ -1,4 +1,5 @@
 from microdot import cwd, install_hook
+from microdot.terminfo import install_terminfo
 
 from . import build
 
@@ -12,3 +13,6 @@ def configure() -> None:
         source {cwd()}/tmux.conf
         """,
     )
+
+    for p in (cwd() / "terminfo").glob("*"):
+        install_terminfo(p)
