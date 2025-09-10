@@ -31,14 +31,24 @@ from microdot import (
 
 
 def main() -> None:
-    apt.configure()
+    # Set up base system
+    debian.setup.setup()
+    debian.packages.install()
+
+    # Install missing software
     astroterm.build.install()
     delta.build.install()
+    i3.build.install()
+    tmux.build.install()
+    fish.build.install()  # TODO rename these build scripts to build()
+    niri.build.install()
     fonts.install()  # TODO skip this if `fc-*` not on PATH
+
+    # Configure everything
+    apt.configure()
     foot.configure()
     fuzzel.configure()
     git.configure()
-    i3.build.install()
     i3.configure()
     ipython.configure()
     kitty.configure()
@@ -50,19 +60,14 @@ def main() -> None:
     sway.configure()
     terminfo.install()  # TODO Let various term things install their own terminfos
     thunderbird.configure.install()
-    tmux.build.install()
     tmux.configure()
     vim.install()
     xdg_open.configure()
     gnupg.install()  # Skip if gpg not installed
     X11.configure()
-    fish.build.install()  # TODO rename these build scripts to build()
-    niri.build.install()
     fish.configure()
     mutt.configure()
     waybar.configure()
-    debian.packages.install()
-    debian.setup.setup()
 
 
 if __name__ == "__main__":
