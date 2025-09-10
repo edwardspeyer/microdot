@@ -35,12 +35,12 @@ def main() -> None:
     debian.packages.install()
 
     # Install missing software
-    astroterm.build.install()
-    delta.build.install()
-    i3.build.install()
-    tmux.build.install()
-    fish.build.install()  # TODO rename these build scripts to build()
-    niri.build.install()
+    astroterm.build()
+    delta.build()
+    i3.build()
+    tmux.build()
+    fish.build()
+    niri.build()
     fonts.install()  # TODO skip this if `fc-*` not on PATH
 
     # Configure everything

@@ -1,6 +1,6 @@
 from microdot import cwd, install_hook
 
-from . import build
+from .build import build
 
 __all__ = ["build"]
 

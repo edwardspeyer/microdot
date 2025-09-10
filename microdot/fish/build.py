@@ -22,7 +22,7 @@ rm -f out/bin/fish_key_reader out/bin/fish_indent
 """
 
 
-def install():
+def build():
     if which("fish"):
         if get_version("fish", "--version") >= parse_version(VERSION):
             return

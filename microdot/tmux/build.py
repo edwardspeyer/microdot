@@ -17,7 +17,7 @@ make install
 """
 
 
-def install():
+def build():
     if which("tmux"):
         if get_version("tmux", "-V") >= parse_version(VERSION):
             return

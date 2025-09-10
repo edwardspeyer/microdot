@@ -26,7 +26,7 @@ meson install
 """
 
 
-def install():
+def build() -> None:
     if is_ssh_remote():
         return
     if which("niri"):

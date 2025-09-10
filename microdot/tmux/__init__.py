@@ -1,7 +1,7 @@
 from microdot import cwd, install_hook
 from microdot.terminfo import install_terminfo
 
-from . import build
+from .build import build
 
 __all__ = ["build"]
 

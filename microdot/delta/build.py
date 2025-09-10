@@ -14,7 +14,7 @@ cp v/usr/bin/delta out/bin/
 """
 
 
-def install():
+def build() -> None:
     if which("delta"):
         if get_version("delta", "-V") >= parse_version(VERSION):
             return

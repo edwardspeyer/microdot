@@ -3,7 +3,7 @@ from shutil import which
 from microdot import get_debian_version, install_from_script
 
 
-def install() -> None:
+def build() -> None:
     if which("astroterm"):
         return
 
@@ -32,4 +32,4 @@ def install() -> None:
 
 
 if __name__ == "__main__":
-    install()
+    build()
