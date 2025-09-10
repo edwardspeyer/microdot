@@ -5,7 +5,7 @@ import textwrap
 from os import environ
 from pathlib import Path
 from shutil import copytree
-from subprocess import check_output, run
+from subprocess import DEVNULL, check_output, run
 from tempfile import TemporaryDirectory
 from typing import Callable, Literal
 
@@ -45,6 +45,16 @@ def cwd() -> Path:
 
 def log(action, path) -> None:
     print(f"  {action:6s}  {path}", flush=True)
+
+
+def write_as_root(path: Path, text: str) -> bool:
+    """Write contents as root, creating leading directories."""
+    if path.exists() and path.read_text() == text:
+        return False
+    script = "mkdir -p $1 && tee $2"
+    command = ["sh", "-c", script, "--", str(path.parent), str(path)]
+    run(["sudo", *command], check=True, input=text, text=True, stdout=DEVNULL)
+    return True
 
 
 def insert_text(

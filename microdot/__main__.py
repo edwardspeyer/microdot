@@ -10,6 +10,7 @@ from microdot import (
     fuzzel,
     git,
     gnupg,
+    greetd,
     i3,
     ipython,
     kitty,
@@ -44,6 +45,7 @@ def main() -> None:
     fonts.install()
 
     # Configure everything
+    greetd.configure()
     apt.configure()
     foot.configure()
     fuzzel.configure()

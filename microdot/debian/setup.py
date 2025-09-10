@@ -3,11 +3,11 @@
 import shlex
 from getpass import getuser
 from pathlib import Path
-from subprocess import DEVNULL, PIPE, run
+from subprocess import PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot import BASE, is_debian
+from microdot import is_debian, write_as_root
 
 
 def setup_sudo():
@@ -31,21 +31,12 @@ def setup_sudo():
     assert is_configured()
 
 
-def write(path: Path, text: str) -> bool:
-    if path.exists() and path.read_text() == text:
-        return False
-    script = "mkdir -p $1 && tee $2"
-    command = ["sh", "-c", script, "--", str(path.parent), str(path)]
-    run(["sudo", *command], check=True, input=text, text=True, stdout=DEVNULL)
-    return True
-
-
 def setup_locales(expected: Iterable[str]) -> None:
     path = Path("/etc/locale.gen")
     config = "".join(f"{v}\n" for v in sorted(expected))
     if path.read_text() == config:
         return
-    if write(path, config):
+    if write_as_root(path, config):
         run(["sudo", "locale-gen"], check=True)
 
 
@@ -53,7 +44,7 @@ def setup_timezone(tz_name: str) -> None:
     path = Path("/etc/timezone")
     if path.exists() and path.read_text().strip() == tz_name:
         return
-    write(path, f"{tz_name}\n")
+    write_as_root(path, f"{tz_name}\n")
 
 
 def setup_console() -> None:
@@ -67,25 +58,8 @@ def setup_console() -> None:
         FONTSIZE="16x32"
         """
     )
-    if write(path, config):
+    if write_as_root(path, config):
         run("sudo service console-setup restart", shell=True)
-
-
-def setup_greetd() -> None:
-    # TODO move this to microdot/greetd
-    user = getuser()
-    path = Path("/etc/greetd/config.toml")
-    config = dedent(
-        f"""\
-        [terminal]
-        vt = 7
-
-        [default_session]
-        command = "{BASE}/microdot/greetd/init"
-        user = "{user}"
-        """
-    )
-    write(path, config)
 
 
 def setup():
@@ -95,7 +69,6 @@ def setup():
     setup_locales({"en_GB.UTF-8 UTF-8", "en_US.UTF-8 UTF-8"})
     setup_timezone("Etc/UTC")
     setup_console()
-    setup_greetd()
 
 
 if __name__ == "__main__":
