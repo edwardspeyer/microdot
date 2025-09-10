@@ -7,8 +7,7 @@ from subprocess import DEVNULL, PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot import BASE
-from microdot.debian import is_debian
+from microdot import BASE, is_debian
 
 
 def setup_sudo():

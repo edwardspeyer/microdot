@@ -1,7 +1,6 @@
 from shutil import which
 
-from microdot.tests import is_ssh_remote
-from microdot.build import get_version, install_from_script, parse_version
+from microdot import get_version, install_from_script, is_ssh_remote, parse_version
 
 VERSION = "25.05.1"
 

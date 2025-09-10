@@ -5,7 +5,7 @@ from shutil import copy
 from subprocess import check_output, run
 from tempfile import TemporaryDirectory
 
-from microdot.tests import is_ssh_remote
+from microdot import is_ssh_remote
 
 
 def install_macosx():

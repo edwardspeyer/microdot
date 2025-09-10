@@ -4,7 +4,7 @@ from subprocess import run
 from textwrap import dedent
 from typing import Iterator
 
-from microdot.debian import is_debian
+from microdot import is_debian
 
 
 def write_pipewire_fixes() -> Iterator[bool]:

@@ -2,7 +2,7 @@ from os import environ
 from subprocess import PIPE, run
 from typing import Iterable
 
-from microdot.debian import is_debian
+from microdot import is_debian
 
 DAILY_DEBIAN_PACKAGES = {
     "apt-file",
