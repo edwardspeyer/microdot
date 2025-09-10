@@ -1,10 +1,14 @@
 from microdot import cwd, install_hook
 
+from . import build
+
+__all__ = ["build"]
+
 
 def configure() -> None:
     install_hook(
-        "~/.tmux.conf",
+        "~/.config/i3/config",
         f"""\
-        source {cwd()}/tmux.conf
+        include {cwd()}/config
         """,
     )

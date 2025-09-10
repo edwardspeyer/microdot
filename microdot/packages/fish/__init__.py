@@ -1,5 +1,9 @@
 from microdot import cwd, install_hook
 
+from . import build
+
+__all__ = ["build"]
+
 
 def configure():
     install_hook(

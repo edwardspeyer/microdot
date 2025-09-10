@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from microdot import BASE, install_hook
+from microdot import BASE, cwd, install_hook
 
 
 def configure() -> None:
@@ -10,6 +10,6 @@ def configure() -> None:
             Path.home() / rc,
             f"""\
             export MICRODOT_INSTALL_PATH="{BASE}"
-            . $MICRODOT_INSTALL_PATH/sh/profile
+            . {cwd()}/profile
             """,
         )

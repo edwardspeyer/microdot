@@ -1,35 +1,33 @@
-import apt
-import astroterm.build
-import debian.packages
-import debian.setup
-import delta.build
-import fish
-import fish.build
-import fonts
-import foot
-import fuzzel
-import git
-import gnupg
-import i3
-import i3.build
-import ipython
-import kitty
-import mutt
-import niri.build
-import pipewire.fix
-import psql
-import python.packages
-import sh
-import ssh
-import sway
-import terminfo
-import thunderbird.configure
-import tmux
-import tmux.build
-import vim
-import waybar
-import X11
-import xdg_open
+from microdot.packages import (
+    X11,
+    apt,
+    astroterm,
+    debian,
+    delta,
+    fish,
+    fonts,
+    foot,
+    fuzzel,
+    git,
+    gnupg,
+    i3,
+    ipython,
+    kitty,
+    mutt,
+    niri,
+    pipewire,
+    psql,
+    python,
+    sh,
+    ssh,
+    sway,
+    terminfo,
+    thunderbird,
+    tmux,
+    vim,
+    waybar,
+    xdg_open,
+)
 
 
 def main() -> None:
