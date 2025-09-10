@@ -7,7 +7,7 @@ from subprocess import DEVNULL, PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot import BASE, register
+from microdot import BASE
 from microdot.debian import is_debian
 
 
@@ -88,7 +88,6 @@ def setup_greetd() -> None:
     write(path, config)
 
 
-@register
 def setup():
     if not is_debian():
         return

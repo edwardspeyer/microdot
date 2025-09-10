@@ -2,7 +2,7 @@ from configparser import ConfigParser
 from pathlib import Path
 from typing import Iterator
 
-from microdot import install_hook, register
+from microdot import install_hook
 
 
 def profile_directories() -> Iterator[Path]:
@@ -15,7 +15,6 @@ def profile_directories() -> Iterator[Path]:
         yield thunderbird_config_root / c[section]["Path"]
 
 
-@register
 def install():
     base = Path(__file__).parent.parent
     config_path = base / "thunderbird" / "user.js"

@@ -1,11 +1,9 @@
 from shutil import which
 
-from microdot import register
 from microdot.build import install_from_script
 from microdot.debian import get_debian_version
 
 
-@register
 def install() -> None:
     if which("astroterm"):
         return

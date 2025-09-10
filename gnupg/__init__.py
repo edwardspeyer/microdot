@@ -2,10 +2,9 @@ from pathlib import Path
 from shutil import copy
 from subprocess import run
 
-from microdot import cwd, register
+from microdot import cwd
 
 
-@register
 def install():
     dot_gnupg = Path.home() / ".gnupg"
     dot_gnupg.mkdir(exist_ok=True)

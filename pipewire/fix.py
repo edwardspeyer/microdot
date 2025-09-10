@@ -4,7 +4,6 @@ from subprocess import run
 from textwrap import dedent
 from typing import Iterator
 
-from microdot import register
 from microdot.debian import is_debian
 
 
@@ -49,7 +48,6 @@ def restart_pipewire():
     run(script, shell=True)
 
 
-@register
 def fix_pipewire():
     """Debian-specific pipewire fix to avoid resampling artefacts."""
     if is_debian() and any(write_pipewire_fixes()):

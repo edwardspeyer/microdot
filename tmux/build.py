@@ -1,7 +1,6 @@
 import platform
 from shutil import which
 
-from microdot import register
 from microdot.build import get_version, install_from_script, parse_version
 
 VERSION = "3.3a"
@@ -18,7 +17,6 @@ make install
 """
 
 
-@register
 def install():
     if which("tmux"):
         if get_version("tmux", "-V") >= parse_version(VERSION):

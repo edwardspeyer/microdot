@@ -1,7 +1,6 @@
 import platform
 from shutil import which
 
-from microdot import register
 from microdot.build import get_version, install_from_script, parse_version
 from microdot.tests import is_ssh_remote
 
@@ -28,7 +27,6 @@ meson install
 """
 
 
-@register
 def install():
     if is_ssh_remote():
         return

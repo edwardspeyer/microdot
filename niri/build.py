@@ -1,6 +1,5 @@
 from shutil import which
 
-from microdot import register
 from microdot.build import get_version, install_from_script, parse_version
 
 VERSION = "25.05.1"
@@ -41,7 +40,6 @@ mv target/release/niri ../out/bin
 """
 
 
-@register
 def install():
     if which("niri"):
         if get_version("niri", "--version") >= parse_version(VERSION):

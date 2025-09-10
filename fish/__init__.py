@@ -1,7 +1,6 @@
-from microdot import cwd, install_hook, register
+from microdot import cwd, install_hook
 
 
-@register
 def configure():
     install_hook(
         "~/.config/fish/conf.d/microdot.fish",

@@ -1,7 +1,6 @@
-from microdot import cwd, install_hook, register
+from microdot import cwd, install_hook
 
 
-@register
 def configure() -> None:
     install_hook(
         "~/.config/ipython/profile_default/startup/microdot.py",

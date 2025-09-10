@@ -2,7 +2,7 @@ import platform
 from pathlib import Path
 from shutil import copy
 
-from microdot import BASE, register
+from microdot import BASE
 
 
 def _install_one(source: Path):
@@ -27,7 +27,6 @@ def find_terminfo_sources() -> list[Path]:
     return sorted(p for p in BASE.glob("*/terminfo/*") if p.is_file())
 
 
-@register
 def install():
     for source in find_terminfo_sources():
         _install_one(source)

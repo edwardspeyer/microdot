@@ -1,7 +1,6 @@
 import platform
 from shutil import which
 
-from microdot import register
 from microdot.build import get_version, install_from_script, parse_version
 
 VERSION = "3.6.0"
@@ -23,7 +22,6 @@ rm -f out/bin/fish_key_reader out/bin/fish_indent
 """
 
 
-@register
 def install():
     if which("fish"):
         if get_version("fish", "--version") >= parse_version(VERSION):

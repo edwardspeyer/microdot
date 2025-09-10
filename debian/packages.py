@@ -2,7 +2,6 @@ from os import environ
 from subprocess import PIPE, run
 from typing import Iterable
 
-from microdot import register
 from microdot.debian import is_debian
 
 DAILY_DEBIAN_PACKAGES = {
@@ -98,7 +97,6 @@ def is_sway() -> bool:
     return "WAYLAND_DISPLAY" in environ
 
 
-@register
 def install() -> None:
     if not is_debian():
         return

@@ -5,7 +5,6 @@ from shutil import copy
 from subprocess import check_output, run
 from tempfile import TemporaryDirectory
 
-from microdot import register
 from microdot.tests import is_ssh_remote
 
 
@@ -83,7 +82,6 @@ def install_linux():
     install_linux_sf_mono()
 
 
-@register
 def install():
     if is_ssh_remote():
         return

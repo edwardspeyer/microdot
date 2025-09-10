@@ -1,10 +1,9 @@
 import json
 from pathlib import Path
 
-from microdot import cwd, install_hook, register
+from microdot import cwd, install_hook
 
 
-@register
 def configure() -> None:
     # waybar is weird: provide an option for local overrides though
     local_base = Path.home() / ".config/waybar"
