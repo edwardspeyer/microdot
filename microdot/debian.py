@@ -6,9 +6,10 @@ def get_debian_version() -> float | str | None:
     if not p.exists():
         return None
     v = p.read_text().strip()
-    if v.isnumeric():
+    try:
         return float(v)
-    return v
+    except ValueError:
+        return v
 
 
 def is_debian() -> bool:

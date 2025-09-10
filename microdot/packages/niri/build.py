@@ -1,5 +1,6 @@
 from shutil import which
 
+from microdot.tests import is_ssh_remote
 from microdot.build import get_version, install_from_script, parse_version
 
 VERSION = "25.05.1"
@@ -41,6 +42,8 @@ mv target/release/niri ../out/bin
 
 
 def install():
+    if is_ssh_remote():
+        return
     if which("niri"):
         if get_version("niri", "--version") >= parse_version(VERSION):
             return
