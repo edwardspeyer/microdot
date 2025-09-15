@@ -2,10 +2,16 @@ from shutil import which
 
 from microdot import get_version, install_from_script, is_ssh_remote, parse_version
 
-VERSION = "25.05.1"
+VERSION = "25.08"
 
 SCRIPT = r"""
 set -ex
+
+if [ "$NIRI_SOCKET" ]
+then
+  echo >&2 "Cannot run from an existing niri session!"
+  exit 2
+fi
 
 sudo apt install \
     cargo \
@@ -23,6 +29,7 @@ sudo apt install \
     libudev-dev \
     libwayland-dev \
     libxkbcommon-dev \
+    sccache \
     ;
 
 git clone \
@@ -32,7 +39,7 @@ git clone \
 
 cd niri
 
-cargo build --release
+env RUSTC_WRAPPER=sccache cargo build --release
 
 mkdir -p ../out/bin
 
