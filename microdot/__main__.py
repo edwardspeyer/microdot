@@ -31,19 +31,6 @@ from microdot import (
 
 
 def main() -> None:
-    # Set up base system
-    debian.setup.setup()
-    debian.packages.install()
-
-    # Install missing software
-    astroterm.build()
-    delta.build()
-    i3.build()
-    tmux.build()
-    fish.build()
-    niri.build()
-    fonts.install()
-
     # Configure everything
     greetd.configure()
     apt.configure()
@@ -68,6 +55,19 @@ def main() -> None:
     fish.configure()
     mutt.configure()
     waybar.configure()
+
+    # Set up base system
+    debian.setup.setup()
+    debian.packages.install()
+
+    # Install missing software
+    astroterm.build()
+    delta.build()
+    i3.build()
+    tmux.build()
+    fish.build()
+    niri.build()
+    fonts.install()
 
 
 if __name__ == "__main__":

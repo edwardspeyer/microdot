@@ -1,9 +1,12 @@
 from shutil import which
 
-from microdot import get_debian_version, install_from_script
+from microdot import get_debian_version, install_from_script, is_ssh_remote
 
 
 def build() -> None:
+    if is_ssh_remote():
+        return
+
     if which("astroterm"):
         return
 

@@ -7,7 +7,7 @@ from subprocess import PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot import is_debian, write_as_root
+from microdot import is_debian, write_as_root, is_ssh_remote
 
 
 def setup_sudo():
@@ -64,6 +64,8 @@ def setup_console() -> None:
 
 def setup():
     if not is_debian():
+        return
+    if is_ssh_remote():
         return
     setup_sudo()
     setup_locales({"en_GB.UTF-8 UTF-8", "en_US.UTF-8 UTF-8"})
