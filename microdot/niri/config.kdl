@@ -100,7 +100,7 @@ binds {
     XF86MonBrightnessUp   { spawn "brightnessctl" "set" "10%+"; }
     XF86MonBrightnessDown { spawn "brightnessctl" "set" "10%-"; }
 
-    Mod+Q repeat=false { toggle-overview; }
+    Mod+Tab repeat=false { toggle-overview; }
     Mod+W { close-window; }
 
     Mod+Left  { focus-column-left; }
