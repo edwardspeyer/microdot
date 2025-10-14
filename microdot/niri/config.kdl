@@ -38,6 +38,10 @@ input {
     disable-power-key-handling
 }
 
+switch-events {
+    lid-close { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/sway/lock"; }
+}
+
 
 output "eDP-1"      { scale 1.35; }
 output "DP-1"       { scale 2.00; }
