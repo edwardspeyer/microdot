@@ -14,9 +14,3 @@ def configure():
         end
         """,
     )
-
-    install_hook(
-        "~/.config/fish/fish_variables",
-        (cwd() / "fish_variables").read_text(),
-        position="bottom",
-    )

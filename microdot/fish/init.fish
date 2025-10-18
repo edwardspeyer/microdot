@@ -29,3 +29,8 @@ end
 
 # Don't quote ls(1) output
 set -x QUOTING_STYLE literal
+
+# Patch colors
+#
+# Doing it here is much easier than interacting with fish_variables, live.
+set -u fish_color_command blue
