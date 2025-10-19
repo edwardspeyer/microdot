@@ -3,6 +3,7 @@
 
 import os
 import re
+import shlex
 import sys
 from pathlib import Path
 from subprocess import PIPE, check_output, run
@@ -46,4 +47,6 @@ host = run(
 ).stdout.strip()
 if host:
     args = ["ssh", host, *sys.argv[1:]]
-    os.execvp("ssh", args)
+    if "TMUX" in os.environ:
+        args = ["tmux", "detach-client", "-E", shlex.join(args)]
+    os.execvp(args[0], args)
