@@ -15,10 +15,9 @@ fuzzel_wmenu() {
     --lines 10 \
     \
     --border-radius 20 \
-    --border-color CCCCCC80 \
-    --border-width 10 \
+    --border-width 0 \
     \
-    --background 222222F0 \
+    --background 000000E0 \
     --text-color BBBBBBFF \
     --prompt-color EEEEEEFF \
     --selection-color 005577FF \
