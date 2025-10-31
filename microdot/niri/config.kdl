@@ -54,7 +54,10 @@ output "AU Optronics 0x5B2D Unknown" {
 output "LG Electronics LG HDR 4K 212MAGPBV175" {
     // Native resolution    : 3840 x 2160
     scale 2.00  // scaled   : 1920 x 1080
-    position x=0 y=0;
+}
+
+output "LG Electronics LG HDR 4K 301MAHUKQW29" {
+    scale 2.00
 }
 
 
