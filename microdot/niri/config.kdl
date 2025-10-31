@@ -43,9 +43,19 @@ switch-events {
 }
 
 
-output "eDP-1"      { scale 1.35; }
-output "DP-1"       { scale 2.00; }
-output "HDMI-A-1"   { scale 2.00; }
+// TODO move to local config files once the next Niri release ships (which includes `include`.)
+
+output "AU Optronics 0x5B2D Unknown" {
+    // Native resolution    : 1920 x 1080 
+    scale 1.35  // scaled   : 1422 x  800
+    position x=250 y=1080;
+}
+
+output "LG Electronics LG HDR 4K 212MAGPBV175" {
+    // Native resolution    : 3840 x 2160
+    scale 2.00  // scaled   : 1920 x 1080
+    position x=0 y=0;
+}
 
 
 layout {
@@ -125,10 +135,10 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    //Mod+Shift+Left  { focus-monitor-left; }
-    //Mod+Shift+Down  { focus-monitor-down; }
-    //Mod+Shift+Up    { focus-monitor-up; }
-    //Mod+Shift+Right { focus-monitor-right; }
+    Mod+Ctrl+Left  { focus-monitor-left; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
 
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
