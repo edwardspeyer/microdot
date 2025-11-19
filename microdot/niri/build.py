@@ -16,6 +16,7 @@ fi
 sudo apt install \
     cargo \
     clang \
+    foot \
     gcc \
     libdbus-1-dev \
     libdisplay-info-dev \
