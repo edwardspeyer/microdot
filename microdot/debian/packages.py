@@ -39,6 +39,7 @@ DAILY_DEBIAN_PACKAGES = {
     "tmux",
     "tree",
     "units",
+    "unzip",
     "vim-gtk3",  # Terminal vim with lua support"
     "w3m",
     "wget",
