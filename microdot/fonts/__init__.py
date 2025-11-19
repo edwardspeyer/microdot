@@ -46,6 +46,7 @@ def install_linux_iosevka() -> None:
             wget -O font.zip \
                 https://github.com/be5invis/Iosevka/releases/download/v33.2.7/SuperTTC-SGr-IosevkaTerm-33.2.7.zip
             unzip font.zip
+            mkdir -p ~/.local/share/fonts/
             mv SGr-IosevkaTerm.ttc ~/.local/share/fonts
             """,
             shell=True,
