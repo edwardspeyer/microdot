@@ -1,9 +1,0 @@
-set $mod Mod4
-
-include common
-
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-exec --no-startup-id nm-applet
-
-bindsym $mod+Return exec x-terminal-emulator
-bindsym $mod+space exec --no-startup-id dmenu_run

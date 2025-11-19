@@ -11,7 +11,6 @@ from microdot import (
     git,
     gnupg,
     greetd,
-    i3,
     ipython,
     kitty,
     mutt,
@@ -37,7 +36,6 @@ def main() -> None:
     foot.configure()
     fuzzel.configure()
     git.configure()
-    i3.configure()
     ipython.configure()
     kitty.configure()
     pipewire.fix.fix_pipewire()
@@ -63,7 +61,6 @@ def main() -> None:
     # Install missing software
     astroterm.build()
     delta.build()
-    i3.build()
     tmux.build()
     fish.build()
     niri.build()
