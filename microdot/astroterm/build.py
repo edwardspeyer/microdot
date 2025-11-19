@@ -19,7 +19,7 @@ def build() -> None:
         set -ex
         mkdir -p out/bin
         sudo apt install \
-            meson build-essential libargtable2-dev libncurses-dev xxd
+            meson build-essential libargtable2-dev libncurses-dev pkg-config xxd
         git clone --depth 1 --branch 'v1.0.8' \
             https://github.com/da-luce/astroterm.git src
         cd src
