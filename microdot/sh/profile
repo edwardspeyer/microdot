@@ -14,7 +14,7 @@ export LC_PAPER="en_GB.UTF-8"
 export LC_TIME="en_GB.UTF-8"
 
 # Timezone
-export TZ="Europe/London"
+export TZ="${TZ:=Europe/London}"
 
 # Required to get firefox to respect ~/.XCompose
 export GTK_IM_MODULE='xim'
