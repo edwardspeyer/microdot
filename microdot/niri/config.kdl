@@ -20,7 +20,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 input {
     keyboard {
         xkb {
-            options "compose:ralt"
+            options "compose:ralt,caps:escape"
         }
     }
 
