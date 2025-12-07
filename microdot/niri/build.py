@@ -2,7 +2,7 @@ from shutil import which
 
 from microdot import get_version, install_from_script, is_ssh_remote, parse_version
 
-VERSION = "25.08"
+VERSION = "25.11"
 
 SCRIPT = r"""
 set -ex
