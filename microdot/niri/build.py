@@ -7,12 +7,6 @@ VERSION = "25.11"
 SCRIPT = r"""
 set -ex
 
-if [ "$NIRI_SOCKET" ]
-then
-  echo >&2 "Cannot run from an existing niri session!"
-  exit 2
-fi
-
 sudo apt install \
     cargo \
     clang \
@@ -44,7 +38,7 @@ env RUSTC_WRAPPER=sccache cargo build --release
 
 mkdir -p ../out/bin
 
-mv target/release/niri ../out/bin
+mv target/release/niri ../out/bin/
 """
 
 
