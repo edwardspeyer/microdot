@@ -6,7 +6,6 @@ set -ex
 
 if command -v niri
 then
-  export NIRI_CONFIG="$MICRODOT_INSTALL_PATH/microdot/niri/config.kdl"
   exec niri --session
 fi
 

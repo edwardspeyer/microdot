@@ -38,6 +38,7 @@ def main() -> None:
     git.configure()
     ipython.configure()
     kitty.configure()
+    niri.configure()
     pipewire.fix.fix_pipewire()
     psql.configure()
     python.packages.install()

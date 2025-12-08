@@ -43,24 +43,6 @@ switch-events {
 }
 
 
-// TODO move to local config files once the next Niri release ships (which includes `include`.)
-
-output "AU Optronics 0x5B2D Unknown" {
-    // Native resolution    : 1920 x 1080 
-    scale 1.35  // scaled   : 1422 x  800
-    position x=250 y=1080;
-}
-
-output "LG Electronics LG HDR 4K 212MAGPBV175" {
-    // Native resolution    : 3840 x 2160
-    scale 2.00  // scaled   : 1920 x 1080
-}
-
-output "LG Electronics LG HDR 4K 301MAHUKQW29" {
-    scale 2.00
-}
-
-
 layout {
     gaps 15
     center-focused-column "never"
