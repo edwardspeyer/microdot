@@ -86,6 +86,12 @@ pick_color() {
 }
 export HOST_COLOR_HEX=`hostname | pick_color`
 
+# XDG settings
+if [ -e ~/.config/xdg_init.sh ]
+then
+  . ~/.config/xdg_init.sh
+fi
+
 is_interactive() {
   case $- in
     *i*) return 0;;

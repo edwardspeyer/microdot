@@ -25,7 +25,7 @@ from microdot import (
     tmux,
     vim,
     waybar,
-    xdg_open,
+    xdg,
 )
 
 
@@ -47,7 +47,7 @@ def main() -> None:
     thunderbird.configure.install()
     tmux.configure()
     vim.install()
-    xdg_open.configure()
+    xdg.configure()
     gnupg.install()  # Skip if gpg not installed
     X11.configure()
     fish.configure()

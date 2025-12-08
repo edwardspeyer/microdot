@@ -1,0 +1,17 @@
+#
+# Custom .desktop to open firefox in a new window
+#
+# vim: nowrap
+#
+
+[Desktop Entry]
+Name=Firefox New Window
+Exec=firefox --new-window %u
+# From /usr/share/applications/firefox-esr.desktop...
+Terminal=false
+Type=Application
+X-MultipleArgs=false
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/vnd.mozilla.xul+xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;
+StartupWMClass=firefox-esr
+StartupNotify=true
