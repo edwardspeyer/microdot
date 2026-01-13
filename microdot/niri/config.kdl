@@ -38,6 +38,15 @@ input {
     disable-power-key-handling
 }
 
+
+gestures {
+    hot-corners {
+        top-left
+        top-right
+    }
+}
+
+
 switch-events {
     lid-close { spawn "sh" "-c" "exec $MICRODOT_INSTALL_PATH/microdot/sway/lock"; }
 }
