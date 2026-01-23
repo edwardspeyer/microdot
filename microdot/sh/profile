@@ -74,7 +74,7 @@ export MTR_OPTIONS="-t"
 
 # Pick a random color to represent this host.  (See tmux.conf.)
 pick_color() {
-  cksum -a crc32b | awk '
+  cksum | awk '
     {
       p[ 0] = "801070"; p[ 1] = "a03050"; p[ 2] = "c06060";
       p[ 3] = "e09040"; p[ 4] = "e0d000"; p[ 5] = "90d050";
