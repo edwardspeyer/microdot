@@ -13,7 +13,7 @@ function ssh_agent_start
     end
 
     # Look for existing agents...
-    for socket in /tmp/ssh-*/agent.*
+    for socket in /tmp/ssh-*/agent.* $HOME/.ssh/agent/s.* 
         if ssh_agent_test_socket $socket
             set -gx SSH_AUTH_SOCK $socket
             return
