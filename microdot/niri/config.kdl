@@ -11,8 +11,12 @@ hotkey-overlay { skip-at-startup; }
 cursor { hide-when-typing; }
 animations { slowdown 0.7;  /* <1 = faster  */ }
 overview { zoom 0.4; }
+
+// Startup programs
 spawn-at-startup "waybar"
 spawn-at-startup "swaybg" "--mode=fill" "-i" "Pictures/Backgrounds/bg"
+spawn-at-startup "easyeffects" "-w"
+
 // prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
