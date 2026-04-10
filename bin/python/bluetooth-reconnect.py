@@ -6,27 +6,43 @@
 #
 
 from argparse import ArgumentParser
-from subprocess import Popen, run
+from subprocess import Popen, TimeoutExpired, run
 from time import sleep
 
 
-def bluetoothctl(*args: str, retry: bool = False) -> None:
+def bluetoothctl(*args: str, retry: bool = False) -> bool:
     while True:
         print("+", *args)
         try:
             r = run(["bluetoothctl", *args], timeout=3)
-        except TimeoutError:
-            continue
+            if r.returncode == 0:
+                return True
+        except TimeoutExpired:
+            pass
+
         if not retry:
-            return
-        if r.returncode == 0:
-            return
-        sleep(1)
+            return False
+        else:
+            sleep(0.2)
 
 
 def reconnect(address: str) -> None:
-    with Popen(["bluetoothctl", "--timeout", "100", "scan", "on"]) as scanner:
-        bluetoothctl("remove", address)
+    if bluetoothctl("connect", address, retry=False):
+        return
+
+    bluetoothctl("remove", address)
+    sleep(0.2)
+    bluetoothctl("power", "off")
+    sleep(0.2)
+    bluetoothctl("agent", "off")
+    sleep(0.2)
+    bluetoothctl("power", "on")
+    sleep(0.2)
+    bluetoothctl("agent", "on")
+    sleep(0.2)
+    bluetoothctl("remove", address)
+    sleep(0.2)
+    with Popen(["bluetoothctl", "--timeout", "20", "scan", "on"]) as scanner:
         bluetoothctl("trust", address, retry=True)
         bluetoothctl("pair", address, retry=True)
         bluetoothctl("connect", address, retry=True)
