@@ -20,7 +20,6 @@ from microdot import (
     python,
     sh,
     ssh,
-    sway,
     thunderbird,
     tmux,
     vim,
@@ -44,7 +43,6 @@ def main() -> None:
     python.packages.install()
     sh.configure()
     ssh.configure()
-    sway.configure()
     thunderbird.configure.install()
     tmux.configure()
     vim.install()

@@ -9,11 +9,5 @@ then
   exec niri --session
 fi
 
-if command -v sway
-then
-  export XDG_CURRENT_DESKTOP=sway
-  exec sway
-fi
-
 echo >&2 "No window managers installed!"
 exit 3

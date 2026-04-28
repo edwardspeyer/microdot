@@ -46,7 +46,7 @@ DAILY_DEBIAN_PACKAGES = {
     "xz-utils",
 }
 
-SWAY_DEBIAN_PACKAGES = {
+DESKTOP_DEBIAN_PACKAGES = {
     "brightnessctl",
     "firefox-esr",
     "grim",
@@ -93,7 +93,7 @@ def apt_install(packages: Iterable[str]) -> None:
     )
 
 
-def is_sway() -> bool:
+def is_desktop() -> bool:
     return "WAYLAND_DISPLAY" in environ
 
 
@@ -103,8 +103,8 @@ def install() -> None:
 
     def get_packages():
         yield from DAILY_DEBIAN_PACKAGES
-        if is_sway():
-            yield from SWAY_DEBIAN_PACKAGES
+        if is_desktop():
+            yield from DESKTOP_DEBIAN_PACKAGES
 
     apt_install(set(get_packages()))
 
