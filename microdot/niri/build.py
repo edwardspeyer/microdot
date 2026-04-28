@@ -2,7 +2,7 @@ from shutil import which
 
 from microdot import get_version, install_from_script, is_ssh_remote, parse_version
 
-VERSION = "25.11"
+VERSION = "26.04"
 
 SCRIPT = r"""
 set -ex
@@ -38,7 +38,8 @@ env RUSTC_WRAPPER=sccache cargo build --release
 
 mkdir -p ../out/bin
 
-mv target/release/niri ../out/bin/
+mv     target/release/niri ../out/bin/niri.$1
+ln -sf niri.$1             ../out/bin/niri
 """
 
 

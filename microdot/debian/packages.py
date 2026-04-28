@@ -54,7 +54,6 @@ SWAY_DEBIAN_PACKAGES = {
     "mplayer",
     "pavucontrol",
     "pipewire",
-    "pulseaudio",
     "slurp",
     "suckless-tools",
     "swappy",
