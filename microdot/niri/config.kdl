@@ -184,6 +184,7 @@ binds {
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+F { fullscreen-window; }
+    Mod+Shift+F { toggle-windowed-fullscreen; }
 
     Mod+X { expand-column-to-available-width; }
     Mod+C { center-column; }
