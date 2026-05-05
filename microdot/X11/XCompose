@@ -1,6 +1,165 @@
 <Multi_key> <3>         : "£" U00A3 # POUND SIGN
 <Multi_key> <minus>     : "–" U2013 # EN DASH
 
+# Greek / math
+<Multi_key> <g> <A> : "Α"  U0391 # GREEK CAPITAL LETTER ALPHA
+<Multi_key> <g> <a> : "α"  U03B1 # GREEK SMALL LETTER ALPHA
+<Multi_key> <g> <B> : "Β"  U0392 # GREEK CAPITAL LETTER BETA
+<Multi_key> <g> <b> : "β"  U03B2 # GREEK SMALL LETTER BETA
+<Multi_key> <g> <D> : "Δ"  U0394 # GREEK CAPITAL LETTER DELTA
+<Multi_key> <g> <d> : "δ"  U03B4 # GREEK SMALL LETTER DELTA
+<Multi_key> <g> <E> : "Ε"  U0395 # GREEK CAPITAL LETTER EPSILON
+<Multi_key> <g> <e> : "ε"  U03B5 # GREEK SMALL LETTER EPSILON
+<Multi_key> <g> <F> : "Φ"  U03A6 # GREEK CAPITAL LETTER PHI
+<Multi_key> <g> <f> : "φ"  U03C6 # GREEK SMALL LETTER PHI
+<Multi_key> <g> <G> : "Γ"  U0393 # GREEK CAPITAL LETTER GAMMA
+<Multi_key> <g> <g> : "γ"  U03B3 # GREEK SMALL LETTER GAMMA
+<Multi_key> <g> <H> : "Η"  U0397 # GREEK CAPITAL LETTER ETA
+<Multi_key> <g> <h> : "η"  U03B7 # GREEK SMALL LETTER ETA
+<Multi_key> <g> <I> : "Ι"  U0399 # GREEK CAPITAL LETTER IOTA
+<Multi_key> <g> <i> : "ι"  U03B9 # GREEK SMALL LETTER IOTA
+<Multi_key> <g> <J> : "Θ"  U0398 # GREEK CAPITAL LETTER THETA
+<Multi_key> <g> <j> : "θ"  U03B8 # GREEK SMALL LETTER THETA
+<Multi_key> <g> <K> : "Κ"  U039A # GREEK CAPITAL LETTER KAPPA
+<Multi_key> <g> <k> : "κ"  U03BA # GREEK SMALL LETTER KAPPA
+<Multi_key> <g> <L> : "Λ"  U039B # GREEK CAPITAL LETTER LAMDA
+<Multi_key> <g> <l> : "λ"  U03BB # GREEK SMALL LETTER LAMDA
+<Multi_key> <g> <M> : "Μ"  U039C # GREEK CAPITAL LETTER MU
+<Multi_key> <g> <m> : "μ"  U03BC # GREEK SMALL LETTER MU
+<Multi_key> <g> <N> : "Ν"  U039D # GREEK CAPITAL LETTER NU
+<Multi_key> <g> <n> : "ν"  U03BD # GREEK SMALL LETTER NU
+<Multi_key> <g> <O> : "Ο"  U039F # GREEK CAPITAL LETTER OMICRON
+<Multi_key> <g> <o> : "ο"  U03BF # GREEK SMALL LETTER OMICRON
+<Multi_key> <g> <P> : "Π"  U03A0 # GREEK CAPITAL LETTER PI
+<Multi_key> <g> <p> : "π"  U03C0 # GREEK SMALL LETTER PI
+<Multi_key> <g> <Q> : "Χ"  U03A7 # GREEK CAPITAL LETTER CHI
+<Multi_key> <g> <q> : "χ"  U03C7 # GREEK SMALL LETTER CHI
+<Multi_key> <g> <R> : "Ρ"  U03A1 # GREEK CAPITAL LETTER RHO
+<Multi_key> <g> <r> : "ρ"  U03C1 # GREEK SMALL LETTER RHO
+<Multi_key> <g> <S> : "Σ"  U03A3 # GREEK CAPITAL LETTER SIGMA
+<Multi_key> <g> <s> : "σ"  U03C3 # GREEK SMALL LETTER SIGMA
+<Multi_key> <g> <T> : "Τ"  U03A4 # GREEK CAPITAL LETTER TAU
+<Multi_key> <g> <t> : "τ"  U03C4 # GREEK SMALL LETTER TAU
+<Multi_key> <g> <U> : "Υ"  U03A5 # GREEK CAPITAL LETTER UPSILON
+<Multi_key> <g> <u> : "υ"  U03C5 # GREEK SMALL LETTER UPSILON
+<Multi_key> <g> <W> : "Ω"  U03A9 # GREEK CAPITAL LETTER OMEGA
+<Multi_key> <g> <w> : "ω"  U03C9 # GREEK SMALL LETTER OMEGA
+<Multi_key> <g> <X> : "Ξ"  U039E # GREEK CAPITAL LETTER XI
+<Multi_key> <g> <x> : "ξ"  U03BE # GREEK SMALL LETTER XI
+<Multi_key> <g> <Y> : "Ψ"  U03A8 # GREEK CAPITAL LETTER PSI
+<Multi_key> <g> <y> : "ψ"  U03C8 # GREEK SMALL LETTER PSI
+<Multi_key> <g> <Z> : "Ζ"  U0396 # GREEK CAPITAL LETTER ZETA
+<Multi_key> <g> <z> : "ζ"  U03B6 # GREEK SMALL LETTER ZETA
+
+# Fraktur ("d" for deutsch)
+<Multi_key> <d> <A> : "𝔄" U1D504 # MATHEMATICAL FRAKTUR CAPITAL A
+<Multi_key> <d> <B> : "𝔅" U1D505 # MATHEMATICAL FRAKTUR CAPITAL B
+<Multi_key> <d> <C> : "ℭ" U212D  # BLACK-LETTER CAPITAL C
+<Multi_key> <d> <D> : "𝔇" U1D507 # MATHEMATICAL FRAKTUR CAPITAL D
+<Multi_key> <d> <E> : "𝔈" U1D508 # MATHEMATICAL FRAKTUR CAPITAL E
+<Multi_key> <d> <F> : "𝔉" U1D509 # MATHEMATICAL FRAKTUR CAPITAL F
+<Multi_key> <d> <G> : "𝔊" U1D50A # MATHEMATICAL FRAKTUR CAPITAL G
+<Multi_key> <d> <H> : "ℌ" U210C  # BLACK-LETTER CAPITAL H
+<Multi_key> <d> <I> : "ℑ" U2111  # BLACK-LETTER CAPITAL I
+<Multi_key> <d> <J> : "𝔍" U1D50D # MATHEMATICAL FRAKTUR CAPITAL J
+<Multi_key> <d> <K> : "𝔎" U1D50E # MATHEMATICAL FRAKTUR CAPITAL K
+<Multi_key> <d> <L> : "𝔏" U1D50F # MATHEMATICAL FRAKTUR CAPITAL L
+<Multi_key> <d> <M> : "𝔐" U1D510 # MATHEMATICAL FRAKTUR CAPITAL M
+<Multi_key> <d> <N> : "𝔑" U1D511 # MATHEMATICAL FRAKTUR CAPITAL N
+<Multi_key> <d> <O> : "𝔒" U1D512 # MATHEMATICAL FRAKTUR CAPITAL O
+<Multi_key> <d> <P> : "𝔓" U1D513 # MATHEMATICAL FRAKTUR CAPITAL P
+<Multi_key> <d> <Q> : "𝔔" U1D514 # MATHEMATICAL FRAKTUR CAPITAL Q
+<Multi_key> <d> <R> : "ℜ" U211C  # BLACK-LETTER CAPITAL R
+<Multi_key> <d> <S> : "𝔖" U1D516 # MATHEMATICAL FRAKTUR CAPITAL S
+<Multi_key> <d> <T> : "𝔗" U1D517 # MATHEMATICAL FRAKTUR CAPITAL T
+<Multi_key> <d> <U> : "𝔘" U1D518 # MATHEMATICAL FRAKTUR CAPITAL U
+<Multi_key> <d> <V> : "𝔙" U1D519 # MATHEMATICAL FRAKTUR CAPITAL V
+<Multi_key> <d> <W> : "𝔚" U1D51A # MATHEMATICAL FRAKTUR CAPITAL W
+<Multi_key> <d> <X> : "𝔛" U1D51B # MATHEMATICAL FRAKTUR CAPITAL X
+<Multi_key> <d> <Y> : "𝔜" U1D51C # MATHEMATICAL FRAKTUR CAPITAL Y
+<Multi_key> <d> <Z> : "ℨ" U2128  # BLACK-LETTER CAPITAL Z
+
+<Multi_key> <d> <a> : "𝔞" U1D51E # MATHEMATICAL FRAKTUR SMALL A
+<Multi_key> <d> <b> : "𝔟" U1D51F # MATHEMATICAL FRAKTUR SMALL B
+<Multi_key> <d> <c> : "𝔠" U1D520 # MATHEMATICAL FRAKTUR SMALL C
+<Multi_key> <d> <d> : "𝔡" U1D521 # MATHEMATICAL FRAKTUR SMALL D
+<Multi_key> <d> <e> : "𝔢" U1D522 # MATHEMATICAL FRAKTUR SMALL E
+<Multi_key> <d> <f> : "𝔣" U1D523 # MATHEMATICAL FRAKTUR SMALL F
+<Multi_key> <d> <g> : "𝔤" U1D524 # MATHEMATICAL FRAKTUR SMALL G
+<Multi_key> <d> <h> : "𝔥" U1D525 # MATHEMATICAL FRAKTUR SMALL H
+<Multi_key> <d> <i> : "𝔦" U1D526 # MATHEMATICAL FRAKTUR SMALL I
+<Multi_key> <d> <j> : "𝔧" U1D527 # MATHEMATICAL FRAKTUR SMALL J
+<Multi_key> <d> <k> : "𝔨" U1D528 # MATHEMATICAL FRAKTUR SMALL K
+<Multi_key> <d> <l> : "𝔩" U1D529 # MATHEMATICAL FRAKTUR SMALL L
+<Multi_key> <d> <m> : "𝔪" U1D52A # MATHEMATICAL FRAKTUR SMALL M
+<Multi_key> <d> <n> : "𝔫" U1D52B # MATHEMATICAL FRAKTUR SMALL N
+<Multi_key> <d> <o> : "𝔬" U1D52C # MATHEMATICAL FRAKTUR SMALL O
+<Multi_key> <d> <p> : "𝔭" U1D52D # MATHEMATICAL FRAKTUR SMALL P
+<Multi_key> <d> <q> : "𝔮" U1D52E # MATHEMATICAL FRAKTUR SMALL Q
+<Multi_key> <d> <r> : "𝔯" U1D52F # MATHEMATICAL FRAKTUR SMALL R
+<Multi_key> <d> <s> : "𝔰" U1D530 # MATHEMATICAL FRAKTUR SMALL S
+<Multi_key> <d> <t> : "𝔱" U1D531 # MATHEMATICAL FRAKTUR SMALL T
+<Multi_key> <d> <u> : "𝔲" U1D532 # MATHEMATICAL FRAKTUR SMALL U
+<Multi_key> <d> <v> : "𝔳" U1D533 # MATHEMATICAL FRAKTUR SMALL V
+<Multi_key> <d> <w> : "𝔴" U1D534 # MATHEMATICAL FRAKTUR SMALL W
+<Multi_key> <d> <x> : "𝔵" U1D535 # MATHEMATICAL FRAKTUR SMALL X
+<Multi_key> <d> <y> : "𝔶" U1D536 # MATHEMATICAL FRAKTUR SMALL Y
+<Multi_key> <d> <z> : "𝔷" U1D537 # MATHEMATICAL FRAKTUR SMALL Z
+
+# Blackboard ("b")
+<Multi_key> <b> <A> : "𝔸" U1D538 # MATHEMATICAL DOUBLE-STRUCK CAPITAL A
+<Multi_key> <b> <B> : "𝔹" U1D539 # MATHEMATICAL DOUBLE-STRUCK CAPITAL B
+<Multi_key> <b> <C> : "ℂ"  U2102 # DOUBLE-STRUCK CAPITAL C
+<Multi_key> <b> <D> : "𝔻" U1D53B # MATHEMATICAL DOUBLE-STRUCK CAPITAL D
+<Multi_key> <b> <E> : "𝔼" U1D53C # MATHEMATICAL DOUBLE-STRUCK CAPITAL E
+<Multi_key> <b> <F> : "𝔽" U1D53D # MATHEMATICAL DOUBLE-STRUCK CAPITAL F
+<Multi_key> <b> <G> : "𝔾" U1D53E # MATHEMATICAL DOUBLE-STRUCK CAPITAL G
+<Multi_key> <b> <H> : "ℍ"  U210d # DOUBLE-STRUCK CAPITAL H
+<Multi_key> <b> <I> : "𝕀" U1D540 # MATHEMATICAL DOUBLE-STRUCK CAPITAL I
+<Multi_key> <b> <J> : "𝕁" U1D541 # MATHEMATICAL DOUBLE-STRUCK CAPITAL J
+<Multi_key> <b> <K> : "𝕂" U1D542 # MATHEMATICAL DOUBLE-STRUCK CAPITAL K
+<Multi_key> <b> <L> : "𝕃" U1D543 # MATHEMATICAL DOUBLE-STRUCK CAPITAL L
+<Multi_key> <b> <M> : "𝕄" U1D544 # MATHEMATICAL DOUBLE-STRUCK CAPITAL M
+<Multi_key> <b> <N> : "ℕ" U2115  # DOUBLE-STRUCK CAPITAL N
+<Multi_key> <b> <O> : "𝕆" U1D546 # MATHEMATICAL DOUBLE-STRUCK CAPITAL O
+<Multi_key> <b> <P> : "ℙ" U2119  # DOUBLE-STRUCK CAPITAL P
+<Multi_key> <b> <Q> : "ℚ" U211a  # DOUBLE-STRUCK CAPITAL Q
+<Multi_key> <b> <R> : "ℝ" U211d  # DOUBLE-STRUCK CAPITAL R
+<Multi_key> <b> <S> : "𝕊" U1D54A # MATHEMATICAL DOUBLE-STRUCK CAPITAL S
+<Multi_key> <b> <T> : "𝕋" U1D54B # MATHEMATICAL DOUBLE-STRUCK CAPITAL T
+<Multi_key> <b> <U> : "𝕌" U1D54C # MATHEMATICAL DOUBLE-STRUCK CAPITAL U
+<Multi_key> <b> <V> : "𝕍" U1D54D # MATHEMATICAL DOUBLE-STRUCK CAPITAL V
+<Multi_key> <b> <W> : "𝕎" U1D54E # MATHEMATICAL DOUBLE-STRUCK CAPITAL W
+<Multi_key> <b> <X> : "𝕏" U1D54F # MATHEMATICAL DOUBLE-STRUCK CAPITAL X
+<Multi_key> <b> <Y> : "𝕐" U1D550 # MATHEMATICAL DOUBLE-STRUCK CAPITAL Y
+
+<Multi_key> <b> <a> : "𝕒" U1D552 # MATHEMATICAL DOUBLE-STRUCK SMALL A
+<Multi_key> <b> <b> : "𝕓" U1D553 # MATHEMATICAL DOUBLE-STRUCK SMALL B
+<Multi_key> <b> <c> : "𝕔" U1D554 # MATHEMATICAL DOUBLE-STRUCK SMALL C
+<Multi_key> <b> <d> : "𝕕" U1D555 # MATHEMATICAL DOUBLE-STRUCK SMALL D
+<Multi_key> <b> <e> : "𝕖" U1D556 # MATHEMATICAL DOUBLE-STRUCK SMALL E
+<Multi_key> <b> <f> : "𝕗" U1D557 # MATHEMATICAL DOUBLE-STRUCK SMALL F
+<Multi_key> <b> <g> : "𝕘" U1D558 # MATHEMATICAL DOUBLE-STRUCK SMALL G
+<Multi_key> <b> <h> : "𝕙" U1D559 # MATHEMATICAL DOUBLE-STRUCK SMALL H
+<Multi_key> <b> <i> : "𝕚" U1D55A # MATHEMATICAL DOUBLE-STRUCK SMALL I
+<Multi_key> <b> <j> : "𝕛" U1D55B # MATHEMATICAL DOUBLE-STRUCK SMALL J
+<Multi_key> <b> <k> : "𝕜" U1D55C # MATHEMATICAL DOUBLE-STRUCK SMALL K
+<Multi_key> <b> <l> : "𝕝" U1D55D # MATHEMATICAL DOUBLE-STRUCK SMALL L
+<Multi_key> <b> <m> : "𝕞" U1D55E # MATHEMATICAL DOUBLE-STRUCK SMALL M
+<Multi_key> <b> <n> : "𝕟" U1D55F # MATHEMATICAL DOUBLE-STRUCK SMALL N
+<Multi_key> <b> <o> : "𝕠" U1D560 # MATHEMATICAL DOUBLE-STRUCK SMALL O
+<Multi_key> <b> <p> : "𝕡" U1D561 # MATHEMATICAL DOUBLE-STRUCK SMALL P
+<Multi_key> <b> <q> : "𝕢" U1D562 # MATHEMATICAL DOUBLE-STRUCK SMALL Q
+<Multi_key> <b> <r> : "𝕣" U1D563 # MATHEMATICAL DOUBLE-STRUCK SMALL R
+<Multi_key> <b> <s> : "𝕤" U1D564 # MATHEMATICAL DOUBLE-STRUCK SMALL S
+<Multi_key> <b> <t> : "𝕥" U1D565 # MATHEMATICAL DOUBLE-STRUCK SMALL T
+<Multi_key> <b> <u> : "𝕦" U1D566 # MATHEMATICAL DOUBLE-STRUCK SMALL U
+<Multi_key> <b> <v> : "𝕧" U1D567 # MATHEMATICAL DOUBLE-STRUCK SMALL V
+<Multi_key> <b> <w> : "𝕨" U1D568 # MATHEMATICAL DOUBLE-STRUCK SMALL W
+<Multi_key> <b> <x> : "𝕩" U1D569 # MATHEMATICAL DOUBLE-STRUCK SMALL X
+<Multi_key> <b> <y> : "𝕪" U1D56A # MATHEMATICAL DOUBLE-STRUCK SMALL Y
+<Multi_key> <b> <z> : "𝕫" U1D56B # MATHEMATICAL DOUBLE-STRUCK SMALL Z
+
 ## UTF-8 (Unicode) Compose sequences
 ##
 ## Spacing versions of accents (mostly)
