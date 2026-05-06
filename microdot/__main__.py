@@ -25,6 +25,7 @@ from microdot import (
     vim,
     waybar,
     xdg,
+    xkb,
 )
 
 
@@ -47,6 +48,7 @@ def main() -> None:
     tmux.configure()
     vim.install()
     xdg.configure()
+    xkb.configure()
     gnupg.install()  # Skip if gpg not installed
     X11.configure()
     fish.configure()

@@ -11,10 +11,3 @@ def configure() -> None:
         position="bottom",
         mode=0o744,
     )
-
-    install_hook(
-        "~/.XCompose",
-        f"""\
-        include "{cwd()}/XCompose"
-        """,
-    )
