@@ -7,7 +7,7 @@ from subprocess import PIPE, run
 from textwrap import dedent
 from typing import Iterable
 
-from microdot import is_debian, write_as_root, is_ssh_remote
+from microdot import is_debian, is_ssh_remote, write_as_root
 
 
 def setup_sudo():
