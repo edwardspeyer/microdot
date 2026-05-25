@@ -26,6 +26,7 @@ from microdot import (
     waybar,
     xdg,
     xkb,
+    xwayland_satellite,
 )
 
 
@@ -65,6 +66,7 @@ def main() -> None:
     tmux.build()
     fish.build()
     niri.build()
+    xwayland_satellite.build()
     fonts.install()
 
 
