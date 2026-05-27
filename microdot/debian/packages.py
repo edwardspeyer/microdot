@@ -30,7 +30,7 @@ DAILY_DEBIAN_PACKAGES = {
     "ncdu",
     "python3-pip",
     "ripgrep",
-    "silversearcher-ag",
+    "rsync",
     "sqlite3",
     "sshfs",
     "strace",
