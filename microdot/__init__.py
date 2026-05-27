@@ -185,4 +185,4 @@ def get_version(command: str, option: str) -> tuple[int | str, ...]:
 
 
 def parse_version(text: str) -> tuple[int | str, ...]:
-    return tuple(int(v) if v.isnumeric() else v for v in re.split(r'(\D)', text))
+    return tuple(int(v) if v.isnumeric() else v for v in re.split(r"(\D)", text))
