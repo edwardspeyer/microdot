@@ -97,13 +97,6 @@ window-rule {
 }
 
 
-window-rule {
-    // Start cadquery's viewer at full height
-    match title="CQ Viewer"
-    default-window-height { proportion 1.00; }
-}
-
-
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
