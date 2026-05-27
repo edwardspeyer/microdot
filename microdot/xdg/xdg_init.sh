@@ -12,6 +12,9 @@
 # Assume tmux shells are already configured
 [ "$TMUX" ] && return
 
+# Only if xdg-mime is installed
+command -v xdg-mime >/dev/null || return
+
 xdg-mime default firefox-new-window.desktop text/html
 xdg-mime default firefox-new-window.desktop x-scheme-handler/http
 xdg-mime default firefox-new-window.desktop x-scheme-handler/https
