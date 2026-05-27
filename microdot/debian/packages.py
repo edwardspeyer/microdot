@@ -7,12 +7,12 @@ from microdot import is_debian
 DAILY_DEBIAN_PACKAGES = {
     "apt-file",
     "bash-completion",
+    "bind9-dnsutils",
     "btop",
     "ccache",
     "ccze",
     "curl",
     "dc",
-    "dnsutils",
     "dpkg-dev",
     "duf",
     "exuberant-ctags",
