@@ -66,7 +66,8 @@ DESKTOP_DEBIAN_PACKAGES = {
     "wl-clipboard",
     "wmenu",
     "xdg-desktop-portal-wlr",
-    "xdg-utils",  # xdg-mime
+    "xdg-utils",  # ...provides bin/xdg-mime
+    "xwayland",  # ...used by xwayland-satellite
 }
 
 
