@@ -49,6 +49,7 @@ DAILY_DEBIAN_PACKAGES = {
 DESKTOP_DEBIAN_PACKAGES = {
     "brightnessctl",
     "firefox-esr",
+    "fuzzel",
     "grim",
     "libspa-0.2-bluetooth",
     "mplayer",
@@ -59,10 +60,12 @@ DESKTOP_DEBIAN_PACKAGES = {
     "swappy",
     "swayidle",
     "swaylock",
+    "waybar",
     "wev",
     "wl-clipboard",
     "wmenu",
     "xdg-desktop-portal-wlr",
+    "xdg-utils",  # xdg-mime
 }
 
 
