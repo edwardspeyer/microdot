@@ -14,7 +14,7 @@ overview { zoom 0.4; }
 
 // Startup programs
 spawn-at-startup "waybar"
-spawn-at-startup "swaybg" "--mode=fill" "-i" "Pictures/Backgrounds/bg"
+spawn-sh-at-startup "swaybg --mode=fill -i $HOME/.config/niri/background"
 spawn-at-startup "easyeffects" "-w"
 
 // prefer-no-csd

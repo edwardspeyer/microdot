@@ -58,6 +58,7 @@ DESKTOP_DEBIAN_PACKAGES = {
     "slurp",
     "suckless-tools",
     "swappy",
+    "swaybg",
     "swayidle",
     "swaylock",
     "waybar",
