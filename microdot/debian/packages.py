@@ -27,6 +27,7 @@ DAILY_DEBIAN_PACKAGES = {
     "less",
     "mtr",
     "mutt",
+    "ncal",
     "ncdu",
     "python3-pip",
     "ripgrep",
