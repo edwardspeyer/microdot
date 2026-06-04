@@ -56,4 +56,7 @@ def start() -> None:
     with tmp_config.open("wt") as f:
         build_config().write(f)
     argv = ("foot", "--config", str(tmp_config), *sys.argv[1:])
-    os.execvp("foot", argv)
+
+    env = dict(os.environ)
+    env.pop("PYTHONPATH")
+    os.execvpe("foot", argv, env)
