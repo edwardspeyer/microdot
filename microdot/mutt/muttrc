@@ -43,7 +43,7 @@ set collapse_unread=no
 set sort_browser=alpha
 set sort=reverse-threads
 set sort_aux=last-date-received
-set strict_threads=no
+set strict_threads=yes
 
 # Look and feel
 set index_format="%5C %{%Y-%m-%d} %-15.15L %s"
