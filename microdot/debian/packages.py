@@ -49,6 +49,7 @@ DAILY_DEBIAN_PACKAGES = {
 
 DESKTOP_DEBIAN_PACKAGES = {
     "brightnessctl",
+    "easyeffects",
     "firefox-esr",
     "fuzzel",
     "grim",
@@ -56,6 +57,8 @@ DESKTOP_DEBIAN_PACKAGES = {
     "mplayer",
     "pavucontrol",
     "pipewire",
+    "pipewire-pulse",
+    "pulseaudio-utils",  # ...for pactl
     "slurp",
     "suckless-tools",
     "swappy",
@@ -64,6 +67,7 @@ DESKTOP_DEBIAN_PACKAGES = {
     "swaylock",
     "waybar",
     "wev",
+    "wireplumber",
     "wl-clipboard",
     "wmenu",
     "xdg-desktop-portal-wlr",
