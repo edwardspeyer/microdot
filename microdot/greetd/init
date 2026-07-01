@@ -1,5 +1,9 @@
 #!/bin/sh
 
+time=`TZ=C date --iso=seconds`
+log=`mktemp /tmp/greetd-init.$USER.$time.XXXXXXXX.log`
+exec >>$log 2>&1
+
 set -ex
 
 . ~/.profile
