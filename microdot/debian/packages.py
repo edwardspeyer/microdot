@@ -49,6 +49,7 @@ DAILY_DEBIAN_PACKAGES = {
 
 DESKTOP_DEBIAN_PACKAGES = {
     "brightnessctl",
+    "brightness-udev",
     "easyeffects",
     "firefox-esr",
     "fuzzel",
