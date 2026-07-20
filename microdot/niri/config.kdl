@@ -64,9 +64,9 @@ layout {
     empty-workspace-above-first  // [EW]
 
     preset-column-widths {
-        proportion 1.00
-        proportion 0.70
         proportion 0.50
+        proportion 0.70
+        proportion 1.00
     }
 
     preset-window-heights   { proportion 0.50; proportion 1.00; }
