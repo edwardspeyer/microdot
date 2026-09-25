@@ -21,3 +21,4 @@ xdg-mime default firefox-new-window.desktop x-scheme-handler/https
 xdg-mime default imv.desktop                image/jpeg
 xdg-mime default imv.desktop                image/png
 xdg-mime default org.gnome.Evince.desktop   application/pdf
+xdg-mime default mpv.desktop                video/quicktime

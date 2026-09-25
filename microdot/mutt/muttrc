@@ -72,3 +72,6 @@ unignore Subject
 unignore Sender
 unignore Reply-To
 unignore Delivery-Date
+
+# mailcap overrides
+set mailcap_path="$MICRODOT_INSTALL_PATH/microdot/mutt/mailcap:/etc/mailcap"
