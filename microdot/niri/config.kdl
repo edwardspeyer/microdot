@@ -34,7 +34,6 @@ input {
         drag-lock
         natural-scroll
         scroll-method "two-finger"
-        disabled-on-external-mouse
     }
 
     warp-mouse-to-focus // warp to the center of focused windows
