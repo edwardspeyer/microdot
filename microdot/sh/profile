@@ -1,5 +1,8 @@
 # vim: ft=sh
 
+# Restrict default file permissions early on
+umask 027
+
 # Default editor
 export EDITOR="vim"
 
