@@ -12,6 +12,7 @@ from microdot import (
     gnupg,
     greetd,
     ipython,
+    is_ssh_remote,
     kitty,
     mutt,
     niri,
@@ -65,9 +66,11 @@ def main() -> None:
     delta.build()
     tmux.build()
     fish.build()
-    niri.build()
-    xwayland_satellite.build()
-    fonts.install()
+
+    if not is_ssh_remote():
+        niri.build()
+        xwayland_satellite.build()
+        fonts.install()
 
 
 if __name__ == "__main__":
