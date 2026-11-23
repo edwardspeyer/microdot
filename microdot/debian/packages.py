@@ -25,7 +25,7 @@ DAILY_DEBIAN_PACKAGES = {
     "iputils-ping",
     "jq",
     "less",
-    "mtr",
+    "mtr-tiny",
     "mutt",
     "ncal",
     "ncdu",
@@ -41,7 +41,7 @@ DAILY_DEBIAN_PACKAGES = {
     "tree",
     "units",
     "unzip",
-    "vim-gtk3",  # Terminal vim with lua support"
+    "vim",
     "w3m",
     "wget",
     "xz-utils",
